@@ -133,22 +133,22 @@ function LoginContent() {
           initial="hidden"
           animate="visible"
           custom={0}
-          className="flex flex-col items-center text-center mb-8 px-4"
+          className="flex flex-col items-center text-center gap-4 mb-8 px-4"
         >
           {/* Fine rule + dot ornament */}
-          <div className="flex items-center justify-center gap-2 mb-5">
+          <div className="flex items-center justify-center gap-2">
             <div className="h-px w-10 bg-stone-300" />
             <div className="w-1.5 h-1.5 rounded-full border border-stone-400" />
             <div className="h-px w-10 bg-stone-300" />
           </div>
 
           {/* Welcome pill badge */}
-          <div className="inline-flex items-center gap-3 px-8 py-3.5 rounded-full border border-[#d8c8b4] bg-[#f7f2ea] text-[#856543] text-[11px] font-medium tracking-[0.2em] uppercase mt-6 mb-6 shadow-xs">
+          <div className="inline-flex items-center gap-2.5 px-6 py-2 rounded-full border border-[#d8c8b4] bg-[#f7f2ea] text-[#856543] text-[11px] font-medium tracking-[0.2em] uppercase shadow-xs">
             <span className="text-[10px] leading-none">♦</span>
             <span>Welcome to ForeverVows</span>
           </div>
 
-          <p className="text-stone-600 text-sm leading-relaxed max-w-[320px]">
+          <p className="text-stone-600 text-sm leading-relaxed max-w-[340px]">
             A calm, premium space to sign in, personalize, and publish with confidence.
           </p>
         </motion.div>
