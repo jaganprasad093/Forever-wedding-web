@@ -3,15 +3,15 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { 
-  ArrowRight, 
-  Sparkles, 
-  Calendar, 
-  MapPin, 
-  CheckCircle2, 
-  Volume2, 
-  VolumeX, 
-  ChevronRight, 
+import {
+  ArrowRight,
+  Sparkles,
+  Calendar,
+  MapPin,
+  CheckCircle2,
+  Volume2,
+  VolumeX,
+  ChevronRight,
   Star,
   Share2,
   Users
@@ -139,11 +139,7 @@ export default function HeroSection() {
             transition={{ duration: 0.5 }}
             className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-amber-200/80 shadow-xs mb-6"
           >
-            <span className="flex h-2 w-2 rounded-full bg-amber-500 animate-ping" />
-            <Sparkles className="w-3.5 h-3.5 text-amber-600" />
-            <span className="text-xs font-semibold tracking-wider uppercase text-amber-900">
-              The Next-Gen Digital Wedding Invitation
-            </span>
+
           </motion.div>
 
           {/* Main Hero Headline */}
@@ -167,8 +163,8 @@ export default function HeroSection() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-base sm:text-lg md:text-xl text-stone-600 max-w-2xl mx-auto font-sans leading-relaxed mb-8"
           >
-            Elevate your love story with breathtaking music, interactive itinerary, 
-            instant WhatsApp RSVP tracking, and Google Maps venue guidance. 
+            Elevate your love story with breathtaking music, interactive itinerary,
+            instant WhatsApp RSVP tracking, and Google Maps venue guidance.
             All beautifully personalized in under 5 minutes.
           </motion.p>
 
@@ -291,20 +287,18 @@ export default function HeroSection() {
                 <button
                   key={theme.id}
                   onClick={() => setActiveTheme(theme)}
-                  className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-all duration-300 flex items-center gap-1.5 cursor-pointer ${
-                    isSelected
-                      ? 'bg-amber-800 text-white shadow-md scale-105'
-                      : 'bg-white/80 text-stone-600 hover:bg-white border border-stone-200/80'
-                  }`}
+                  className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-all duration-300 flex items-center gap-1.5 cursor-pointer ${isSelected
+                    ? 'bg-amber-800 text-white shadow-md scale-105'
+                    : 'bg-white/80 text-stone-600 hover:bg-white border border-stone-200/80'
+                    }`}
                 >
                   <span
-                    className={`w-2 h-2 rounded-full ${
-                      theme.id === 'royal'
-                        ? 'bg-amber-400'
-                        : theme.id === 'floral'
+                    className={`w-2 h-2 rounded-full ${theme.id === 'royal'
+                      ? 'bg-amber-400'
+                      : theme.id === 'floral'
                         ? 'bg-rose-400'
                         : 'bg-amber-500'
-                    }`}
+                      }`}
                   />
                   <span>{theme.name}</span>
                 </button>
@@ -414,9 +408,8 @@ export default function HeroSection() {
                 <div className="flex items-center gap-2 overflow-hidden">
                   <button
                     onClick={() => setIsPlayingMusic(!isPlayingMusic)}
-                    className={`w-7 h-7 rounded-full flex items-center justify-center text-white transition-colors cursor-pointer ${
-                      isPlayingMusic ? 'bg-amber-600' : 'bg-stone-500'
-                    }`}
+                    className={`w-7 h-7 rounded-full flex items-center justify-center text-white transition-colors cursor-pointer ${isPlayingMusic ? 'bg-amber-600' : 'bg-stone-500'
+                      }`}
                     title={isPlayingMusic ? 'Pause Music' : 'Play Music'}
                   >
                     {isPlayingMusic ? <Volume2 className="w-3.5 h-3.5" /> : <VolumeX className="w-3.5 h-3.5" />}
@@ -442,11 +435,11 @@ export default function HeroSection() {
                       transition={
                         isPlayingMusic
                           ? {
-                              duration: 0.8,
-                              repeat: Infinity,
-                              repeatType: 'reverse',
-                              delay: bar * 0.15,
-                            }
+                            duration: 0.8,
+                            repeat: Infinity,
+                            repeatType: 'reverse',
+                            delay: bar * 0.15,
+                          }
                           : {}
                       }
                       className={`w-1 rounded-full ${activeTheme.id === 'royal' ? 'bg-amber-400' : 'bg-amber-600'}`}
@@ -459,23 +452,21 @@ export default function HeroSection() {
               <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
                 <button
                   onClick={() => setRsvpSimulated(true)}
-                  className={`w-full sm:w-auto px-8 py-3 rounded-full text-xs font-semibold uppercase tracking-wider transition-all duration-300 shadow-md cursor-pointer ${
-                    rsvpSimulated
-                      ? 'bg-emerald-600 text-white'
-                      : 'bg-amber-700 hover:bg-amber-800 text-white hover:scale-105 active:scale-95'
-                  }`}
+                  className={`w-full sm:w-auto px-8 py-3 rounded-full text-xs font-semibold uppercase tracking-wider transition-all duration-300 shadow-md cursor-pointer ${rsvpSimulated
+                    ? 'bg-emerald-600 text-white'
+                    : 'bg-amber-700 hover:bg-amber-800 text-white hover:scale-105 active:scale-95'
+                    }`}
                 >
                   {rsvpSimulated ? '✓ RSVP Received! You\'re on the Guest List' : 'Simulate RSVP Response'}
                 </button>
 
                 <Link
-                  href={`/templates/preview/${
-                    activeTheme.id === 'royal'
-                      ? 'royal-gold'
-                      : activeTheme.id === 'floral'
+                  href={`/templates/preview/${activeTheme.id === 'royal'
+                    ? 'royal-gold'
+                    : activeTheme.id === 'floral'
                       ? 'floral-romantic'
                       : 'kerala-traditional'
-                  }`}
+                    }`}
                   className="w-full sm:w-auto px-6 py-3 rounded-full text-xs font-semibold uppercase tracking-wider bg-white/80 hover:bg-white text-stone-800 border border-stone-200/80 hover:border-amber-300 transition-all text-center"
                 >
                   Full Screen Preview
