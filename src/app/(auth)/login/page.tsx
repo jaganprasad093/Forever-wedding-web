@@ -51,7 +51,7 @@ function Field({
 }) {
   return (
     <div className="flex flex-col gap-2">
-      <label className="text-xs font-semibold uppercase tracking-wider text-stone-600 select-none">
+      <label className="text-sm font-medium text-stone-700 select-none">
         {label}
       </label>
       {children}
@@ -109,7 +109,7 @@ function LoginContent() {
   }
 
   const inputBase =
-    'w-full h-12 px-4 bg-[#faf9f6]/50 hover:bg-white focus:bg-white border border-[#e5dfd5] hover:border-[#cfc4b5] rounded-xl text-stone-900 placeholder:text-stone-400 text-sm focus:outline-none focus:ring-2 focus:ring-[#8c6b48]/20 focus:border-[#8c6b48] transition-all duration-200'
+    'w-full h-11 !px-4 bg-white border border-stone-200 rounded-lg text-sm text-stone-900 placeholder:text-stone-400 focus:outline-none focus:border-[#8c6b48] focus:ring-1 focus:ring-[#8c6b48]/20 transition-colors'
 
   return (
     /* ── Page shell ── */
@@ -123,9 +123,23 @@ function LoginContent() {
       <header className="fixed top-0 left-0 right-0 z-50 px-6 sm:px-10 py-5 pointer-events-none">
         <Link
           href="/"
-          className="pointer-events-auto group inline-flex items-center gap-2 text-xs font-medium text-stone-600 hover:text-stone-900 transition-all py-2 px-3.5 rounded-full bg-white/70 hover:bg-white border border-stone-200/70 shadow-xs backdrop-blur-sm"
+          className="pointer-events-auto group inline-flex items-center gap-2
+    text-xs font-medium text-stone-500
+    hover:text-stone-900 transition-colors duration-200"
         >
-          <ArrowLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5" />
+          <span className="flex items-center justify-center w-7 h-7 rounded-full
+    border border-stone-200 bg-white/70
+    group-hover:border-[#cbb8a3] group-hover:bg-[#f8f3ed]
+    transition-all duration-200"
+          >
+            <ArrowLeft
+              className="w-3.5 h-3.5 text-stone-400
+        group-hover:text-[#8c6b48]
+        group-hover:-translate-x-0.5
+        transition-all duration-200"
+            />
+          </span>
+
           <span>Back to ForeverVows</span>
         </Link>
       </header>
@@ -139,7 +153,7 @@ function LoginContent() {
           initial="hidden"
           animate="visible"
           custom={0}
-          className="flex flex-col items-center text-center gap-3.5 mb-8 sm:mb-10 px-4"
+          className="flex flex-col items-center text-center gap-3.5 mb-12 sm:mb-14 px-4"
         >
           {/* Fine rule + star ornament */}
           <div className="flex items-center justify-center gap-3">
@@ -165,115 +179,88 @@ function LoginContent() {
           initial="hidden"
           animate="visible"
           custom={1}
-          className="w-full max-w-[480px]"
+          className="w-full max-w-[480px] !mt-3"
         >
           <div className="w-full bg-white/95 backdrop-blur-xs rounded-2xl sm:rounded-3xl border border-[#ede7de] shadow-[0_12px_44px_-10px_rgba(0,0,0,0.06),0_1px_3px_rgba(0,0,0,0.02)] overflow-hidden">
             {/* Card inner padding */}
-            <div className="px-6 py-8 sm:px-8 sm:py-10">
+            <div className="!px-8 !py-10 sm:!px-10 sm:!py-5">
 
-              {/* Header */}
-              <div className="mb-8">
-                <h1 className="font-serif text-3xl sm:text-[32px] font-normal text-stone-900 tracking-tight leading-snug mb-2">
+              <div className="!mb-7">
+                <h1 className="font-serif !text-xl sm:!text-2xl font-normal text-stone-900 tracking-tight !leading-tight !mb-3 !px-1">
                   Sign in to your account
                 </h1>
-                <p className="text-stone-500 text-sm sm:text-[15px] leading-relaxed">
+
+                <p className="text-stone-500 !text-xs sm:!text-sm !leading-5 !px-1 max-w-[360px]">
                   Return to your dashboard and pick up where you left off.
                 </p>
               </div>
 
-              {/* Error */}
-              {authError && (
-                <motion.div
-                  initial={{ opacity: 0, y: -6, scale: 0.98 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  transition={{ duration: 0.2 }}
-                  className="mb-6 p-4 bg-red-50/90 border border-red-200/80 rounded-xl flex items-start gap-3 shadow-xs"
-                >
-                  <AlertCircle className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
-                  <div className="text-xs sm:text-sm text-red-700 font-medium leading-relaxed">
-                    {authError}
-                  </div>
-                </motion.div>
-              )}
-
-              {/* Google button */}
-              <motion.button
-                variants={fadeUp}
-                initial="hidden"
-                animate="visible"
-                custom={2}
-                type="button"
-                onClick={handleGoogleSignIn}
-                disabled={isGoogleLoading || isSubmitting}
-                whileHover={{ scale: 1.005 }}
-                whileTap={{ scale: 0.995 }}
-                className="w-full h-12 px-5 bg-white hover:bg-stone-50/80 active:bg-stone-100 border border-stone-200/90 hover:border-stone-300 rounded-xl text-stone-700 text-sm font-medium transition-all duration-200 flex items-center justify-center gap-3 shadow-[0_1px_2px_rgba(0,0,0,0.03)] cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
-              >
-                {isGoogleLoading
-                  ? <Loader2 className="w-4 h-4 animate-spin text-stone-500" />
-                  : <GoogleIcon />
-                }
-                <span>Continue with Google</span>
-              </motion.button>
-
-              {/* "or" divider */}
-              <div className="relative my-7 sm:my-8 flex items-center justify-center">
-                <div className="w-full border-t border-stone-200/70" />
-                <span className="absolute px-3 bg-white text-xs uppercase tracking-widest text-stone-400 font-medium">
-                  or
-                </span>
-              </div>
 
               {/* Form */}
               <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5 sm:gap-6" noValidate>
 
                 {/* Email */}
-                <motion.div variants={fadeUp} initial="hidden" animate="visible" custom={3}>
-                  <Field label="Email" error={errors.email?.message}>
-                    <input
-                      id="email"
-                      type="email"
-                      {...register('email')}
-                      placeholder="name@example.com"
-                      autoComplete="email"
-                      className={inputBase}
-                    />
-                  </Field>
-                </motion.div>
+                <Field label="Email" error={errors.email?.message}>
+                  <input
+                    id="email"
+                    type="email"
+                    {...register('email')}
+                    placeholder="name@example.com"
+                    autoComplete="email"
+                    className={inputBase}
+                  />
+                </Field>
 
                 {/* Password */}
-                <motion.div variants={fadeUp} initial="hidden" animate="visible" custom={4}>
-                  <Field label="Password" error={errors.password?.message}>
-                    <div className="relative">
-                      <input
-                        id="password"
-                        type={showPassword ? 'text' : 'password'}
-                        {...register('password')}
-                        placeholder="Enter your password"
-                        autoComplete="current-password"
-                        className={`${inputBase} pr-11`}
-                      />
-                      <button
-                        type="button"
-                        onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-3.5 top-1/2 -translate-y-1/2 p-1 text-stone-400 hover:text-stone-700 transition-colors cursor-pointer rounded-md focus:outline-none focus-visible:ring-1 focus-visible:ring-[#8c6b48]"
-                        aria-label={showPassword ? 'Hide password' : 'Show password'}
-                      >
-                        {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                      </button>
-                    </div>
-                    {/* Forgot link — aligned right with good breathing room */}
-                    <div className="flex justify-end pt-1">
-                      <Link
-                        href="/forgot-password"
-                        className="text-xs text-stone-500 hover:text-[#8c6b48] font-medium transition-colors"
-                      >
-                        Forgot password?
-                      </Link>
-                    </div>
-                  </Field>
-                </motion.div>
+                <Field label="Password" error={errors.password?.message}>
+                  <div className="relative">
+                    <input
+                      id="password"
+                      type={showPassword ? 'text' : 'password'}
+                      {...register('password')}
+                      placeholder="Enter your password"
+                      autoComplete="current-password"
+                      className={`${inputBase} pr-10`}
+                    />
 
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-700 transition-colors"
+                      aria-label={showPassword ? 'Hide password' : 'Show password'}
+                    >
+                      {showPassword ? (
+                        <EyeOff className="w-4 h-4" />
+                      ) : (
+                        <Eye className="w-4 h-4" />
+                      )}
+                    </button>
+                  </div>
+
+                  <div className="flex justify-end mt-1.5">
+                    <Link
+                      href="/forgot-password"
+                      className="text-xs text-stone-500 hover:text-[#8c6b48] transition-colors"
+                    >
+                      Forgot password?
+                    </Link>
+                  </div>
+                </Field>
+
+                {/* Error */}
+                {authError && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -6, scale: 0.98 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ duration: 0.2 }}
+                    className="mb-6 p-4 bg-red-50/90 border border-red-200/80 rounded-xl flex items-start gap-3 shadow-xs"
+                  >
+                    <AlertCircle className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
+                    <div className="text-xs sm:text-sm text-red-700 font-medium leading-relaxed">
+                      {authError}
+                    </div>
+                  </motion.div>
+                )}
                 {/* Submit */}
                 <motion.button
                   variants={fadeUp}
@@ -295,6 +282,32 @@ function LoginContent() {
                     'Sign in'
                   )}
                 </motion.button>
+                {/* "or" divider */}
+                <div className="relative my-7 sm:my-8 flex items-center justify-center">
+                  <div className="w-full border-t border-stone-200/70" />
+                  <span className="absolute px-3 bg-white text-xs uppercase tracking-widest text-stone-400 font-medium">
+                    or
+                  </span>
+                </div>
+                {/* Google button */}
+                <motion.button
+                  variants={fadeUp}
+                  initial="hidden"
+                  animate="visible"
+                  custom={2}
+                  type="button"
+                  onClick={handleGoogleSignIn}
+                  disabled={isGoogleLoading || isSubmitting}
+                  whileHover={{ scale: 1.005 }}
+                  whileTap={{ scale: 0.995 }}
+                  className="w-full h-12 px-5 bg-white hover:bg-stone-50/80 active:bg-stone-100 border border-stone-200/90 hover:border-stone-300 rounded-xl text-stone-700 text-sm font-medium transition-all duration-200 flex items-center justify-center gap-3 shadow-[0_1px_2px_rgba(0,0,0,0.03)] cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+                >
+                  {isGoogleLoading
+                    ? <Loader2 className="w-4 h-4 animate-spin text-stone-500" />
+                    : <GoogleIcon />
+                  }
+                  <span>Continue with Google</span>
+                </motion.button>
               </form>
 
               {/* Create account link */}
@@ -303,7 +316,7 @@ function LoginContent() {
                 initial="hidden"
                 animate="visible"
                 custom={6}
-                className="mt-8 pt-6 border-t border-stone-100 text-center"
+                className="!mt-3 !pt-2 border-t border-stone-100 text-center"
               >
                 <p className="text-sm text-stone-500">
                   New to ForeverVows?{' '}
@@ -316,6 +329,8 @@ function LoginContent() {
                 </p>
               </motion.div>
 
+
+
             </div>
           </div>
         </motion.div>
@@ -326,7 +341,7 @@ function LoginContent() {
           initial="hidden"
           animate="visible"
           custom={7}
-          className="mt-10 sm:mt-12 text-center text-xs text-stone-400 tracking-wide"
+          className="mt-10 sm:mt-12 text-center text-xs text-stone-400 tracking-wide translate-y-6"
         >
           © {new Date().getFullYear()} ForeverVows · All rights reserved.
         </motion.p>
