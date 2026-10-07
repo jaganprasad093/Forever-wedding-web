@@ -8,7 +8,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { motion } from 'framer-motion'
 import { Eye, EyeOff, Loader2, ArrowLeft, AlertCircle } from 'lucide-react'
-import { createClient } from '@/lib/supabase/client'
+import { authService } from '@/services'
 
 const loginSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
@@ -73,8 +73,10 @@ function LoginContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const redirectTo = searchParams.get('redirectTo') || '/dashboard'
+  const urlError = searchParams.get('error')
+
   const [showPassword, setShowPassword] = useState(false)
-  const [authError, setAuthError] = useState<string | null>(null)
+  const [authError, setAuthError] = useState<string | null>(urlError || null)
   const [isGoogleLoading, setIsGoogleLoading] = useState(false)
 
   const {
@@ -85,9 +87,11 @@ function LoginContent() {
 
   const onSubmit = async (data: LoginFormData) => {
     setAuthError(null)
-    const supabase = createClient()
-    const { error } = await supabase.auth.signInWithPassword({ email: data.email, password: data.password })
-    if (error) { setAuthError(error.message); return }
+    const result = await authService.login({ email: data.email, password: data.password })
+    if (!result.success && result.error) {
+      setAuthError(result.error)
+      return
+    }
     router.push(redirectTo)
     router.refresh()
   }
@@ -96,12 +100,11 @@ function LoginContent() {
     try {
       setAuthError(null)
       setIsGoogleLoading(true)
-      const supabase = createClient()
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
-        options: { redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(redirectTo)}` },
-      })
-      if (error) { setAuthError(error.message); setIsGoogleLoading(false) }
+      const result = await authService.signInWithGoogle(redirectTo)
+      if (!result.success && result.error) {
+        setAuthError(result.error)
+        setIsGoogleLoading(false)
+      }
     } catch {
       setAuthError('Failed to initiate Google sign in. Please try again.')
       setIsGoogleLoading(false)
