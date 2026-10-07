@@ -163,8 +163,7 @@ function LoginContent() {
           </div>
 
           {/* Welcome pill badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#d8c8b4]/80 bg-[#f7f2ea]/90 text-[#856543] text-[10px] sm:text-[11px] font-medium tracking-[0.22em] uppercase shadow-xs">
-            <span className="text-[9px] leading-none text-[#a07c57]">♦</span>
+          <div className="inline-flex items-center gap-2.5 !px-5 !py-1 rounded-full border border-[#d8c8b4]/80 bg-[#f7f2ea]/90 text-[#856543] !text-xs sm:!text-sm font-medium tracking-[0.18em] uppercase shadow-xs">            <span className="text-[9px] leading-none text-[#a07c57]">♦</span>
             <span>Welcome to ForeverVows</span>
           </div>
 
