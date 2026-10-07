@@ -148,7 +148,7 @@ function LoginContent() {
             <span>Welcome to ForeverVows</span>
           </div>
 
-          <p className="text-stone-600 text-sm leading-relaxed max-w-[340px]">
+          <p className="text-stone-600 text-sm leading-relaxed max-w-[340px] px-6 py-2 ">
             A calm, premium space to sign in, personalize, and publish with confidence.
           </p>
         </motion.div>
@@ -159,18 +159,18 @@ function LoginContent() {
           initial="hidden"
           animate="visible"
           custom={1}
-          className="w-full max-w-[460px]"
+          className="w-full max-w-[540px]"
         >
           <div className="w-full bg-white rounded-3xl border border-[#ede8e1] shadow-[0_4px_32px_rgba(0,0,0,0.06)] overflow-hidden">
             {/* Card inner padding */}
-            <div className="p-8 sm:p-10">
+            <div className="p-10 sm:p-12 md:p-14">
 
               {/* Header */}
-              <div className="mb-8">
-                <h1 className="text-2xl font-semibold text-stone-900 tracking-tight leading-snug mb-2">
+              <div className="mb-9">
+                <h1 className="text-2xl sm:text-3xl font-semibold text-stone-900 tracking-tight leading-snug mb-2">
                   Sign in to your account
                 </h1>
-                <p className="text-stone-500 text-sm leading-relaxed">
+                <p className="text-stone-500 text-sm sm:text-base leading-relaxed">
                   Return to your dashboard and pick up where you left off.
                 </p>
               </div>
