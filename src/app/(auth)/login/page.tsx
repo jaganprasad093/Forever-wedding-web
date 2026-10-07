@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { motion } from 'framer-motion'
-import { Eye, EyeOff, Loader2, ArrowLeft } from 'lucide-react'
+import { Eye, EyeOff, Loader2, ArrowLeft, AlertCircle } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 
 const loginSchema = z.object({
@@ -51,13 +51,15 @@ function Field({
 }) {
   return (
     <div className="flex flex-col gap-2">
-      <label className="text-sm font-medium text-stone-800 leading-none">{label}</label>
+      <label className="text-xs font-semibold uppercase tracking-wider text-stone-600 select-none">
+        {label}
+      </label>
       {children}
       {error && (
         <motion.p
           initial={{ opacity: 0, y: -4 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-xs text-red-600"
+          className="text-xs text-red-600 font-medium"
         >
           {error}
         </motion.p>
@@ -107,25 +109,29 @@ function LoginContent() {
   }
 
   const inputBase =
-    'w-full px-4 py-3 bg-white border border-[#e5e0d8] rounded-xl text-stone-900 placeholder-stone-400 text-sm focus:outline-none focus:ring-2 focus:ring-[#8c6b48]/20 focus:border-[#8c6b48] transition-all duration-150'
+    'w-full h-12 px-4 bg-[#faf9f6]/50 hover:bg-white focus:bg-white border border-[#e5dfd5] hover:border-[#cfc4b5] rounded-xl text-stone-900 placeholder:text-stone-400 text-sm focus:outline-none focus:ring-2 focus:ring-[#8c6b48]/20 focus:border-[#8c6b48] transition-all duration-200'
 
   return (
     /* ── Page shell ── */
-    <div className="min-h-screen w-full bg-[#faf7f2] flex flex-col selection:bg-[#f3ebd8]">
-
-      {/* ── Fixed top bar: back link ── */}
-      <div className="fixed top-0 left-0 right-0 z-50 px-5 sm:px-8 py-4">
-        <Link
-          href="/"
-          className="inline-flex items-center gap-1.5 text-xs text-stone-500 hover:text-stone-900 transition-colors py-1.5 px-3 rounded-lg hover:bg-white/70 hover:shadow-xs backdrop-blur-xs"
-        >
-          <ArrowLeft className="w-3.5 h-3.5" />
-          <span>Back to ForeverVows</span>
-        </Link>
+    <div className="relative min-h-screen w-full bg-[#faf7f2] flex flex-col justify-between selection:bg-[#ebdcc9] selection:text-[#5c4028]">
+      {/* Decorative ambient background glows */}
+      <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
+        <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[720px] h-[480px] bg-gradient-to-b from-[#f3eae0]/80 via-[#f9f5ee]/40 to-transparent rounded-full blur-3xl opacity-70" />
       </div>
 
+      {/* ── Fixed top bar: back link ── */}
+      <header className="fixed top-0 left-0 right-0 z-50 px-6 sm:px-10 py-5 pointer-events-none">
+        <Link
+          href="/"
+          className="pointer-events-auto group inline-flex items-center gap-2 text-xs font-medium text-stone-600 hover:text-stone-900 transition-all py-2 px-3.5 rounded-full bg-white/70 hover:bg-white border border-stone-200/70 shadow-xs backdrop-blur-sm"
+        >
+          <ArrowLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5" />
+          <span>Back to ForeverVows</span>
+        </Link>
+      </header>
+
       {/* ── Scrollable center area ── */}
-      <div className="flex-1 flex flex-col items-center justify-center px-4 pt-24 pb-12">
+      <main className="flex-1 flex flex-col items-center justify-center px-4 sm:px-6 pt-24 sm:pt-28 pb-12 w-full">
 
         {/* ── Ornament header ── */}
         <motion.div
@@ -133,22 +139,22 @@ function LoginContent() {
           initial="hidden"
           animate="visible"
           custom={0}
-          className="flex flex-col items-center text-center gap-4 mb-8 px-4"
+          className="flex flex-col items-center text-center gap-3.5 mb-8 sm:mb-10 px-4"
         >
-          {/* Fine rule + dot ornament */}
-          <div className="flex items-center justify-center gap-2">
-            <div className="h-px w-10 bg-stone-300" />
-            <div className="w-1.5 h-1.5 rounded-full border border-stone-400" />
-            <div className="h-px w-10 bg-stone-300" />
+          {/* Fine rule + star ornament */}
+          <div className="flex items-center justify-center gap-3">
+            <div className="h-px w-12 sm:w-16 bg-gradient-to-r from-transparent to-[#cbb8a3]" />
+            <span className="text-[#a89078] text-[10px] sm:text-xs">✦</span>
+            <div className="h-px w-12 sm:w-16 bg-gradient-to-l from-transparent to-[#cbb8a3]" />
           </div>
 
           {/* Welcome pill badge */}
-          <div className="inline-flex items-center gap-2.5 px-6 py-2 rounded-full border border-[#d8c8b4] bg-[#f7f2ea] text-[#856543] text-[11px] font-medium tracking-[0.2em] uppercase shadow-xs">
-            <span className="text-[10px] leading-none">♦</span>
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#d8c8b4]/80 bg-[#f7f2ea]/90 text-[#856543] text-[10px] sm:text-[11px] font-medium tracking-[0.22em] uppercase shadow-xs">
+            <span className="text-[9px] leading-none text-[#a07c57]">♦</span>
             <span>Welcome to ForeverVows</span>
           </div>
 
-          <p className="text-stone-600 text-sm leading-relaxed max-w-[340px] px-6 py-2 ">
+          <p className="text-stone-500 text-sm leading-relaxed max-w-[360px]">
             A calm, premium space to sign in, personalize, and publish with confidence.
           </p>
         </motion.div>
@@ -159,18 +165,18 @@ function LoginContent() {
           initial="hidden"
           animate="visible"
           custom={1}
-          className="w-full max-w-[540px]"
+          className="w-full max-w-[480px]"
         >
-          <div className="w-full bg-white rounded-3xl border border-[#ede8e1] shadow-[0_4px_32px_rgba(0,0,0,0.06)] overflow-hidden">
+          <div className="w-full bg-white/95 backdrop-blur-xs rounded-2xl sm:rounded-3xl border border-[#ede7de] shadow-[0_12px_44px_-10px_rgba(0,0,0,0.06),0_1px_3px_rgba(0,0,0,0.02)] overflow-hidden">
             {/* Card inner padding */}
-            <div className="p-10 sm:p-12 md:p-14">
+            <div className="px-6 py-8 sm:px-8 sm:py-10">
 
               {/* Header */}
-              <div className="mb-9">
-                <h1 className="text-2xl sm:text-3xl font-semibold text-stone-900 tracking-tight leading-snug mb-2">
+              <div className="mb-8">
+                <h1 className="font-serif text-3xl sm:text-[32px] font-normal text-stone-900 tracking-tight leading-snug mb-2">
                   Sign in to your account
                 </h1>
-                <p className="text-stone-500 text-sm sm:text-base leading-relaxed">
+                <p className="text-stone-500 text-sm sm:text-[15px] leading-relaxed">
                   Return to your dashboard and pick up where you left off.
                 </p>
               </div>
@@ -178,11 +184,15 @@ function LoginContent() {
               {/* Error */}
               {authError && (
                 <motion.div
-                  initial={{ opacity: 0, y: -6 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 text-sm rounded-xl leading-relaxed"
+                  initial={{ opacity: 0, y: -6, scale: 0.98 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{ duration: 0.2 }}
+                  className="mb-6 p-4 bg-red-50/90 border border-red-200/80 rounded-xl flex items-start gap-3 shadow-xs"
                 >
-                  {authError}
+                  <AlertCircle className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
+                  <div className="text-xs sm:text-sm text-red-700 font-medium leading-relaxed">
+                    {authError}
+                  </div>
                 </motion.div>
               )}
 
@@ -195,9 +205,9 @@ function LoginContent() {
                 type="button"
                 onClick={handleGoogleSignIn}
                 disabled={isGoogleLoading || isSubmitting}
-                whileHover={{ scale: 1.01 }}
-                whileTap={{ scale: 0.99 }}
-                className="w-full py-3 px-5 bg-white hover:bg-stone-50 active:bg-stone-100 border border-stone-200 rounded-xl text-stone-800 text-sm font-medium transition-all duration-150 flex items-center justify-center gap-3 shadow-sm cursor-pointer disabled:opacity-60"
+                whileHover={{ scale: 1.005 }}
+                whileTap={{ scale: 0.995 }}
+                className="w-full h-12 px-5 bg-white hover:bg-stone-50/80 active:bg-stone-100 border border-stone-200/90 hover:border-stone-300 rounded-xl text-stone-700 text-sm font-medium transition-all duration-200 flex items-center justify-center gap-3 shadow-[0_1px_2px_rgba(0,0,0,0.03)] cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 {isGoogleLoading
                   ? <Loader2 className="w-4 h-4 animate-spin text-stone-500" />
@@ -207,14 +217,15 @@ function LoginContent() {
               </motion.button>
 
               {/* "or" divider */}
-              <div className="relative my-7 flex items-center">
-                <div className="flex-1 border-t border-stone-200" />
-                <span className="px-4 text-xs text-stone-400">or</span>
-                <div className="flex-1 border-t border-stone-200" />
+              <div className="relative my-7 sm:my-8 flex items-center justify-center">
+                <div className="w-full border-t border-stone-200/70" />
+                <span className="absolute px-3 bg-white text-xs uppercase tracking-widest text-stone-400 font-medium">
+                  or
+                </span>
               </div>
 
               {/* Form */}
-              <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6" noValidate>
+              <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5 sm:gap-6" noValidate>
 
                 {/* Email */}
                 <motion.div variants={fadeUp} initial="hidden" animate="visible" custom={3}>
@@ -245,17 +256,17 @@ function LoginContent() {
                       <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-3.5 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-700 p-1 rounded-md transition-colors"
+                        className="absolute right-3.5 top-1/2 -translate-y-1/2 p-1 text-stone-400 hover:text-stone-700 transition-colors cursor-pointer rounded-md focus:outline-none focus-visible:ring-1 focus-visible:ring-[#8c6b48]"
                         aria-label={showPassword ? 'Hide password' : 'Show password'}
                       >
                         {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                       </button>
                     </div>
-                    {/* Forgot link — inside the field wrapper but below the input */}
-                    <div className="flex justify-end -mt-1">
+                    {/* Forgot link — aligned right with good breathing room */}
+                    <div className="flex justify-end pt-1">
                       <Link
                         href="/forgot-password"
-                        className="text-xs text-stone-400 hover:text-[#8c6b48] font-medium transition-colors"
+                        className="text-xs text-stone-500 hover:text-[#8c6b48] font-medium transition-colors"
                       >
                         Forgot password?
                       </Link>
@@ -271,9 +282,9 @@ function LoginContent() {
                   custom={5}
                   type="submit"
                   disabled={isSubmitting || isGoogleLoading}
-                  whileHover={{ scale: 1.01 }}
-                  whileTap={{ scale: 0.99 }}
-                  className="w-full bg-[#8c6b48] hover:bg-[#7e5f3e] active:bg-[#705437] text-white py-3.5 rounded-xl font-medium text-sm transition-all duration-200 flex items-center justify-center gap-2 shadow-sm cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed mt-2"
+                  whileHover={{ scale: 1.005 }}
+                  whileTap={{ scale: 0.995 }}
+                  className="w-full h-12 bg-[#8c6b48] hover:bg-[#7e5f3e] active:bg-[#6c4f31] text-white rounded-xl font-medium text-sm tracking-wide transition-all duration-200 flex items-center justify-center gap-2 shadow-[0_2px_8px_rgba(140,107,72,0.22)] hover:shadow-[0_4px_14px_rgba(140,107,72,0.32)] cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed mt-2"
                 >
                   {isSubmitting ? (
                     <>
@@ -287,21 +298,23 @@ function LoginContent() {
               </form>
 
               {/* Create account link */}
-              <motion.p
+              <motion.div
                 variants={fadeUp}
                 initial="hidden"
                 animate="visible"
                 custom={6}
-                className="mt-8 text-center text-sm text-stone-500 leading-none"
+                className="mt-8 pt-6 border-t border-stone-100 text-center"
               >
-                New to ForeverVows?{' '}
-                <Link
-                  href="/register"
-                  className="font-semibold text-stone-900 hover:text-[#8c6b48] underline underline-offset-2 transition-colors"
-                >
-                  Create an account
-                </Link>
-              </motion.p>
+                <p className="text-sm text-stone-500">
+                  New to ForeverVows?{' '}
+                  <Link
+                    href="/register"
+                    className="font-semibold text-stone-900 hover:text-[#8c6b48] underline underline-offset-4 decoration-stone-300 hover:decoration-[#8c6b48] transition-colors ml-1"
+                  >
+                    Create an account
+                  </Link>
+                </p>
+              </motion.div>
 
             </div>
           </div>
@@ -313,11 +326,11 @@ function LoginContent() {
           initial="hidden"
           animate="visible"
           custom={7}
-          className="mt-10 text-center text-xs text-stone-400"
+          className="mt-10 sm:mt-12 text-center text-xs text-stone-400 tracking-wide"
         >
           © {new Date().getFullYear()} ForeverVows · All rights reserved.
         </motion.p>
-      </div>
+      </main>
     </div>
   )
 }
