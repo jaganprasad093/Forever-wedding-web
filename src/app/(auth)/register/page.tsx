@@ -1,14 +1,24 @@
 'use client'
 
-import { useState, Suspense } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { motion } from 'framer-motion'
-import { Eye, EyeOff, Loader2, ArrowLeft, AlertCircle, CheckCircle2 } from 'lucide-react'
-import { createClient } from '@/lib/supabase/client'
+import {
+  Eye,
+  EyeOff,
+  Loader2,
+  ArrowLeft,
+  AlertCircle,
+  CheckCircle2,
+  Mail,
+  ExternalLink,
+  RotateCw,
+} from 'lucide-react'
+import { authService } from '@/services'
 
 const registerSchema = z
   .object({
@@ -80,14 +90,33 @@ function RegisterContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const templateSlug = searchParams.get('template')
-  const redirectTo = searchParams.get('redirectTo') || (templateSlug ? `/create?template=${encodeURIComponent(templateSlug)}` : '/dashboard')
+  const redirectTo =
+    searchParams.get('redirectTo') ||
+    (templateSlug ? `/create?template=${encodeURIComponent(templateSlug)}` : '/dashboard')
 
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [authError, setAuthError] = useState<string | null>(null)
   const [isGoogleLoading, setIsGoogleLoading] = useState(false)
+
+  // Success & email verification state
   const [success, setSuccess] = useState(false)
   const [submittedEmail, setSubmittedEmail] = useState('')
+  const [isResending, setIsResending] = useState(false)
+  const [resendFeedback, setResendFeedback] = useState<{
+    type: 'success' | 'error'
+    message: string
+  } | null>(null)
+  const [resendCooldown, setResendCooldown] = useState(0)
+
+  // Resend cooldown countdown
+  useEffect(() => {
+    if (resendCooldown <= 0) return
+    const timer = setInterval(() => {
+      setResendCooldown((prev) => Math.max(0, prev - 1))
+    }, 1000)
+    return () => clearInterval(timer)
+  }, [resendCooldown])
 
   const {
     register,
@@ -100,35 +129,25 @@ function RegisterContent() {
   const onSubmit = async (data: RegisterFormData) => {
     setAuthError(null)
     setSubmittedEmail(data.email)
-    const supabase = createClient()
+    setResendFeedback(null)
 
-    const { error } = await supabase.auth.signUp({
+    const result = await authService.register({
+      name: data.name,
       email: data.email,
       password: data.password,
-      options: {
-        data: {
-          name: data.name,
-        },
-        emailRedirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(redirectTo)}`,
-      },
+      redirectTo,
     })
 
-    if (error) {
-      setAuthError(error.message)
+    if (!result.success && result.error) {
+      setAuthError(result.error)
       return
     }
 
-    // Update profile
-    const { data: userData } = await supabase.auth.getUser()
-    if (userData.user) {
-      await supabase.from('profiles').upsert({
-        id: userData.user.id,
-        name: data.name,
-      })
+    if (result.requiresEmailConfirmation) {
+      setSuccess(true)
+    } else {
       router.push(redirectTo)
       router.refresh()
-    } else {
-      setSuccess(true)
     }
   }
 
@@ -136,13 +155,9 @@ function RegisterContent() {
     try {
       setAuthError(null)
       setIsGoogleLoading(true)
-      const supabase = createClient()
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
-        options: { redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(redirectTo)}` },
-      })
-      if (error) {
-        setAuthError(error.message)
+      const result = await authService.signInWithGoogle(redirectTo)
+      if (!result.success && result.error) {
+        setAuthError(result.error)
         setIsGoogleLoading(false)
       }
     } catch {
@@ -151,13 +166,72 @@ function RegisterContent() {
     }
   }
 
+  const handleResendEmail = async () => {
+    if (isResending || resendCooldown > 0 || !submittedEmail) return
+
+    try {
+      setIsResending(true)
+      setResendFeedback(null)
+
+      const result = await authService.resendVerificationEmail({
+        email: submittedEmail,
+        redirectTo,
+      })
+
+      if (result.success) {
+        setResendFeedback({
+          type: 'success',
+          message: 'A fresh verification link has been sent to your inbox!',
+        })
+        setResendCooldown(60)
+      } else {
+        setResendFeedback({
+          type: 'error',
+          message: result.error || 'Failed to resend confirmation link. Please try again.',
+        })
+      }
+    } catch {
+      setResendFeedback({
+        type: 'error',
+        message: 'Network error while resending. Please try again.',
+      })
+    } finally {
+      setIsResending(false)
+    }
+  }
+
+  // Helper to get webmail provider shortcut
+  const getWebmailShortcut = (email: string) => {
+    const domain = email.split('@')[1]?.toLowerCase()
+    if (!domain) return null
+
+    if (domain === 'gmail.com' || domain === 'googlemail.com') {
+      return { name: 'Open Gmail', url: 'https://mail.google.com' }
+    }
+    if (domain === 'outlook.com' || domain === 'hotmail.com' || domain === 'live.com') {
+      return { name: 'Open Outlook', url: 'https://outlook.live.com' }
+    }
+    if (domain === 'yahoo.com') {
+      return { name: 'Open Yahoo Mail', url: 'https://mail.yahoo.com' }
+    }
+    if (domain === 'icloud.com') {
+      return { name: 'Open iCloud Mail', url: 'https://www.icloud.com/mail' }
+    }
+    return null
+  }
+
+  const webmail = getWebmailShortcut(submittedEmail)
+
   const inputBase =
     'w-full h-11 !px-4 bg-white border border-stone-200 rounded-lg text-sm text-stone-900 placeholder:text-stone-400 focus:outline-none focus:border-[#8c6b48] focus:ring-1 focus:ring-[#8c6b48]/20 transition-colors'
 
+  /* ────────────────────────────────────────────────────────────────
+      EMAIL CONFIRMATION SUCCESS VIEW
+  ──────────────────────────────────────────────────────────────── */
   if (success) {
     return (
       <div className="relative min-h-screen w-full bg-[#faf7f2] flex flex-col justify-between selection:bg-[#ebdcc9] selection:text-[#5c4028]">
-        {/* Decorative ambient background glows */}
+        {/* Ambient background glow */}
         <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
           <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[720px] h-[480px] bg-gradient-to-b from-[#f3eae0]/80 via-[#f9f5ee]/40 to-transparent rounded-full blur-3xl opacity-70" />
         </div>
@@ -183,7 +257,7 @@ function RegisterContent() {
             initial="hidden"
             animate="visible"
             custom={0}
-            className="flex flex-col items-center text-center gap-3.5 mb-10 sm:mb-12 px-4"
+            className="flex flex-col items-center text-center gap-3.5 mb-8 sm:mb-10 px-4"
           >
             {/* Fine rule + star ornament */}
             <div className="flex items-center justify-center gap-3">
@@ -198,8 +272,8 @@ function RegisterContent() {
               <span>Account Verification</span>
             </div>
 
-            <p className="text-stone-500 text-sm leading-relaxed max-w-[360px]">
-              Almost there! Please verify your email to begin customizing your wedding invitations.
+            <p className="text-stone-500 text-sm leading-relaxed max-w-[380px]">
+              We just sent a secure confirmation email. Complete this quick step to begin creating your invitations.
             </p>
           </motion.div>
 
@@ -209,47 +283,143 @@ function RegisterContent() {
             initial="hidden"
             animate="visible"
             custom={1}
-            className="w-full max-w-[480px] !mt-2"
+            className="w-full max-w-[500px]"
           >
             <div className="w-full bg-white/95 backdrop-blur-xs rounded-2xl sm:rounded-3xl border border-[#ede7de] shadow-[0_12px_44px_-10px_rgba(0,0,0,0.06),0_1px_3px_rgba(0,0,0,0.02)] overflow-hidden">
-              <div className="!px-8 !py-9 sm:!px-10 sm:!py-8 text-center">
-                <div className="w-16 h-16 bg-[#f7f2ea] border border-[#e5dacf] rounded-full flex items-center justify-center mx-auto mb-5 shadow-xs">
-                  <CheckCircle2 className="w-8 h-8 text-[#8c6b48]" />
+              <div className="!px-7 !py-8 sm:!px-10 sm:!py-9 text-center">
+                {/* Header Icon */}
+                <div className="relative w-16 h-16 bg-[#f7f2ea] border border-[#e5dacf] rounded-full flex items-center justify-center mx-auto mb-5 shadow-xs">
+                  <Mail className="w-8 h-8 text-[#8c6b48]" />
+                  <span className="absolute -top-1 -right-1 flex h-4 w-4">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#8c6b48] opacity-60"></span>
+                    <span className="relative inline-flex rounded-full h-4 w-4 bg-[#8c6b48] border-2 border-white"></span>
+                  </span>
                 </div>
 
-                <h1 className="font-serif !text-xl sm:!text-2xl font-normal text-stone-900 tracking-tight !leading-tight mb-2.5">
+                <h1 className="font-serif !text-2xl sm:!text-3xl font-normal text-stone-900 tracking-tight !leading-tight mb-2">
                   Check your email
                 </h1>
 
-                <p className="text-stone-500 text-sm leading-relaxed mb-8 max-w-sm mx-auto">
-                  {submittedEmail ? (
-                    <>
-                      We&apos;ve sent a confirmation link to{' '}
-                      <span className="font-semibold text-stone-800">{submittedEmail}</span>.
-                      Click the link to activate your account and start creating.
-                    </>
-                  ) : (
-                    <>
-                      We&apos;ve sent you a confirmation link. Click the link in your email to activate your account and start creating.
-                    </>
-                  )}
+                <p className="text-stone-500 text-sm leading-relaxed mb-6">
+                  We&apos;ve sent an activation link to{' '}
+                  <span className="font-semibold text-stone-900 break-all">{submittedEmail}</span>
                 </p>
 
-                <div className="flex flex-col gap-3">
-                  <Link
-                    href="/login"
-                    className="w-full h-12 bg-[#8c6b48] hover:bg-[#7e5f3e] active:bg-[#6c4f31] text-white rounded-xl font-medium text-sm tracking-wide transition-all duration-200 flex items-center justify-center gap-2 shadow-[0_2px_8px_rgba(140,107,72,0.22)] hover:shadow-[0_4px_14px_rgba(140,107,72,0.32)] cursor-pointer"
-                  >
-                    Continue to Sign In
-                  </Link>
+                {/* ── Context Guidance Box ── */}
+                <div className="text-left bg-[#fcfaf7] border border-[#ebdcc9] rounded-2xl p-4 sm:p-5 mb-6 space-y-3 shadow-2xs">
+                  <p className="text-xs font-semibold uppercase tracking-wider text-[#8c6b48] mb-1">
+                    What to do next:
+                  </p>
 
+                  <div className="flex items-start gap-3">
+                    <div className="w-5 h-5 rounded-full bg-[#8c6b48]/10 text-[#8c6b48] text-xs font-semibold flex items-center justify-center shrink-0 mt-0.5">
+                      1
+                    </div>
+                    <p className="text-xs sm:text-sm text-stone-600 leading-snug">
+                      Open your inbox and look for an email from <strong className="text-stone-900 font-medium">ForeverVows</strong> with subject <em className="text-stone-700">&ldquo;Confirm your signup&rdquo;</em>.
+                    </p>
+                  </div>
+
+                  <div className="flex items-start gap-3">
+                    <div className="w-5 h-5 rounded-full bg-[#8c6b48]/10 text-[#8c6b48] text-xs font-semibold flex items-center justify-center shrink-0 mt-0.5">
+                      2
+                    </div>
+                    <p className="text-xs sm:text-sm text-stone-600 leading-snug">
+                      Click the <strong className="text-stone-900 font-medium">&ldquo;Confirm your mail&rdquo;</strong> button. You will be authenticated and redirected right to your dashboard.
+                    </p>
+                  </div>
+
+                  <div className="flex items-start gap-3">
+                    <div className="w-5 h-5 rounded-full bg-[#8c6b48]/10 text-[#8c6b48] text-xs font-semibold flex items-center justify-center shrink-0 mt-0.5">
+                      3
+                    </div>
+                    <p className="text-xs text-stone-500 leading-snug">
+                      <em>Can&apos;t find it?</em> Check your <strong>Spam</strong> or <strong>Promotions</strong> folder.
+                    </p>
+                  </div>
+                </div>
+
+                {/* ── Resend Status Alert ── */}
+                {resendFeedback && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className={`mb-5 p-3 rounded-xl text-xs sm:text-sm font-medium flex items-center gap-2.5 ${
+                      resendFeedback.type === 'success'
+                        ? 'bg-emerald-50 border border-emerald-200 text-emerald-800'
+                        : 'bg-red-50 border border-red-200 text-red-700'
+                    }`}
+                  >
+                    {resendFeedback.type === 'success' ? (
+                      <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                    ) : (
+                      <AlertCircle className="w-4 h-4 text-red-600 shrink-0" />
+                    )}
+                    <span>{resendFeedback.message}</span>
+                  </motion.div>
+                )}
+
+                {/* ── Action Buttons ── */}
+                <div className="flex flex-col gap-3">
+                  {/* Webmail provider direct shortcut if available */}
+                  {webmail && (
+                    <a
+                      href={webmail.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full h-12 bg-[#8c6b48] hover:bg-[#7e5f3e] active:bg-[#6c4f31] text-white rounded-xl font-medium text-sm tracking-wide transition-all duration-200 flex items-center justify-center gap-2 shadow-[0_2px_8px_rgba(140,107,72,0.22)] hover:shadow-[0_4px_14px_rgba(140,107,72,0.32)]"
+                    >
+                      <span>{webmail.name}</span>
+                      <ExternalLink className="w-4 h-4" />
+                    </a>
+                  )}
+
+                  {/* Resend button */}
                   <button
                     type="button"
-                    onClick={() => setSuccess(false)}
+                    onClick={handleResendEmail}
+                    disabled={isResending || resendCooldown > 0}
+                    className="w-full h-11 px-4 bg-white hover:bg-stone-50 border border-stone-200 hover:border-stone-300 rounded-xl text-stone-700 text-xs sm:text-sm font-medium transition-colors flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed shadow-2xs"
+                  >
+                    {isResending ? (
+                      <>
+                        <Loader2 className="w-3.5 h-3.5 animate-spin text-[#8c6b48]" />
+                        <span>Resending verification link…</span>
+                      </>
+                    ) : resendCooldown > 0 ? (
+                      <span>Resend available in {resendCooldown}s</span>
+                    ) : (
+                      <>
+                        <RotateCw className="w-3.5 h-3.5 text-stone-500" />
+                        <span>Didn&apos;t receive it? Resend link</span>
+                      </>
+                    )}
+                  </button>
+
+                  {/* Change Email */}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSuccess(false)
+                      setResendFeedback(null)
+                    }}
                     className="text-xs text-stone-500 hover:text-[#8c6b48] transition-colors mt-2"
                   >
-                    Entered the wrong email? Edit details
+                    Wrong email address? Click here to change it
                   </button>
+                </div>
+
+                {/* Back to sign in */}
+                <div className="mt-6 pt-4 border-t border-stone-100">
+                  <p className="text-xs text-stone-500">
+                    Already clicked the verification link?{' '}
+                    <Link
+                      href="/login"
+                      className="font-semibold text-stone-900 hover:text-[#8c6b48] underline underline-offset-4 decoration-stone-300 hover:decoration-[#8c6b48] transition-colors ml-1"
+                    >
+                      Sign in to Dashboard
+                    </Link>
+                  </p>
                 </div>
               </div>
             </div>
@@ -270,6 +440,9 @@ function RegisterContent() {
     )
   }
 
+  /* ────────────────────────────────────────────────────────────────
+      MAIN REGISTRATION FORM VIEW
+  ──────────────────────────────────────────────────────────────── */
   return (
     /* ── Page shell ── */
     <div className="relative min-h-screen w-full bg-[#faf7f2] flex flex-col justify-between selection:bg-[#ebdcc9] selection:text-[#5c4028]">
