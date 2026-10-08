@@ -33,7 +33,6 @@ type WeddingEvent = NonNullable<WeddingData['events']>[number]
 
 const ease = [0.22, 1, 0.36, 1] as const
 
-
 const SECTION_PAD: React.CSSProperties = {
   padding: 'clamp(4rem, 9vw, 7.5rem) clamp(1.25rem, 5vw, 3rem)',
 }
