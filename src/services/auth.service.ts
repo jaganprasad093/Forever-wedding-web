@@ -60,10 +60,38 @@ export const authService = {
     })
 
     if (error) {
+      const isRateLimit =
+        error.code === 'over_email_send_rate_limit' ||
+        error.status === 429 ||
+        error.message.toLowerCase().includes('rate limit')
+
+      if (isRateLimit) {
+        return {
+          success: false,
+          requiresEmailConfirmation: false,
+          error:
+            'Supabase email sending limit exceeded (max 3 emails/hr on free tier). Please wait before trying again, or disable "Confirm email" in Supabase Auth settings.',
+        }
+      }
+
       return {
         success: false,
         requiresEmailConfirmation: false,
         error: error.message,
+      }
+    }
+
+    // If an account with this email already exists, Supabase returns user with empty identities
+    if (
+      data.user &&
+      Array.isArray(data.user.identities) &&
+      data.user.identities.length === 0
+    ) {
+      return {
+        success: false,
+        requiresEmailConfirmation: false,
+        error:
+          'An account with this email is already registered. Please sign in instead.',
       }
     }
 
@@ -149,6 +177,19 @@ export const authService = {
     })
 
     if (error) {
+      const isRateLimit =
+        error.code === 'over_email_send_rate_limit' ||
+        error.status === 429 ||
+        error.message.toLowerCase().includes('rate limit')
+
+      if (isRateLimit) {
+        return {
+          success: false,
+          error:
+            'Supabase email sending limit exceeded (max 3/hr on free tier). Please wait before requesting another email, or disable "Confirm email" in Supabase Auth settings.',
+        }
+      }
+
       return { success: false, error: error.message }
     }
 
