@@ -124,9 +124,12 @@ export default function HeroSection() {
           </motion.div>
         ))}
 
-      <div className="relative z-10 max-w-7xl mx-auto w-full">
+      <div className="relative z-10 max-w-7xl mx-auto w-full" style={{ width: '100%', marginInline: 'auto' }}>
         {/* ───────── Intro ───────── */}
-        <div className="text-center max-w-4xl xl:max-w-5xl mx-auto !mb-12 sm:!mb-20 lg:!mb-24">
+        <div
+          className="flex flex-col items-center text-center max-w-4xl xl:max-w-5xl mx-auto !mb-12 sm:!mb-20 lg:!mb-24"
+          style={{ width: '100%', marginInline: 'auto' }}
+        >
           {/* Eyebrow badge */}
           <motion.div
             initial={{ opacity: 0, y: -20 }}
@@ -145,7 +148,7 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="font-serif text-[2rem] min-[400px]:text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-normal tracking-tight text-stone-900 leading-[1.12] sm:leading-[1.1] !mb-5 sm:!mb-8 text-balance"
+            className="font-serif text-[2rem] min-[400px]:text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-normal tracking-tight text-stone-900 leading-[1.12] sm:leading-[1.1] !mb-5 sm:!mb-8 text-balance text-center"
           >
             Craft a Wedding Invitation{' '}
             <span className="italic font-normal block sm:inline text-amber-800">
@@ -159,7 +162,8 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-[15px] sm:text-lg md:text-xl text-stone-600 max-w-2xl mx-auto font-sans leading-relaxed !mb-8 sm:!mb-12"
+            className="text-[15px] sm:text-lg md:text-xl text-stone-600 max-w-2xl font-sans leading-relaxed !mb-8 sm:!mb-12 text-center text-balance"
+            style={{ marginInline: 'auto' }}
           >
             Elevate your love story with breathtaking music, an interactive itinerary,
             instant WhatsApp RSVP tracking, and Google Maps venue guidance — all
@@ -171,7 +175,8 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4 max-w-sm sm:max-w-none mx-auto !mb-10 sm:!mb-14"
+            className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4 max-w-sm sm:max-w-none !mb-10 sm:!mb-14"
+            style={{ marginInline: 'auto' }}
           >
             <Link
               href="/register"
@@ -196,7 +201,8 @@ export default function HeroSection() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="max-w-2xl mx-auto"
+            className="max-w-2xl"
+            style={{ width: '100%', marginInline: 'auto' }}
           >
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 !px-4 !py-4 sm:!px-5 sm:!py-5 rounded-2xl bg-white/60 backdrop-blur-md border border-amber-100/80 shadow-xs">
               <div className="flex items-center gap-3">
@@ -238,7 +244,11 @@ export default function HeroSection() {
         </div>
 
         {/* ───────── Interactive showcase ───────── */}
-        <div id="preview-card" className="relative max-w-4xl mx-auto scroll-mt-20 sm:scroll-mt-24">
+        <div
+          id="preview-card"
+          className="relative max-w-4xl mx-auto scroll-mt-20 sm:scroll-mt-24"
+          style={{ width: '100%', marginInline: 'auto' }}
+        >
           {/* Floating notification pill (lg+) */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
@@ -324,7 +334,10 @@ export default function HeroSection() {
             <div className={`absolute bottom-3 left-3 sm:bottom-5 sm:left-5 w-5 sm:w-12 h-5 sm:h-12 border-b-2 border-l-2 ${activeTheme.goldAccent} opacity-40 rounded-bl-lg`} />
             <div className={`absolute bottom-3 right-3 sm:bottom-5 sm:right-5 w-5 sm:w-12 h-5 sm:h-12 border-b-2 border-r-2 ${activeTheme.goldAccent} opacity-40 rounded-br-lg`} />
 
-            <div className="relative z-10 text-center max-w-2xl mx-auto flex flex-col items-center">
+            <div
+              className="relative z-10 text-center max-w-2xl mx-auto flex flex-col items-center"
+              style={{ width: '100%', marginInline: 'auto' }}
+            >
               {/* Monogram seal */}
               <motion.div
                 whileHover={{ scale: 1.1, rotate: 10 }}
@@ -346,14 +359,20 @@ export default function HeroSection() {
               </p>
 
               {/* Ornate divider */}
-              <div className="flex items-center justify-center gap-3 w-40 sm:w-48 max-w-full !mb-6 sm:!mb-10">
+              <div
+                className="flex items-center justify-center gap-3 w-40 sm:w-48 max-w-full !mb-6 sm:!mb-10"
+                style={{ marginInline: 'auto' }}
+              >
                 <div className={`h-px flex-1 ${dividerColor}`} />
                 <span className={`text-sm ${activeTheme.goldAccent}`}>❖</span>
                 <div className={`h-px flex-1 ${dividerColor}`} />
               </div>
 
               {/* Key details */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-4 w-full max-w-lg !mb-6 sm:!mb-10">
+              <div
+                className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-4 w-full max-w-lg !mb-6 sm:!mb-10"
+                style={{ marginInline: 'auto' }}
+              >
                 <div className={`flex items-center gap-3 !p-3.5 sm:!p-4 rounded-2xl backdrop-blur-sm border text-left ${tileBg}`}>
                   <div className={`!p-2.5 rounded-xl bg-white/70 shadow-xs shrink-0 ${activeTheme.goldAccent}`}>
                     <Calendar className="w-4 h-4" />
@@ -384,7 +403,7 @@ export default function HeroSection() {
               </div>
 
               {/* Countdown */}
-              <div className="w-full max-w-md !mb-6 sm:!mb-8">
+              <div className="w-full max-w-md !mb-6 sm:!mb-8" style={{ marginInline: 'auto' }}>
                 <p className={`text-[10px] uppercase tracking-widest font-bold ${activeTheme.subColor} !mb-3`}>
                   Countdown to the Big Day
                 </p>
@@ -408,7 +427,10 @@ export default function HeroSection() {
               </div>
 
               {/* Music player */}
-              <div className={`w-full max-w-md rounded-full !pl-2.5 !pr-4 sm:!pl-3 sm:!pr-5 !py-2 sm:!py-2.5 border backdrop-blur-md flex items-center justify-between gap-3 sm:gap-4 !mb-6 sm:!mb-10 ${tileBg}`}>
+              <div
+                className={`w-full max-w-md rounded-full !pl-2.5 !pr-4 sm:!pl-3 sm:!pr-5 !py-2 sm:!py-2.5 border backdrop-blur-md flex items-center justify-between gap-3 sm:gap-4 !mb-6 sm:!mb-10 ${tileBg}`}
+                style={{ marginInline: 'auto' }}
+              >
                 <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
                   <button
                     onClick={() => setIsPlayingMusic(!isPlayingMusic)}
@@ -448,7 +470,10 @@ export default function HeroSection() {
               </div>
 
               {/* Actions */}
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4 w-full sm:w-auto">
+              <div
+                className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4 w-full sm:w-auto"
+                style={{ marginInline: 'auto' }}
+              >
                 <button
                   onClick={() => setRsvpSimulated(true)}
                   className={`!px-6 sm:!px-8 !py-3.5 rounded-full text-[11px] sm:text-xs font-semibold uppercase tracking-wider leading-snug transition-all duration-300 shadow-md cursor-pointer ${rsvpSimulated

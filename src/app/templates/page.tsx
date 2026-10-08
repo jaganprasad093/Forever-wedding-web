@@ -233,7 +233,10 @@ export default function TemplatesPage() {
           className="absolute -bottom-28 -left-24 w-96 h-96 bg-rose-400/15 rounded-full blur-3xl pointer-events-none"
         />
 
-        <div className="relative max-w-5xl mx-auto text-center">
+        <div
+          className="relative max-w-5xl mx-auto text-center flex flex-col items-center"
+          style={{ width: '100%', marginInline: 'auto' }}
+        >
           <motion.div custom={0} variants={fadeUp} initial="hidden" animate="visible" className="!mb-8">
             <Link
               href="/"
@@ -260,7 +263,7 @@ export default function TemplatesPage() {
             variants={fadeUp}
             initial="hidden"
             animate="visible"
-            className="font-serif text-4xl sm:text-5xl lg:text-6xl font-medium leading-[1.12] !mb-5"
+            className="font-serif text-4xl sm:text-5xl lg:text-6xl font-medium leading-[1.12] !mb-5 text-center text-balance"
           >
             Find Your Perfect <span className="italic text-amber-300">Template</span>
           </motion.h1>
@@ -269,7 +272,8 @@ export default function TemplatesPage() {
             initial={{ scaleX: 0 }}
             animate={{ scaleX: 1 }}
             transition={{ duration: 0.8, delay: 0.5, ease: 'easeOut' }}
-            className="h-px w-24 mx-auto bg-gradient-to-r from-transparent via-amber-300 to-transparent !mb-5"
+            className="h-px w-24 bg-gradient-to-r from-transparent via-amber-300 to-transparent !mb-5"
+            style={{ marginInline: 'auto' }}
           />
 
           <motion.p
@@ -277,7 +281,8 @@ export default function TemplatesPage() {
             variants={fadeUp}
             initial="hidden"
             animate="visible"
-            className="text-white/75 text-base sm:text-lg max-w-xl mx-auto leading-relaxed"
+            className="text-white/75 text-base sm:text-lg max-w-xl leading-relaxed text-center text-balance"
+            style={{ marginInline: 'auto' }}
           >
             Professionally designed wedding invitation templates for every style and culture.
           </motion.p>
@@ -286,10 +291,11 @@ export default function TemplatesPage() {
 
       {/* ───────── Sticky category filter ───────── */}
       <div className="sticky top-0 z-20 bg-white/85 backdrop-blur-md border-b border-stone-100 shadow-sm">
-        <div className="max-w-6xl mx-auto !px-5 sm:!px-8">
+        <div className="max-w-6xl mx-auto !px-5 sm:!px-8" style={{ width: '100%', marginInline: 'auto' }}>
           <div
             role="tablist"
-            className="flex items-center gap-1.5 !py-3 overflow-x-auto sm:justify-center [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            className="flex items-center gap-1.5 !py-3 overflow-x-auto justify-start sm:justify-center [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            style={{ width: '100%', marginInline: 'auto' }}
           >
             {TEMPLATE_CATEGORIES.map((cat) => {
               const isActive = activeCategory === cat.id
@@ -328,7 +334,7 @@ export default function TemplatesPage() {
       </div>
 
       {/* ───────── Templates grid ───────── */}
-      <div className="max-w-6xl mx-auto !px-5 sm:!px-8 !py-10 sm:!py-14 lg:!py-16">
+      <div className="max-w-6xl mx-auto !px-5 sm:!px-8 !py-10 sm:!py-14 lg:!py-16" style={{ width: '100%', marginInline: 'auto' }}>
         <AnimatePresence mode="wait">
           <motion.div
             key={activeCategory}
@@ -338,7 +344,16 @@ export default function TemplatesPage() {
             transition={{ duration: 0.25 }}
           >
             {filteredTemplates.length > 0 ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7 lg:gap-8 max-w-md sm:max-w-none mx-auto">
+              <div
+                className={`grid gap-6 sm:gap-7 lg:gap-8 mx-auto ${
+                  filteredTemplates.length === 1
+                    ? 'grid-cols-1 max-w-md'
+                    : filteredTemplates.length === 2
+                      ? 'grid-cols-1 sm:grid-cols-2 max-w-3xl'
+                      : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 max-w-md sm:max-w-none'
+                }`}
+                style={{ width: '100%', marginInline: 'auto' }}
+              >
                 {filteredTemplates.map((template, i) => (
                   <TemplateCard
                     key={template.id}
