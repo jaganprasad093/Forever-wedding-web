@@ -118,9 +118,12 @@ export default function FeaturesSection() {
         className="absolute bottom-10 -left-40 w-96 h-96 bg-rose-200/25 rounded-full blur-3xl pointer-events-none"
       />
 
-      <div className="max-w-7xl mx-auto relative z-10">
+      <div className="max-w-7xl mx-auto relative z-10" style={{ width: '100%', marginInline: 'auto' }}>
         {/* ───────── Header ───────── */}
-        <div className="text-center max-w-3xl mx-auto !mb-14 sm:!mb-20">
+        <div
+          className="flex flex-col items-center text-center max-w-3xl mx-auto !mb-14 sm:!mb-20"
+          style={{ width: '100%', marginInline: 'auto' }}
+        >
           <motion.div
             custom={0}
             variants={fadeUp}
@@ -143,7 +146,7 @@ export default function FeaturesSection() {
             variants={fadeUp}
             initial="hidden"
             animate={isInView ? 'visible' : 'hidden'}
-            className="font-serif text-3xl sm:text-5xl lg:text-6xl font-normal text-stone-900 leading-[1.15] !mb-5 sm:!mb-6"
+            className="font-serif text-3xl sm:text-5xl lg:text-6xl font-normal text-stone-900 leading-[1.15] !mb-5 sm:!mb-6 text-center text-balance"
           >
             Everything You Need For An{' '}
             <span className="italic text-amber-800 font-normal">Unforgettable</span> Celebration
@@ -153,7 +156,8 @@ export default function FeaturesSection() {
             initial={{ scaleX: 0 }}
             animate={isInView ? { scaleX: 1 } : {}}
             transition={{ duration: 0.8, delay: 0.4, ease: 'easeOut' }}
-            className="h-px w-24 mx-auto bg-gradient-to-r from-transparent via-amber-400 to-transparent !mb-5 sm:!mb-6"
+            className="h-px w-24 bg-gradient-to-r from-transparent via-amber-400 to-transparent !mb-5 sm:!mb-6"
+            style={{ marginInline: 'auto' }}
           />
 
           <motion.p
@@ -161,7 +165,8 @@ export default function FeaturesSection() {
             variants={fadeUp}
             initial="hidden"
             animate={isInView ? 'visible' : 'hidden'}
-            className="text-stone-600 text-base sm:text-lg font-sans max-w-2xl mx-auto leading-relaxed !px-2"
+            className="text-stone-600 text-base sm:text-lg font-sans max-w-2xl leading-relaxed !px-2 text-center text-balance"
+            style={{ marginInline: 'auto' }}
           >
             Far beyond a static PDF. Deliver a cinematic, interactive wedding website
             that excites your guests and eliminates wedding planning chaos.
@@ -169,7 +174,10 @@ export default function FeaturesSection() {
         </div>
 
         {/* ───────── Bento grid ───────── */}
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-5 sm:gap-6 lg:gap-8">
+        <div
+          className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-5 sm:gap-6 lg:gap-8"
+          style={{ width: '100%', marginInline: 'auto' }}
+        >
 
           {/* 1 · RSVP */}
           <FeatureCard index={0} inView={isInView} className="md:col-span-2 lg:col-span-2">
