@@ -92,9 +92,12 @@ export default function HowItWorksSection() {
         className="absolute bottom-20 -right-40 w-96 h-96 bg-rose-200/20 rounded-full blur-3xl pointer-events-none"
       />
 
-      <div className="relative z-10 max-w-7xl mx-auto">
+      <div className="relative z-10 max-w-7xl mx-auto" style={{ width: '100%', marginInline: 'auto' }}>
         {/* ───────── Header ───────── */}
-        <div className="text-center max-w-3xl mx-auto !mb-14 sm:!mb-20">
+        <div
+          className="flex flex-col items-center text-center max-w-3xl mx-auto !mb-14 sm:!mb-20"
+          style={{ width: '100%', marginInline: 'auto' }}
+        >
           <motion.div
             custom={0}
             variants={fadeUp}
@@ -117,7 +120,7 @@ export default function HowItWorksSection() {
             variants={fadeUp}
             initial="hidden"
             animate={state}
-            className="font-serif text-3xl sm:text-5xl lg:text-6xl font-normal text-stone-900 leading-[1.15] !mb-5 sm:!mb-6"
+            className="font-serif text-3xl sm:text-5xl lg:text-6xl font-normal text-stone-900 leading-[1.15] !mb-5 sm:!mb-6 text-center text-balance"
           >
             From Start to Shared in{' '}
             <span className="italic text-amber-800 font-normal">Under 5 Minutes</span>
@@ -127,7 +130,8 @@ export default function HowItWorksSection() {
             initial={{ scaleX: 0 }}
             animate={isInView ? { scaleX: 1 } : {}}
             transition={{ duration: 0.8, delay: 0.4, ease: 'easeOut' }}
-            className="h-px w-24 mx-auto bg-gradient-to-r from-transparent via-amber-400 to-transparent !mb-5 sm:!mb-6"
+            className="h-px w-24 bg-gradient-to-r from-transparent via-amber-400 to-transparent !mb-5 sm:!mb-6"
+            style={{ marginInline: 'auto' }}
           />
 
           <motion.p
@@ -135,7 +139,8 @@ export default function HowItWorksSection() {
             variants={fadeUp}
             initial="hidden"
             animate={state}
-            className="text-stone-600 text-base sm:text-lg font-sans max-w-2xl mx-auto leading-relaxed !px-2"
+            className="text-stone-600 text-base sm:text-lg font-sans max-w-2xl leading-relaxed !px-2 text-center text-balance"
+            style={{ marginInline: 'auto' }}
           >
             No technical skills or design software needed. Our streamlined creator takes you from blank canvas to published luxury invitation seamlessly.
           </motion.p>

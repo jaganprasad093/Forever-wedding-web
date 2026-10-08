@@ -337,9 +337,12 @@ export default function TemplatesPreviewSection() {
         className="absolute bottom-20 -left-40 w-96 h-96 bg-rose-100/50 rounded-full blur-3xl pointer-events-none"
       />
 
-      <div className="relative z-10 max-w-7xl mx-auto">
+      <div className="relative z-10 max-w-7xl mx-auto" style={{ width: '100%', marginInline: 'auto' }}>
         {/* ───────── Header ───────── */}
-        <div className="text-center max-w-3xl mx-auto !mb-10 sm:!mb-14">
+        <div
+          className="flex flex-col items-center text-center max-w-3xl mx-auto !mb-10 sm:!mb-14"
+          style={{ width: '100%', marginInline: 'auto' }}
+        >
           <motion.div
             custom={0}
             variants={fadeUp}
@@ -362,7 +365,7 @@ export default function TemplatesPreviewSection() {
             variants={fadeUp}
             initial="hidden"
             animate={state}
-            className="font-serif text-3xl sm:text-5xl lg:text-6xl font-normal text-stone-900 leading-[1.15] !mb-5 sm:!mb-6"
+            className="font-serif text-3xl sm:text-5xl lg:text-6xl font-normal text-stone-900 leading-[1.15] !mb-5 sm:!mb-6 text-center text-balance"
           >
             Choose Your <span className="italic text-amber-800 font-normal">Aesthetic</span>
           </motion.h2>
@@ -371,7 +374,8 @@ export default function TemplatesPreviewSection() {
             initial={{ scaleX: 0 }}
             animate={isInView ? { scaleX: 1 } : {}}
             transition={{ duration: 0.8, delay: 0.4, ease: 'easeOut' }}
-            className="h-px w-24 mx-auto bg-gradient-to-r from-transparent via-amber-400 to-transparent !mb-5 sm:!mb-6"
+            className="h-px w-24 bg-gradient-to-r from-transparent via-amber-400 to-transparent !mb-5 sm:!mb-6"
+            style={{ marginInline: 'auto' }}
           />
 
           <motion.p
@@ -379,7 +383,8 @@ export default function TemplatesPreviewSection() {
             variants={fadeUp}
             initial="hidden"
             animate={state}
-            className="text-stone-600 text-base sm:text-lg font-sans max-w-2xl mx-auto leading-relaxed !mb-8 sm:!mb-10 !px-2"
+            className="text-stone-600 text-base sm:text-lg font-sans max-w-2xl leading-relaxed !mb-8 sm:!mb-10 !px-2 text-center text-balance"
+            style={{ marginInline: 'auto' }}
           >
             Every template is crafted with high-definition animations, mobile responsiveness,
             and colour palettes you can make your own — try a swatch on any card.
@@ -418,7 +423,7 @@ export default function TemplatesPreviewSection() {
             })}
           </motion.div>
 
-          <p className="text-xs text-stone-400 !mt-4" aria-live="polite">
+          <p className="text-xs text-stone-400 !mt-4 text-center" aria-live="polite">
             Showing {filteredTemplates.length} of {templateList.length} themes
           </p>
         </div>
@@ -426,7 +431,14 @@ export default function TemplatesPreviewSection() {
         {/* ───────── Cards: swipe carousel on phones, grid from sm ───────── */}
         <motion.div
           layout
-          className="flex sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-7 lg:gap-8 overflow-x-auto sm:overflow-visible snap-x snap-mandatory sm:snap-none -mx-5 sm:mx-0 !px-5 sm:!px-0 !pt-3 !pb-6 sm:!pt-0 sm:!pb-0 !mb-4 sm:!mb-16 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          className={`flex sm:grid gap-5 sm:gap-7 lg:gap-8 overflow-x-auto sm:overflow-visible snap-x snap-mandatory sm:snap-none -mx-5 sm:mx-0 !px-5 sm:!px-0 !pt-3 !pb-6 sm:!pt-0 sm:!pb-0 !mb-4 sm:!mb-16 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${
+            filteredTemplates.length === 1
+              ? 'justify-center sm:grid-cols-1 sm:max-w-md'
+              : filteredTemplates.length === 2
+                ? 'sm:grid-cols-2 sm:max-w-3xl'
+                : 'sm:grid-cols-2 lg:grid-cols-4'
+          }`}
+          style={{ width: '100%', marginInline: 'auto' }}
         >
           <AnimatePresence mode="popLayout">
             {filteredTemplates.map((template, idx) => (
@@ -453,7 +465,8 @@ export default function TemplatesPreviewSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.9 }}
-          className="text-center"
+          className="flex justify-center text-center"
+          style={{ width: '100%', marginInline: 'auto' }}
         >
           <Link
             href="/templates"
