@@ -238,7 +238,7 @@ function ScratchToRevealCard({
   const handleSaveDate = () => {
     if (!date) return
     const calText = `Wedding of ${couple}\nDate: ${formatDate(date)}\nVenue: ${venue || ''}`
-    navigator.clipboard?.writeText(calText).catch(() => {})
+    navigator.clipboard?.writeText(calText).catch(() => { })
     setCopied(true)
     setTimeout(() => setCopied(false), 2500)
   }
@@ -291,9 +291,8 @@ function ScratchToRevealCard({
             onMouseMove={scratch}
             onTouchMove={scratch}
             onClick={scratch}
-            className={`absolute inset-0 cursor-pointer touch-none transition-opacity duration-700 ${
-              isRevealed ? 'opacity-0 pointer-events-none' : 'opacity-100'
-            }`}
+            className={`absolute inset-0 cursor-pointer touch-none transition-opacity duration-700 ${isRevealed ? 'opacity-0 pointer-events-none' : 'opacity-100'
+              }`}
           />
         </div>
 
@@ -481,7 +480,7 @@ function RomanticMusicPlayer({ music }: { music?: MusicItem | null }) {
       const a = audioRef.current
       if (a) {
         a.volume = 0.5
-        a.play().catch(() => {})
+        a.play().catch(() => { })
       }
       cleanup()
     }
@@ -493,7 +492,7 @@ function RomanticMusicPlayer({ music }: { music?: MusicItem | null }) {
   const toggle = () => {
     const a = audioRef.current
     if (!a) return
-    if (a.paused) a.play().catch(() => {})
+    if (a.paused) a.play().catch(() => { })
     else a.pause()
   }
 
