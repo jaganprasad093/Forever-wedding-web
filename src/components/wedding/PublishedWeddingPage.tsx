@@ -27,6 +27,9 @@ import {
 import { WeddingData, MusicItem } from '@/types/wedding'
 import { formatDate, formatTime, getCountdown } from '@/lib/utils'
 import RSVPForm from '@/components/rsvp/RSVPForm'
+import FloralRomanticTemplate from './FloralRomanticTemplate'
+import RoyalGoldTemplate from './RoyalGoldTemplate'
+import MinimalWhiteTemplate from './MinimalWhiteTemplate'
 
 type Photo = NonNullable<WeddingData['gallery']>[number]
 type WeddingEvent = NonNullable<WeddingData['events']>[number]
@@ -738,9 +741,9 @@ function Gallery({ photos }: { photos: Photo[] }) {
   )
 }
 
-/* ───────────────────────── Page ───────────────────────── */
+/* ───────────────────────── Kerala Traditional Design ───────────────────────── */
 
-export default function PublishedWeddingPage({ wedding }: { wedding: WeddingData }) {
+function KeralaTraditionalTemplate({ wedding }: { wedding: WeddingData }) {
   const theme = wedding.theme
   const primary = theme.primaryColor || '#92400e'
   const bg = theme.backgroundColor || '#fffbeb'
@@ -1140,4 +1143,37 @@ export default function PublishedWeddingPage({ wedding }: { wedding: WeddingData
       </div>
     </MotionConfig>
   )
+}
+
+/* ───────────────────────── Dispatcher ───────────────────────── */
+
+export default function PublishedWeddingPage({ wedding }: { wedding: WeddingData }) {
+  const templateSlug = wedding.slug?.toLowerCase() || ''
+  const templateId = wedding.templateId?.toLowerCase() || ''
+
+  if (
+    templateId === 'template-floral-romantic' ||
+    templateSlug.includes('floral-romantic') ||
+    templateSlug.includes('floral')
+  ) {
+    return <FloralRomanticTemplate wedding={wedding} />
+  }
+
+  if (
+    templateId === 'template-royal-gold' ||
+    templateSlug.includes('royal-gold') ||
+    templateSlug.includes('royal')
+  ) {
+    return <RoyalGoldTemplate wedding={wedding} />
+  }
+
+  if (
+    templateId === 'template-minimal-white' ||
+    templateSlug.includes('minimal-white') ||
+    templateSlug.includes('minimal')
+  ) {
+    return <MinimalWhiteTemplate wedding={wedding} />
+  }
+
+  return <KeralaTraditionalTemplate wedding={wedding} />
 }

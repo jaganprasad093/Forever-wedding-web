@@ -113,6 +113,131 @@ const fadeUp = {
   }),
 }
 
+/* ─── Bespoke preview design per template ────────────────────────────── */
+function TemplateCardPreviewContent({
+  template,
+  accent,
+}: {
+  template: Template
+  accent?: string
+}) {
+  // 1. Kerala Traditional
+  if (template.slug === 'kerala-traditional') {
+    return (
+      <div className="text-center w-full px-1">
+        <div
+          style={accent ? { backgroundColor: accent } : undefined}
+          className="w-12 h-12 mx-auto rounded-full bg-amber-800 text-amber-100 flex items-center justify-center text-xs font-serif font-bold mb-3 shadow-md border-2 border-amber-300 transition-colors"
+        >
+          ❖ J &amp; A
+        </div>
+        <p className="text-[8px] uppercase tracking-[0.35em] text-amber-900 font-semibold mb-1 opacity-90">
+          Kerala Temple Heritage
+        </p>
+        <h4
+          style={accent ? { color: accent } : undefined}
+          className="font-serif text-2xl sm:text-[25px] font-normal text-amber-950 leading-tight mb-2 transition-colors"
+        >
+          {template.sampleGroom.split(' ')[0]} &amp; {template.sampleBride.split(' ')[0]}
+        </h4>
+        <div className="w-14 h-px bg-amber-400 mx-auto my-1.5 opacity-60" />
+        <p className="text-[10px] text-amber-900 tracking-wider font-medium">{template.date}</p>
+        <p className="text-[9px] text-amber-800/70 mt-0.5">{template.venue}</p>
+        <div className="mt-2.5 inline-block text-[9px] uppercase tracking-wider text-amber-900 bg-amber-200/60 px-2.5 py-0.5 rounded-full border border-amber-400/50 shadow-xs">
+          Kasavu Gold Edition
+        </div>
+      </div>
+    )
+  }
+
+  // 2. Royal Midnight Gold
+  if (template.slug === 'royal-gold') {
+    return (
+      <div className="text-center w-full px-1">
+        <div
+          style={accent ? { borderColor: accent } : undefined}
+          className="w-12 h-12 mx-auto rounded-full bg-stone-900 border-2 border-amber-400 text-amber-300 flex items-center justify-center text-base shadow-xl shadow-amber-500/20 mb-3"
+        >
+          👑
+        </div>
+        <p className="text-[8px] uppercase tracking-[0.35em] text-amber-300 font-semibold mb-1 opacity-90">
+          Royal Proclamation
+        </p>
+        <h4
+          style={accent ? { color: accent } : undefined}
+          className="font-serif text-2xl sm:text-[25px] font-normal bg-gradient-to-r from-amber-200 via-amber-300 to-amber-500 bg-clip-text text-transparent leading-tight mb-2"
+        >
+          {template.sampleGroom.split(' ')[0]} &amp; {template.sampleBride.split(' ')[0]}
+        </h4>
+        <div className="w-16 h-px bg-gradient-to-r from-transparent via-amber-400 to-transparent mx-auto my-1.5" />
+        <p className="text-[10px] text-amber-300/90 tracking-wider font-medium">{template.date}</p>
+        <p className="text-[9px] text-amber-400/60 mt-0.5">{template.venue}</p>
+        <div className="mt-2.5 inline-block text-[9px] uppercase tracking-wider text-amber-300 bg-amber-950/70 px-2.5 py-0.5 rounded-full border border-amber-500/50 shadow-inner">
+          ⚜️ Imperial Decree
+        </div>
+      </div>
+    )
+  }
+
+  // 3. Floral Romance
+  if (template.slug === 'floral-romantic') {
+    return (
+      <div className="text-center w-full px-1">
+        <div
+          style={accent ? { backgroundColor: accent } : undefined}
+          className="w-12 h-12 mx-auto rounded-full bg-rose-600 text-white flex items-center justify-center text-sm shadow-md shadow-rose-600/30 mb-3 transition-colors"
+        >
+          💖
+        </div>
+        <p className="text-[8px] italic font-serif text-rose-800 font-medium mb-1 opacity-90">
+          You are invited to our special moment...
+        </p>
+        <h4
+          style={accent ? { color: accent } : undefined}
+          className="font-serif italic text-2xl sm:text-[26px] font-medium text-rose-950 leading-tight mb-2 transition-colors"
+        >
+          {template.sampleGroom.split(' ')[0]} &amp; {template.sampleBride.split(' ')[0]}
+        </h4>
+        <div className="flex items-center justify-center gap-1.5 my-1 text-rose-300">
+          <span className="h-px w-6 bg-rose-300" />
+          <span className="text-[9px]">✿</span>
+          <span className="h-px w-6 bg-rose-300" />
+        </div>
+        <p className="text-[10px] text-rose-800 tracking-wider font-medium">{template.date}</p>
+        <p className="text-[9px] text-rose-600/70 mt-0.5">{template.venue}</p>
+        <div className="mt-2.5 inline-flex items-center gap-1 text-[9px] text-rose-800 bg-white/85 px-2.5 py-0.5 rounded-full border border-rose-300 shadow-xs">
+          <span>✨ Scratch to Reveal</span>
+        </div>
+      </div>
+    )
+  }
+
+  // 4. Minimal Editorial
+  return (
+    <div className="text-left w-full px-2">
+      <div className="flex items-center justify-between text-[8px] font-mono uppercase tracking-widest text-stone-400 border-b border-stone-200 pb-1.5 mb-3">
+        <span>VOL. 24 // INVITATION</span>
+        <span>ISSUE 04</span>
+      </div>
+      <h4
+        style={accent ? { color: accent } : undefined}
+        className="font-serif text-2xl sm:text-[25px] font-light text-stone-900 leading-tight tracking-tight mb-1 transition-colors"
+      >
+        <span className="block">{template.sampleGroom.split(' ')[0]}</span>
+        <span className="block font-sans text-xs italic text-stone-400 font-extralight">&amp;</span>
+        <span className="block">{template.sampleBride.split(' ')[0]}</span>
+      </h4>
+      <div className="pt-2 border-t border-stone-200 mt-2 flex items-center justify-between text-[9px] font-mono text-stone-500 uppercase tracking-wider">
+        <span>{template.date.split(',')[0]}</span>
+        <span>{template.venue.split(',')[0]}</span>
+      </div>
+      <div className="mt-2 text-[8px] font-mono text-stone-400 uppercase tracking-widest">
+        18.9220° N, 72.8347° E
+      </div>
+    </div>
+  )
+}
+
 /* ─── Single template card (owns its colour + tilt state) ────────────── */
 function TemplateCard({
   template,
@@ -198,31 +323,9 @@ function TemplateCard({
           <motion.div
             animate={reduceMotion ? {} : { y: [0, -5, 0] }}
             transition={{ duration: 4 + idx * 0.4, repeat: Infinity, ease: 'easeInOut', delay: idx * 0.3 }}
-            className="text-center"
+            className="w-full flex items-center justify-center"
           >
-            <motion.div
-              whileHover={{ rotate: 12, scale: 1.1 }}
-              style={accent ? { backgroundColor: accent } : undefined}
-              className={`w-12 h-12 mx-auto rounded-full ${previewTheme.seal} flex items-center justify-center text-xs font-serif font-bold !mb-4 shadow-md transition-colors duration-300`}
-            >
-              {template.sampleGroom[0]} &amp; {template.sampleBride[0]}
-            </motion.div>
-
-            <p className={`text-[9px] uppercase tracking-[0.3em] font-semibold ${previewTheme.subAccent} !mb-2 opacity-80`}>
-              Invitation
-            </p>
-
-            <h4
-              style={accent ? { color: accent } : undefined}
-              className={`font-serif text-2xl sm:text-[26px] font-normal ${previewTheme.accent} leading-tight !mb-2 transition-colors duration-300`}
-            >
-              {template.sampleGroom.split(' ')[0]} &amp; {template.sampleBride.split(' ')[0]}
-            </h4>
-
-            <p className={`text-[10px] ${previewTheme.subAccent} tracking-wider font-medium opacity-80`}>
-              {template.date}
-            </p>
-            <p className={`text-[10px] ${previewTheme.subAccent} opacity-60 !mt-1`}>{template.venue}</p>
+            <TemplateCardPreviewContent template={template} accent={accent} />
           </motion.div>
         </motion.div>
 
