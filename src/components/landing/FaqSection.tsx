@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { useRef, useState } from 'react'
+import { motion, AnimatePresence, useInView } from 'framer-motion'
 import { ChevronDown, HelpCircle, MessageCircle } from 'lucide-react'
 import Link from 'next/link'
 
@@ -38,7 +38,19 @@ const faqs = [
   },
 ]
 
+/* ─── Animation variants ─────────────────────────────────────────────── */
+const fadeUp = {
+  hidden: { opacity: 0, y: 24 },
+  visible: (i = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.55, delay: i * 0.1, ease: 'easeOut' as const },
+  }),
+}
+
 export default function FaqSection() {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: '-80px' })
   const [openIndex, setOpenIndex] = useState<number | null>(0)
 
   const toggle = (idx: number) => {
@@ -46,88 +58,188 @@ export default function FaqSection() {
   }
 
   return (
-    <section id="faq" className="py-24 sm:py-32 px-4 sm:px-6 lg:px-8 bg-stone-50/50 relative">
-      <div className="max-w-4xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-100/70 border border-amber-200 text-amber-800 text-xs font-semibold uppercase tracking-widest mb-4">
-            <HelpCircle className="w-3.5 h-3.5 text-amber-600" />
+    <section
+      id="faq"
+      ref={ref}
+      className="relative overflow-hidden bg-stone-50/50 !py-20 sm:!py-28 lg:!py-32 !px-5 sm:!px-8 lg:!px-12"
+    >
+      {/* Soft background glows */}
+      <motion.div
+        animate={{ scale: [1, 1.15, 1], opacity: [0.7, 1, 0.7] }}
+        transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
+        className="absolute -top-20 -left-32 w-80 h-80 bg-amber-200/25 rounded-full blur-3xl pointer-events-none"
+      />
+      <motion.div
+        animate={{ scale: [1.1, 1, 1.1], opacity: [1, 0.7, 1] }}
+        transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
+        className="absolute -bottom-20 -right-32 w-80 h-80 bg-rose-200/20 rounded-full blur-3xl pointer-events-none"
+      />
+
+      <div className="relative z-10 max-w-3xl lg:max-w-4xl mx-auto">
+        {/* ───────── Header ───────── */}
+        <div className="text-center !mb-12 sm:!mb-16">
+          <motion.div
+            custom={0}
+            variants={fadeUp}
+            initial="hidden"
+            animate={isInView ? 'visible' : 'hidden'}
+            className="inline-flex items-center gap-2 !px-4 !py-1.5 rounded-full bg-amber-100/70 border border-amber-200 text-amber-800 text-[11px] sm:text-xs font-semibold uppercase tracking-widest !mb-6"
+          >
+            <motion.span
+              animate={{ rotate: [0, 14, -14, 0] }}
+              transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+              className="inline-flex"
+            >
+              <HelpCircle className="w-3.5 h-3.5 text-amber-600" />
+            </motion.span>
             Frequently Asked Questions
-          </div>
+          </motion.div>
 
-          <h2 className="font-serif text-3xl sm:text-5xl font-normal text-stone-900 leading-tight mb-4">
-            Everything You Need To <span className="italic text-amber-800 font-normal">Know</span>
-          </h2>
+          <motion.h2
+            custom={1}
+            variants={fadeUp}
+            initial="hidden"
+            animate={isInView ? 'visible' : 'hidden'}
+            className="font-serif text-3xl sm:text-5xl font-normal text-stone-900 leading-[1.15] !mb-5"
+          >
+            Everything You Need To{' '}
+            <span className="italic text-amber-800 font-normal">Know</span>
+          </motion.h2>
 
-          <p className="text-stone-600 text-base sm:text-lg font-sans max-w-xl mx-auto">
+          <motion.div
+            initial={{ scaleX: 0 }}
+            animate={isInView ? { scaleX: 1 } : {}}
+            transition={{ duration: 0.8, delay: 0.4, ease: 'easeOut' }}
+            className="h-px w-24 mx-auto bg-gradient-to-r from-transparent via-amber-400 to-transparent !mb-5"
+          />
+
+          <motion.p
+            custom={3}
+            variants={fadeUp}
+            initial="hidden"
+            animate={isInView ? 'visible' : 'hidden'}
+            className="text-stone-600 text-base sm:text-lg font-sans max-w-xl mx-auto leading-relaxed !px-2"
+          >
             Have questions about digital invitations? Here are answers to what couples ask us most.
-          </p>
+          </motion.p>
         </div>
 
-        {/* FAQ Accordion List */}
-        <div className="space-y-4 mb-14">
+        {/* ───────── Accordion ───────── */}
+        <div className="flex flex-col gap-3 sm:gap-4 !mb-12 sm:!mb-14">
           {faqs.map((faq, idx) => {
             const isOpen = openIndex === idx
 
             return (
-              <div
+              <motion.div
                 key={idx}
-                className="rounded-2xl bg-white border border-stone-200/80 overflow-hidden shadow-xs transition-all duration-200"
+                custom={idx}
+                variants={{
+                  hidden: { opacity: 0, y: 30 },
+                  visible: (i: number) => ({
+                    opacity: 1,
+                    y: 0,
+                    transition: { duration: 0.5, delay: 0.3 + i * 0.08, ease: 'easeOut' as const },
+                  }),
+                }}
+                initial="hidden"
+                animate={isInView ? 'visible' : 'hidden'}
+                className={`rounded-2xl bg-white border overflow-hidden transition-[border-color,box-shadow] duration-300 ${isOpen
+                  ? 'border-amber-300/80 shadow-lg shadow-amber-900/5'
+                  : 'border-stone-200/80 shadow-xs hover:border-amber-200 hover:shadow-md'
+                  }`}
               >
                 <button
                   onClick={() => toggle(idx)}
-                  className="w-full p-5 sm:p-6 text-left flex items-center justify-between gap-4 cursor-pointer hover:bg-amber-50/30 transition-colors"
+                  id={`faq-btn-${idx}`}
                   aria-expanded={isOpen}
+                  aria-controls={`faq-panel-${idx}`}
+                  className="w-full !px-5 !py-5 sm:!px-7 sm:!py-6 text-left flex items-center justify-between gap-4 sm:gap-5 cursor-pointer hover:bg-amber-50/30 transition-colors"
                 >
-                  <span className="font-serif text-lg sm:text-xl font-medium text-stone-900">
-                    {faq.question}
+                  <span className="flex items-center gap-3.5 sm:gap-5 min-w-0">
+                    <span
+                      className={`hidden sm:block font-serif text-sm tabular-nums transition-colors duration-300 ${isOpen ? 'text-amber-600' : 'text-stone-300'
+                        }`}
+                    >
+                      {String(idx + 1).padStart(2, '0')}
+                    </span>
+                    <span className="font-serif text-base sm:text-xl font-medium text-stone-900 leading-snug">
+                      {faq.question}
+                    </span>
                   </span>
-                  <div
-                    className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-transform duration-300 ${
-                      isOpen ? 'rotate-180 bg-amber-100 text-amber-800' : 'bg-stone-100 text-stone-500'
-                    }`}
+
+                  <motion.span
+                    animate={{ rotate: isOpen ? 180 : 0 }}
+                    transition={{ duration: 0.3 }}
+                    className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 transition-colors duration-300 ${isOpen ? 'bg-amber-100 text-amber-800' : 'bg-stone-100 text-stone-500'
+                      }`}
                   >
                     <ChevronDown className="w-4 h-4" />
-                  </div>
+                  </motion.span>
                 </button>
 
                 <AnimatePresence initial={false}>
                   {isOpen && (
                     <motion.div
+                      id={`faq-panel-${idx}`}
+                      role="region"
+                      aria-labelledby={`faq-btn-${idx}`}
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: 'auto', opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3, ease: 'easeInOut' }}
+                      transition={{ duration: 0.35, ease: 'easeInOut' }}
                     >
-                      <div className="px-5 sm:px-6 pb-6 text-stone-600 text-sm sm:text-base leading-relaxed font-sans border-t border-stone-100 pt-4">
+                      <motion.div
+                        initial={{ y: -8 }}
+                        animate={{ y: 0 }}
+                        transition={{ duration: 0.35, delay: 0.05 }}
+                        className="!mx-5 sm:!mx-7 !pt-4 !pb-6 sm:!pb-7 text-stone-600 text-sm sm:text-base leading-relaxed sm:leading-7 font-sans border-t border-stone-100 sm:!pl-9"
+                      >
                         {faq.answer}
-                      </div>
+                      </motion.div>
                     </motion.div>
                   )}
                 </AnimatePresence>
-              </div>
+              </motion.div>
             )
           })}
         </div>
 
-        {/* Support Callout */}
-        <div className="text-center p-6 rounded-2xl bg-white border border-stone-200/80 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="text-left flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-amber-100 text-amber-800 flex items-center justify-center shrink-0">
+        {/* ───────── Support callout ───────── */}
+        <motion.div
+          custom={0}
+          variants={{
+            hidden: { opacity: 0, y: 30 },
+            visible: { opacity: 1, y: 0, transition: { duration: 0.6, delay: 0.9, ease: 'easeOut' } },
+          }}
+          initial="hidden"
+          animate={isInView ? 'visible' : 'hidden'}
+          className="rounded-2xl bg-white border border-stone-200/80 shadow-xs !p-6 sm:!px-8 sm:!py-7 flex flex-col sm:flex-row items-center sm:justify-between gap-5 sm:gap-6 text-center sm:text-left"
+        >
+          <div className="flex flex-col sm:flex-row items-center gap-4">
+            <motion.div
+              animate={{ scale: [1, 1.08, 1] }}
+              transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
+              className="w-12 h-12 rounded-full bg-amber-100 text-amber-800 flex items-center justify-center shrink-0"
+            >
               <MessageCircle className="w-5 h-5" />
-            </div>
+            </motion.div>
             <div>
-              <p className="text-sm font-semibold text-stone-900">Still have a question?</p>
-              <p className="text-xs text-stone-500">We are here to help you make your wedding invitation seamless.</p>
+              <p className="text-sm sm:text-base font-semibold text-stone-900 !mb-1">Still have a question?</p>
+              <p className="text-xs sm:text-sm text-stone-500 leading-relaxed">
+                We are here to help you make your wedding invitation seamless.
+              </p>
             </div>
           </div>
-          <Link
-            href="/register"
-            className="text-xs uppercase tracking-wider font-semibold bg-stone-900 text-white hover:bg-stone-800 px-5 py-2.5 rounded-full transition-colors shrink-0"
-          >
-            Get In Touch
-          </Link>
-        </div>
+
+          <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }} className="w-full sm:w-auto shrink-0">
+            <Link
+              href="/register"
+              className="block text-center text-xs uppercase tracking-wider font-semibold bg-stone-900 text-white hover:bg-stone-800 !px-7 !py-3.5 rounded-full transition-colors"
+            >
+              Get In Touch
+            </Link>
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   )

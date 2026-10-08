@@ -68,7 +68,7 @@ function Field({
 }) {
   return (
     <div className="flex flex-col gap-2">
-      <label className="text-sm font-medium text-stone-700 select-none">
+      <label className="text-sm font-medium text-stone-700 select-none !px-0.5">
         {label}
       </label>
       {children}
@@ -76,7 +76,7 @@ function Field({
         <motion.p
           initial={{ opacity: 0, y: -4 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-xs text-red-600 font-medium"
+          className="text-xs text-red-600 font-medium !px-0.5 !mt-0.5"
         >
           {error}
         </motion.p>
@@ -222,8 +222,11 @@ function RegisterContent() {
 
   const webmail = getWebmailShortcut(submittedEmail)
 
+  // Padding uses `!` so it can't be zeroed by global resets.
   const inputBase =
-    'w-full h-11 !px-4 bg-white border border-stone-200 rounded-lg text-sm text-stone-900 placeholder:text-stone-400 focus:outline-none focus:border-[#8c6b48] focus:ring-1 focus:ring-[#8c6b48]/20 transition-colors'
+    'w-full h-12 !px-4 bg-white border border-stone-200 rounded-xl text-sm text-stone-900 placeholder:text-stone-400 focus:outline-none focus:border-[#8c6b48] focus:ring-2 focus:ring-[#8c6b48]/15 transition-colors'
+  // Extra right padding so text never runs under the eye toggle
+  const inputWithToggle = `${inputBase} !pr-12`
 
   /* ────────────────────────────────────────────────────────────────
       EMAIL CONFIRMATION SUCCESS VIEW
@@ -237,12 +240,12 @@ function RegisterContent() {
         </div>
 
         {/* ── Fixed top bar: back link ── */}
-        <header className="fixed top-0 left-0 right-0 z-50 px-6 sm:px-10 py-5 pointer-events-none">
+        <header className="fixed top-0 left-0 right-0 z-50 !px-5 sm:!px-10 !py-5 pointer-events-none">
           <Link
             href="/"
-            className="pointer-events-auto group inline-flex items-center gap-2 text-xs font-medium text-stone-500 hover:text-stone-900 transition-colors duration-200"
+            className="pointer-events-auto group inline-flex items-center gap-2.5 text-xs font-medium text-stone-500 hover:text-stone-900 transition-colors duration-200"
           >
-            <span className="flex items-center justify-center w-7 h-7 rounded-full border border-stone-200 bg-white/70 group-hover:border-[#cbb8a3] group-hover:bg-[#f8f3ed] transition-all duration-200">
+            <span className="flex items-center justify-center w-8 h-8 rounded-full border border-stone-200 bg-white/70 group-hover:border-[#cbb8a3] group-hover:bg-[#f8f3ed] transition-all duration-200">
               <ArrowLeft className="w-3.5 h-3.5 text-stone-400 group-hover:text-[#8c6b48] group-hover:-translate-x-0.5 transition-all duration-200" />
             </span>
             <span>Back to ForeverVows</span>
@@ -250,14 +253,14 @@ function RegisterContent() {
         </header>
 
         {/* ── Scrollable center area ── */}
-        <main className="flex-1 flex flex-col items-center justify-center px-4 sm:px-6 pt-24 sm:pt-28 pb-12 w-full">
+        <main className="flex-1 flex flex-col items-center justify-center !px-5 sm:!px-6 !pt-28 sm:!pt-32 !pb-16 w-full">
           {/* ── Ornament header ── */}
           <motion.div
             variants={fadeUp}
             initial="hidden"
             animate="visible"
             custom={0}
-            className="flex flex-col items-center text-center gap-3.5 mb-8 sm:mb-10 px-4"
+            className="flex flex-col items-center text-center gap-4 !mb-10 sm:!mb-12 !px-4"
           >
             {/* Fine rule + star ornament */}
             <div className="flex items-center justify-center gap-3">
@@ -267,7 +270,7 @@ function RegisterContent() {
             </div>
 
             {/* Pill badge */}
-            <div className="inline-flex items-center gap-2.5 !px-5 !py-1 rounded-full border border-[#d8c8b4]/80 bg-[#f7f2ea]/90 text-[#856543] !text-xs sm:!text-sm font-medium tracking-[0.18em] uppercase shadow-xs">
+            <div className="inline-flex items-center gap-2.5 !px-5 !py-1.5 rounded-full border border-[#d8c8b4]/80 bg-[#f7f2ea]/90 text-[#856543] !text-xs sm:!text-sm font-medium tracking-[0.18em] uppercase shadow-xs">
               <span className="text-[9px] leading-none text-[#a07c57]">♦</span>
               <span>Account Verification</span>
             </div>
@@ -286,9 +289,9 @@ function RegisterContent() {
             className="w-full max-w-[500px]"
           >
             <div className="w-full bg-white/95 backdrop-blur-xs rounded-2xl sm:rounded-3xl border border-[#ede7de] shadow-[0_12px_44px_-10px_rgba(0,0,0,0.06),0_1px_3px_rgba(0,0,0,0.02)] overflow-hidden">
-              <div className="!px-7 !py-8 sm:!px-10 sm:!py-9 text-center">
+              <div className="!px-6 !py-9 sm:!px-10 sm:!py-11 text-center">
                 {/* Header Icon */}
-                <div className="relative w-16 h-16 bg-[#f7f2ea] border border-[#e5dacf] rounded-full flex items-center justify-center mx-auto mb-5 shadow-xs">
+                <div className="relative w-16 h-16 bg-[#f7f2ea] border border-[#e5dacf] rounded-full flex items-center justify-center mx-auto !mb-6 shadow-xs">
                   <Mail className="w-8 h-8 text-[#8c6b48]" />
                   <span className="absolute -top-1 -right-1 flex h-4 w-4">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#8c6b48] opacity-60"></span>
@@ -296,44 +299,44 @@ function RegisterContent() {
                   </span>
                 </div>
 
-                <h1 className="font-serif !text-2xl sm:!text-3xl font-normal text-stone-900 tracking-tight !leading-tight mb-2">
+                <h1 className="font-serif !text-2xl sm:!text-3xl font-normal text-stone-900 tracking-tight !leading-tight !mb-3">
                   Check your email
                 </h1>
 
-                <p className="text-stone-500 text-sm leading-relaxed mb-6">
+                <p className="text-stone-500 text-sm leading-relaxed !mb-8">
                   We&apos;ve sent an activation link to{' '}
                   <span className="font-semibold text-stone-900 break-all">{submittedEmail}</span>
                 </p>
 
                 {/* ── Context Guidance Box ── */}
-                <div className="text-left bg-[#fcfaf7] border border-[#ebdcc9] rounded-2xl p-4 sm:p-5 mb-6 space-y-3 shadow-2xs">
-                  <p className="text-xs font-semibold uppercase tracking-wider text-[#8c6b48] mb-1">
+                <div className="text-left bg-[#fcfaf7] border border-[#ebdcc9] rounded-2xl !p-5 sm:!p-6 !mb-8 space-y-4 shadow-2xs">
+                  <p className="text-xs font-semibold uppercase tracking-wider text-[#8c6b48]">
                     What to do next:
                   </p>
 
-                  <div className="flex items-start gap-3">
-                    <div className="w-5 h-5 rounded-full bg-[#8c6b48]/10 text-[#8c6b48] text-xs font-semibold flex items-center justify-center shrink-0 mt-0.5">
+                  <div className="flex items-start gap-3.5">
+                    <div className="w-6 h-6 rounded-full bg-[#8c6b48]/10 text-[#8c6b48] text-xs font-semibold flex items-center justify-center shrink-0">
                       1
                     </div>
-                    <p className="text-xs sm:text-sm text-stone-600 leading-snug">
+                    <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
                       Open your inbox and look for an email from <strong className="text-stone-900 font-medium">ForeverVows</strong> with subject <em className="text-stone-700">&ldquo;Confirm your signup&rdquo;</em>.
                     </p>
                   </div>
 
-                  <div className="flex items-start gap-3">
-                    <div className="w-5 h-5 rounded-full bg-[#8c6b48]/10 text-[#8c6b48] text-xs font-semibold flex items-center justify-center shrink-0 mt-0.5">
+                  <div className="flex items-start gap-3.5">
+                    <div className="w-6 h-6 rounded-full bg-[#8c6b48]/10 text-[#8c6b48] text-xs font-semibold flex items-center justify-center shrink-0">
                       2
                     </div>
-                    <p className="text-xs sm:text-sm text-stone-600 leading-snug">
+                    <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
                       Click the <strong className="text-stone-900 font-medium">&ldquo;Confirm your mail&rdquo;</strong> button. You will be authenticated and redirected right to your dashboard.
                     </p>
                   </div>
 
-                  <div className="flex items-start gap-3">
-                    <div className="w-5 h-5 rounded-full bg-[#8c6b48]/10 text-[#8c6b48] text-xs font-semibold flex items-center justify-center shrink-0 mt-0.5">
+                  <div className="flex items-start gap-3.5">
+                    <div className="w-6 h-6 rounded-full bg-[#8c6b48]/10 text-[#8c6b48] text-xs font-semibold flex items-center justify-center shrink-0">
                       3
                     </div>
-                    <p className="text-xs text-stone-500 leading-snug">
+                    <p className="text-xs text-stone-500 leading-relaxed">
                       <em>Can&apos;t find it?</em> Check your <strong>Spam</strong> or <strong>Promotions</strong> folder.
                     </p>
                   </div>
@@ -344,7 +347,7 @@ function RegisterContent() {
                   <motion.div
                     initial={{ opacity: 0, y: -6 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className={`mb-5 p-3 rounded-xl text-xs sm:text-sm font-medium flex items-center gap-2.5 ${
+                    className={`!mb-6 !px-4 !py-3.5 rounded-xl text-xs sm:text-sm font-medium flex items-center gap-3 text-left ${
                       resendFeedback.type === 'success'
                         ? 'bg-emerald-50 border border-emerald-200 text-emerald-800'
                         : 'bg-red-50 border border-red-200 text-red-700'
@@ -360,14 +363,14 @@ function RegisterContent() {
                 )}
 
                 {/* ── Action Buttons ── */}
-                <div className="flex flex-col gap-3">
+                <div className="flex flex-col gap-3.5">
                   {/* Webmail provider direct shortcut if available */}
                   {webmail && (
                     <a
                       href={webmail.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-full h-12 bg-[#8c6b48] hover:bg-[#7e5f3e] active:bg-[#6c4f31] text-white rounded-xl font-medium text-sm tracking-wide transition-all duration-200 flex items-center justify-center gap-2 shadow-[0_2px_8px_rgba(140,107,72,0.22)] hover:shadow-[0_4px_14px_rgba(140,107,72,0.32)]"
+                      className="w-full h-12 !px-5 bg-[#8c6b48] hover:bg-[#7e5f3e] active:bg-[#6c4f31] text-white rounded-xl font-medium text-sm tracking-wide transition-all duration-200 flex items-center justify-center gap-2 shadow-[0_2px_8px_rgba(140,107,72,0.22)] hover:shadow-[0_4px_14px_rgba(140,107,72,0.32)]"
                     >
                       <span>{webmail.name}</span>
                       <ExternalLink className="w-4 h-4" />
@@ -379,7 +382,7 @@ function RegisterContent() {
                     type="button"
                     onClick={handleResendEmail}
                     disabled={isResending || resendCooldown > 0}
-                    className="w-full h-11 px-4 bg-white hover:bg-stone-50 border border-stone-200 hover:border-stone-300 rounded-xl text-stone-700 text-xs sm:text-sm font-medium transition-colors flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed shadow-2xs"
+                    className="w-full h-12 !px-5 bg-white hover:bg-stone-50 border border-stone-200 hover:border-stone-300 rounded-xl text-stone-700 text-xs sm:text-sm font-medium transition-colors flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed shadow-2xs"
                   >
                     {isResending ? (
                       <>
@@ -403,14 +406,14 @@ function RegisterContent() {
                       setSuccess(false)
                       setResendFeedback(null)
                     }}
-                    className="text-xs text-stone-500 hover:text-[#8c6b48] transition-colors mt-2"
+                    className="text-xs text-stone-500 hover:text-[#8c6b48] transition-colors !mt-2 !py-1"
                   >
                     Wrong email address? Click here to change it
                   </button>
                 </div>
 
                 {/* Back to sign in */}
-                <div className="mt-6 pt-4 border-t border-stone-100">
+                <div className="!mt-8 !pt-6 border-t border-stone-100">
                   <p className="text-xs text-stone-500">
                     Already clicked the verification link?{' '}
                     <Link
@@ -431,7 +434,7 @@ function RegisterContent() {
             initial="hidden"
             animate="visible"
             custom={2}
-            className="mt-10 sm:mt-12 text-center text-xs text-stone-400 tracking-wide translate-y-6"
+            className="!mt-12 text-center text-xs text-stone-400 tracking-wide"
           >
             © {new Date().getFullYear()} ForeverVows · All rights reserved.
           </motion.p>
@@ -452,12 +455,12 @@ function RegisterContent() {
       </div>
 
       {/* ── Fixed top bar: back link ── */}
-      <header className="fixed top-0 left-0 right-0 z-50 px-6 sm:px-10 py-5 pointer-events-none">
+      <header className="fixed top-0 left-0 right-0 z-50 !px-5 sm:!px-10 !py-5 pointer-events-none">
         <Link
           href="/"
-          className="pointer-events-auto group inline-flex items-center gap-2 text-xs font-medium text-stone-500 hover:text-stone-900 transition-colors duration-200"
+          className="pointer-events-auto group inline-flex items-center gap-2.5 text-xs font-medium text-stone-500 hover:text-stone-900 transition-colors duration-200"
         >
-          <span className="flex items-center justify-center w-7 h-7 rounded-full border border-stone-200 bg-white/70 group-hover:border-[#cbb8a3] group-hover:bg-[#f8f3ed] transition-all duration-200">
+          <span className="flex items-center justify-center w-8 h-8 rounded-full border border-stone-200 bg-white/70 group-hover:border-[#cbb8a3] group-hover:bg-[#f8f3ed] transition-all duration-200">
             <ArrowLeft className="w-3.5 h-3.5 text-stone-400 group-hover:text-[#8c6b48] group-hover:-translate-x-0.5 transition-all duration-200" />
           </span>
 
@@ -466,7 +469,7 @@ function RegisterContent() {
       </header>
 
       {/* ── Scrollable center area ── */}
-      <main className="flex-1 flex flex-col items-center justify-center px-4 sm:px-6 pt-24 sm:pt-28 pb-12 w-full">
+      <main className="flex-1 flex flex-col items-center justify-center !px-5 sm:!px-6 !pt-28 sm:!pt-32 !pb-16 w-full">
 
         {/* ── Ornament header ── */}
         <motion.div
@@ -474,7 +477,7 @@ function RegisterContent() {
           initial="hidden"
           animate="visible"
           custom={0}
-          className="flex flex-col items-center text-center gap-3.5 mb-10 sm:mb-12 px-4"
+          className="flex flex-col items-center text-center gap-4 !mb-10 sm:!mb-12 !px-4"
         >
           {/* Fine rule + star ornament */}
           <div className="flex items-center justify-center gap-3">
@@ -484,7 +487,7 @@ function RegisterContent() {
           </div>
 
           {/* Welcome pill badge */}
-          <div className="inline-flex items-center gap-2.5 !px-5 !py-1 rounded-full border border-[#d8c8b4]/80 bg-[#f7f2ea]/90 text-[#856543] !text-xs sm:!text-sm font-medium tracking-[0.18em] uppercase shadow-xs">
+          <div className="inline-flex items-center gap-2.5 !px-5 !py-1.5 rounded-full border border-[#d8c8b4]/80 bg-[#f7f2ea]/90 text-[#856543] !text-xs sm:!text-sm font-medium tracking-[0.18em] uppercase shadow-xs">
             <span className="text-[9px] leading-none text-[#a07c57]">♦</span>
             <span>Begin Your Forever Story</span>
           </div>
@@ -500,23 +503,23 @@ function RegisterContent() {
           initial="hidden"
           animate="visible"
           custom={1}
-          className="w-full max-w-[480px] !mt-2"
+          className="w-full max-w-[480px]"
         >
           <div className="w-full bg-white/95 backdrop-blur-xs rounded-2xl sm:rounded-3xl border border-[#ede7de] shadow-[0_12px_44px_-10px_rgba(0,0,0,0.06),0_1px_3px_rgba(0,0,0,0.02)] overflow-hidden">
             {/* Card inner padding */}
-            <div className="!px-8 !py-9 sm:!px-10 sm:!py-8">
+            <div className="!px-6 !py-9 sm:!px-10 sm:!py-11">
 
-              <div className="!mb-6">
-                <h1 className="font-serif !text-xl sm:!text-2xl font-normal text-stone-900 tracking-tight !leading-tight !mb-2 !px-1">
+              <div className="!mb-8">
+                <h1 className="font-serif !text-xl sm:!text-2xl font-normal text-stone-900 tracking-tight !leading-tight !mb-2.5">
                   Create your account
                 </h1>
 
-                <p className="text-stone-500 !text-xs sm:!text-sm !leading-5 !px-1 max-w-[360px]">
+                <p className="text-stone-500 !text-xs sm:!text-sm !leading-relaxed max-w-[360px]">
                   Start designing your bespoke invitations in minutes.
                 </p>
 
                 {templateSlug && (
-                  <div className="mt-3.5 mx-1 px-3.5 py-2.5 bg-[#faf6f0] border border-[#e8dfd3] rounded-xl text-xs text-[#8c6b48] flex items-center gap-2">
+                  <div className="!mt-4 !px-4 !py-3 bg-[#faf6f0] border border-[#e8dfd3] rounded-xl text-xs text-[#8c6b48] flex items-center gap-2.5">
                     <span className="text-sm">✨</span>
                     <span>Starting with the <strong className="font-semibold text-stone-800">{templateSlug.replace(/-/g, ' ')}</strong> template</span>
                   </div>
@@ -524,7 +527,7 @@ function RegisterContent() {
               </div>
 
               {/* Form */}
-              <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 sm:gap-5" noValidate>
+              <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5 sm:gap-6" noValidate>
 
                 {/* Name */}
                 <Field label="Full name" error={errors.name?.message}>
@@ -559,13 +562,13 @@ function RegisterContent() {
                       {...register('password')}
                       placeholder="At least 8 characters"
                       autoComplete="new-password"
-                      className={`${inputBase} pr-10`}
+                      className={inputWithToggle}
                     />
 
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-700 transition-colors"
+                      className="absolute right-3.5 top-1/2 -translate-y-1/2 !p-1 text-stone-400 hover:text-stone-700 transition-colors"
                       aria-label={showPassword ? 'Hide password' : 'Show password'}
                     >
                       {showPassword ? (
@@ -586,13 +589,13 @@ function RegisterContent() {
                       {...register('confirmPassword')}
                       placeholder="Re-enter your password"
                       autoComplete="new-password"
-                      className={`${inputBase} pr-10`}
+                      className={inputWithToggle}
                     />
 
                     <button
                       type="button"
                       onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-700 transition-colors"
+                      className="absolute right-3.5 top-1/2 -translate-y-1/2 !p-1 text-stone-400 hover:text-stone-700 transition-colors"
                       aria-label={showConfirmPassword ? 'Hide password' : 'Show password'}
                     >
                       {showConfirmPassword ? (
@@ -610,7 +613,7 @@ function RegisterContent() {
                     initial={{ opacity: 0, y: -6, scale: 0.98 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     transition={{ duration: 0.2 }}
-                    className="p-3.5 bg-red-50/90 border border-red-200/80 rounded-xl flex items-start gap-3 shadow-xs"
+                    className="!px-4 !py-3.5 bg-red-50/90 border border-red-200/80 rounded-xl flex items-start gap-3 shadow-xs"
                   >
                     <AlertCircle className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
                     <div className="text-xs sm:text-sm text-red-700 font-medium leading-relaxed">
@@ -629,7 +632,7 @@ function RegisterContent() {
                   disabled={isSubmitting || isGoogleLoading}
                   whileHover={{ scale: 1.005 }}
                   whileTap={{ scale: 0.995 }}
-                  className="w-full h-12 bg-[#8c6b48] hover:bg-[#7e5f3e] active:bg-[#6c4f31] text-white rounded-xl font-medium text-sm tracking-wide transition-all duration-200 flex items-center justify-center gap-2 shadow-[0_2px_8px_rgba(140,107,72,0.22)] hover:shadow-[0_4px_14px_rgba(140,107,72,0.32)] cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed mt-2"
+                  className="w-full h-12 !px-5 bg-[#8c6b48] hover:bg-[#7e5f3e] active:bg-[#6c4f31] text-white rounded-xl font-medium text-sm tracking-wide transition-all duration-200 flex items-center justify-center gap-2 shadow-[0_2px_8px_rgba(140,107,72,0.22)] hover:shadow-[0_4px_14px_rgba(140,107,72,0.32)] cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed !mt-1"
                 >
                   {isSubmitting ? (
                     <>
@@ -642,9 +645,9 @@ function RegisterContent() {
                 </motion.button>
 
                 {/* "or" divider */}
-                <div className="relative my-4 sm:my-5 flex items-center justify-center">
+                <div className="relative !my-1 flex items-center justify-center">
                   <div className="w-full border-t border-stone-200/70" />
-                  <span className="absolute px-3 bg-white text-xs uppercase tracking-widest text-stone-400 font-medium">
+                  <span className="absolute !px-4 bg-white text-xs uppercase tracking-widest text-stone-400 font-medium">
                     or
                   </span>
                 </div>
@@ -660,7 +663,7 @@ function RegisterContent() {
                   disabled={isGoogleLoading || isSubmitting}
                   whileHover={{ scale: 1.005 }}
                   whileTap={{ scale: 0.995 }}
-                  className="w-full h-12 px-5 bg-white hover:bg-stone-50/80 active:bg-stone-100 border border-stone-200/90 hover:border-stone-300 rounded-xl text-stone-700 text-sm font-medium transition-all duration-200 flex items-center justify-center gap-3 shadow-[0_1px_2px_rgba(0,0,0,0.03)] cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+                  className="w-full h-12 !px-5 bg-white hover:bg-stone-50/80 active:bg-stone-100 border border-stone-200/90 hover:border-stone-300 rounded-xl text-stone-700 text-sm font-medium transition-all duration-200 flex items-center justify-center gap-3 shadow-[0_1px_2px_rgba(0,0,0,0.03)] cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   {isGoogleLoading ? (
                     <Loader2 className="w-4 h-4 animate-spin text-stone-500" />
@@ -677,7 +680,7 @@ function RegisterContent() {
                 initial="hidden"
                 animate="visible"
                 custom={6}
-                className="!mt-4 !pt-3 border-t border-stone-100 text-center"
+                className="!mt-8 !pt-6 border-t border-stone-100 text-center"
               >
                 <p className="text-sm text-stone-500">
                   Already have an account?{' '}
@@ -700,7 +703,7 @@ function RegisterContent() {
           initial="hidden"
           animate="visible"
           custom={7}
-          className="mt-10 sm:mt-12 text-center text-xs text-stone-400 tracking-wide translate-y-6"
+          className="!mt-12 text-center text-xs text-stone-400 tracking-wide"
         >
           © {new Date().getFullYear()} ForeverVows · All rights reserved.
         </motion.p>
