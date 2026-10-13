@@ -72,7 +72,10 @@ function Field({
 function LoginContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const redirectTo = searchParams.get('redirectTo') || '/dashboard'
+  const templateSlug = searchParams.get('template')
+  const redirectTo =
+    searchParams.get('redirectTo') ||
+    (templateSlug ? `/create?template=${encodeURIComponent(templateSlug)}` : '/dashboard')
   const urlError = searchParams.get('error')
 
   const [showPassword, setShowPassword] = useState(false)
@@ -323,7 +326,11 @@ function LoginContent() {
                 <p className="text-sm text-stone-500">
                   New to ForeverVows?{' '}
                   <Link
-                    href="/register"
+                    href={
+                      templateSlug
+                        ? `/register?template=${encodeURIComponent(templateSlug)}`
+                        : '/register'
+                    }
                     className="font-semibold text-stone-900 hover:text-[#8c6b48] underline underline-offset-4 decoration-stone-300 hover:decoration-[#8c6b48] transition-colors ml-1"
                   >
                     Create an account

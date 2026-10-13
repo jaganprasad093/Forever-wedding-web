@@ -151,6 +151,16 @@ export const authService = {
     })
 
     if (error) {
+      if (
+        error.message.toLowerCase().includes('unsupported provider') ||
+        error.message.toLowerCase().includes('not enabled')
+      ) {
+        return {
+          success: false,
+          error:
+            'Google Sign-In is not enabled yet in your Supabase project. Please enable Google authentication in the Supabase Dashboard.',
+        }
+      }
       return { success: false, error: error.message }
     }
 
