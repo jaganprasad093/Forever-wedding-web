@@ -417,7 +417,11 @@ function RegisterContent() {
                   <p className="text-xs text-stone-500">
                     Already clicked the verification link?{' '}
                     <Link
-                      href="/login"
+                      href={
+                        templateSlug
+                          ? `/login?template=${encodeURIComponent(templateSlug)}`
+                          : '/login'
+                      }
                       className="font-semibold text-stone-900 hover:text-[#8c6b48] underline underline-offset-4 decoration-stone-300 hover:decoration-[#8c6b48] transition-colors ml-1"
                     >
                       Sign in to Dashboard
@@ -685,7 +689,11 @@ function RegisterContent() {
                 <p className="text-sm text-stone-500">
                   Already have an account?{' '}
                   <Link
-                    href="/login"
+                    href={
+                      templateSlug
+                        ? `/login?template=${encodeURIComponent(templateSlug)}`
+                        : '/login'
+                    }
                     className="font-semibold text-stone-900 hover:text-[#8c6b48] underline underline-offset-4 decoration-stone-300 hover:decoration-[#8c6b48] transition-colors ml-1"
                   >
                     Sign in

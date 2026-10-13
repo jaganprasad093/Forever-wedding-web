@@ -41,7 +41,7 @@ export async function updateSession(request: NextRequest) {
   } = await supabase.auth.getUser()
 
   // Protect dashboard routes
-  const protectedPaths = ['/dashboard', '/editor', '/preview']
+  const protectedPaths = ['/dashboard', '/editor', '/preview', '/create']
   const isProtected = protectedPaths.some((path) =>
     request.nextUrl.pathname.startsWith(path)
   )
@@ -49,7 +49,10 @@ export async function updateSession(request: NextRequest) {
   if (isProtected && !user) {
     const url = request.nextUrl.clone()
     url.pathname = '/login'
-    url.searchParams.set('redirectTo', request.nextUrl.pathname)
+    url.searchParams.set(
+      'redirectTo',
+      `${request.nextUrl.pathname}${request.nextUrl.search}`
+    )
     return NextResponse.redirect(url)
   }
 
