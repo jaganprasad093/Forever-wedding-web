@@ -16,17 +16,36 @@ export default function ThemePanel({
   wedding: WeddingData
   onUpdate: (updates: Partial<WeddingData>) => void
 }) {
-  const theme = wedding.theme
+  const currentTheme: WeddingTheme = {
+    primaryColor: wedding.theme?.primaryColor || '#92400e',
+    secondaryColor: wedding.theme?.secondaryColor || '#b45309',
+    backgroundColor: wedding.theme?.backgroundColor || '#fffbeb',
+    accentColor: wedding.theme?.accentColor || '#fcd34d',
+    fontFamily: wedding.theme?.fontFamily || 'cormorant',
+    preset: wedding.theme?.preset,
+  }
 
   const updateTheme = (updates: Partial<WeddingTheme>) => {
-    onUpdate({ theme: { ...theme, ...updates } })
+    onUpdate({ theme: { ...currentTheme, ...updates } })
+  }
+
+  const isPresetActive = (presetName: string) => {
+    if (currentTheme.preset) {
+      return currentTheme.preset.toLowerCase() === presetName.toLowerCase()
+    }
+    const preset = THEME_PRESETS.find((p) => p.name === presetName)
+    if (!preset) return false
+    return (
+      currentTheme.primaryColor.toLowerCase() === preset.primaryColor.toLowerCase() &&
+      currentTheme.accentColor.toLowerCase() === preset.accentColor.toLowerCase()
+    )
   }
 
   const handleSelectTemplate = (tmpl: Template) => {
     const defaultTheme = (tmpl.config as { defaultTheme?: WeddingTheme })?.defaultTheme
     onUpdate({
       templateId: tmpl.id,
-      theme: defaultTheme ? { ...defaultTheme } : theme,
+      theme: defaultTheme ? { ...defaultTheme } : currentTheme,
     })
   }
 
@@ -91,13 +110,13 @@ export default function ThemePanel({
                 preset: preset.name,
               })}
               className={`flex flex-col items-center gap-1 p-2 rounded-xl transition-all ${
-                theme.preset === preset.name
-                  ? 'ring-2 ring-amber-500 bg-amber-50'
+                isPresetActive(preset.name)
+                  ? 'ring-2 ring-amber-500 bg-amber-50 shadow-sm'
                   : 'hover:bg-stone-100'
               }`}
             >
               <div
-                className="w-8 h-8 rounded-full border border-stone-200"
+                className="w-8 h-8 rounded-full border border-stone-200 shadow-sm"
                 style={{ background: `linear-gradient(135deg, ${preset.primaryColor}, ${preset.accentColor})` }}
               />
               <span className="text-[10px] text-stone-600 font-medium">{preset.label}</span>
@@ -120,12 +139,12 @@ export default function ThemePanel({
             <div className="flex items-center gap-2">
               <input
                 type="color"
-                value={(theme[key as keyof WeddingTheme] as string) || '#000000'}
-                onChange={(e) => updateTheme({ [key]: e.target.value })}
+                value={(currentTheme[key as keyof WeddingTheme] as string) || '#000000'}
+                onChange={(e) => updateTheme({ [key]: e.target.value, preset: undefined })}
                 className="w-8 h-8 rounded-lg border border-stone-200 cursor-pointer p-0.5"
               />
               <span className="text-xs text-stone-400 font-mono">
-                {(theme[key as keyof WeddingTheme] as string) || '#000000'}
+                {(currentTheme[key as keyof WeddingTheme] as string) || '#000000'}
               </span>
             </div>
           </div>
@@ -142,13 +161,13 @@ export default function ThemePanel({
               type="button"
               onClick={() => updateTheme({ fontFamily: font.value })}
               className={`w-full flex items-center justify-between p-2.5 rounded-lg border transition-all text-left ${
-                theme.fontFamily === font.value
+                currentTheme.fontFamily === font.value
                   ? 'border-amber-500 bg-amber-50 text-amber-700'
                   : 'border-stone-200 hover:border-amber-300 text-stone-700'
               }`}
             >
               <span className="text-xs font-medium">{font.label}</span>
-              {theme.fontFamily === font.value && (
+              {currentTheme.fontFamily === font.value && (
                 <div className="w-1.5 h-1.5 bg-amber-600 rounded-full" />
               )}
             </button>
