@@ -1,7 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
-import { WeddingData } from '@/types/wedding'
+import { MusicItem, WeddingData } from '@/types/wedding'
 import PublishedWeddingPage from '@/components/wedding/PublishedWeddingPage'
 
 interface Props {
@@ -125,7 +125,7 @@ export default async function WeddingPublicPage({ params }: Props) {
           artist: (wedding as any).music[0].artist as string | null,
           url: (wedding as any).music[0].url as string,
           path: (wedding as any).music[0].path as string | null,
-          type: (wedding as any).music[0].type as 'upload' | 'preset',
+          type: (wedding as any).music[0].type as MusicItem['type'],
         }
       : null,
   }

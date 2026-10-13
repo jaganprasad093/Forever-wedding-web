@@ -201,7 +201,7 @@ CREATE TABLE IF NOT EXISTS public.music (
   artist TEXT,
   url TEXT NOT NULL,
   path TEXT,
-  type TEXT DEFAULT 'upload' CHECK (type IN ('upload', 'preset')),
+  type TEXT DEFAULT 'upload' CHECK (type IN ('upload', 'preset', 'youtube')),
   created_at TIMESTAMPTZ DEFAULT NOW() NOT NULL
 );
 

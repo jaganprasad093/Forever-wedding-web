@@ -225,7 +225,7 @@ export interface Database {
           artist: string | null
           url: string
           path: string | null
-          type: 'upload' | 'preset'
+          type: 'upload' | 'preset' | 'youtube'
           created_at: string
         }
         Insert: {
@@ -235,7 +235,7 @@ export interface Database {
           artist?: string | null
           url: string
           path?: string | null
-          type: 'upload' | 'preset'
+          type: 'upload' | 'preset' | 'youtube'
           created_at?: string
         }
         Update: {
@@ -245,7 +245,7 @@ export interface Database {
           artist?: string | null
           url?: string
           path?: string | null
-          type?: 'upload' | 'preset'
+          type?: 'upload' | 'preset' | 'youtube'
           created_at?: string
         }
         Relationships: [
