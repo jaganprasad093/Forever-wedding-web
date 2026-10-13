@@ -1153,6 +1153,8 @@ export default function PublishedWeddingPage({ wedding }: { wedding: WeddingData
 
   if (
     templateId === 'template-floral-romantic' ||
+    templateId === 'floral-romantic' ||
+    templateId.includes('floral') ||
     templateSlug.includes('floral-romantic') ||
     templateSlug.includes('floral')
   ) {
@@ -1161,6 +1163,8 @@ export default function PublishedWeddingPage({ wedding }: { wedding: WeddingData
 
   if (
     templateId === 'template-royal-gold' ||
+    templateId === 'royal-gold' ||
+    templateId.includes('royal') ||
     templateSlug.includes('royal-gold') ||
     templateSlug.includes('royal')
   ) {
@@ -1169,6 +1173,8 @@ export default function PublishedWeddingPage({ wedding }: { wedding: WeddingData
 
   if (
     templateId === 'template-minimal-white' ||
+    templateId === 'minimal-white' ||
+    templateId.includes('minimal') ||
     templateSlug.includes('minimal-white') ||
     templateSlug.includes('minimal')
   ) {
