@@ -29,7 +29,6 @@ import {
   ChevronRight,
   Navigation,
   X,
-  Volume2,
   Send,
   CalendarPlus,
   Check,
@@ -38,6 +37,7 @@ import {
 import { WeddingData, MusicItem } from '@/types/wedding'
 import { formatDate, formatTime, getCountdown } from '@/lib/utils'
 import RSVPForm from '@/components/rsvp/RSVPForm'
+import WeddingMusicPlayer from './WeddingMusicPlayer'
 
 type Photo = NonNullable<WeddingData['gallery']>[number]
 type WeddingEvent = NonNullable<WeddingData['events']>[number]
@@ -1344,88 +1344,8 @@ function GuestbookWishes({ couple, t }: { couple: string; t: Record<string, stri
 }
 
 /* ───────────────────────── Music + language ───────────────────────── */
-
 function RomanticMusicPlayer({ music }: { music?: MusicItem | null }) {
-  const audioRef = useRef<HTMLAudioElement>(null)
-  const [playing, setPlaying] = useState(false)
-
-  // Browsers block autoplay, so start on the first tap or click.
-  useEffect(() => {
-    const cleanup = () => {
-      document.removeEventListener('click', start)
-      document.removeEventListener('touchstart', start)
-    }
-    function start() {
-      const a = audioRef.current
-      if (a) {
-        a.volume = 0.5
-        a.play().catch(() => { })
-      }
-      cleanup()
-    }
-    document.addEventListener('click', start)
-    document.addEventListener('touchstart', start)
-    return cleanup
-  }, [])
-
-  const toggle = () => {
-    const a = audioRef.current
-    if (!a) return
-    if (a.paused) a.play().catch(() => { })
-    else a.pause()
-  }
-
-  return (
-    <>
-      <audio
-        ref={audioRef}
-        src={music?.url || 'https://actions.google.com/sounds/v1/ambiences/soft_gentle_piano.ogg'}
-        loop
-        onPlay={() => setPlaying(true)}
-        onPause={() => setPlaying(false)}
-      />
-      <motion.button
-        type="button"
-        initial={{ scale: 0, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ delay: 1.5, type: 'spring', stiffness: 260, damping: 18 }}
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
-        onClick={toggle}
-        aria-label={playing ? 'Pause music' : 'Play music'}
-        aria-pressed={playing}
-        className="fixed z-50 flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-rose-300/40 text-white shadow-xl shadow-rose-950/25 sm:h-12 sm:w-12"
-        style={{
-          top: 'max(1rem, env(safe-area-inset-top))',
-          right: 'max(1rem, env(safe-area-inset-right))',
-          backgroundColor: ROSE,
-        }}
-      >
-        {playing ? (
-          <span className="flex h-3.5 items-end gap-0.5" aria-hidden>
-            {[0, 1, 2].map((i) => (
-              <motion.span
-                key={i}
-                className="w-1 rounded-full bg-white"
-                animate={{ height: [3, 14, 5, 12, 3] }}
-                transition={{ duration: 0.9 + i * 0.2, repeat: Infinity, ease: 'easeInOut' }}
-              />
-            ))}
-          </span>
-        ) : (
-          <Volume2 className="h-5 w-5" />
-        )}
-        {playing && (
-          <motion.span
-            aria-hidden
-            className="absolute inset-0 rounded-full border-2 border-rose-300"
-            animate={{ scale: [1, 1.5], opacity: [0.7, 0] }}
-            transition={{ duration: 1.8, repeat: Infinity, ease: 'easeOut' }}
-          />
-        )}
-      </motion.button>
-    </>
-  )
+  return <WeddingMusicPlayer music={music} accent="#fb7185" primary="#9f1239" />
 }
 
 function LanguageSwitch({ lang, onChange }: { lang: Lang; onChange: (l: Lang) => void }) {

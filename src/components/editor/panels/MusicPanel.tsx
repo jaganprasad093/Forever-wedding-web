@@ -35,21 +35,21 @@ const MAX_VIDEO_MB = 200
 const PRESET_MUSIC = [
   {
     id: 'preset-1',
-    title: 'Soft Gentle Piano',
-    artist: 'Classical Romance',
-    url: 'https://actions.google.com/sounds/v1/ambiences/soft_gentle_piano.ogg',
+    title: 'Canon in D',
+    artist: 'Johann Pachelbel (Wedding Classic)',
+    url: '/music/canon-in-d.mp3',
   },
   {
     id: 'preset-2',
-    title: 'Romantic Wedding Bells',
-    artist: 'Traditional Bells',
-    url: 'https://actions.google.com/sounds/v1/holidays/romantic_bells.ogg',
+    title: 'Air on the G String',
+    artist: 'J.S. Bach (Romantic Strings)',
+    url: '/music/air-on-g-string.mp3',
   },
   {
     id: 'preset-3',
-    title: 'Gentle Acoustic Flow',
-    artist: 'Acoustic Melody',
-    url: 'https://actions.google.com/sounds/v1/ambiences/meadow_morning.ogg',
+    title: 'Brandenburg Concerto',
+    artist: 'J.S. Bach (Celebration & Joy)',
+    url: '/music/brandenburg-concerto.mp3',
   },
 ]
 
