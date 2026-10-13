@@ -44,6 +44,14 @@ CREATE TRIGGER on_auth_user_created
   AFTER INSERT ON auth.users
   FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
 
+-- Backfill existing users who signed up before this table/trigger was created
+INSERT INTO public.profiles (id, name)
+SELECT 
+  id, 
+  COALESCE(raw_user_meta_data->>'name', raw_user_meta_data->>'full_name', split_part(email, '@', 1))
+FROM auth.users
+ON CONFLICT (id) DO NOTHING;
+
 -- =============================================
 -- TEMPLATES TABLE
 -- =============================================
