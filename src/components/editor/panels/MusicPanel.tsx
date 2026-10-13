@@ -437,7 +437,7 @@ export default function MusicPanel({
               : 'hover:text-stone-900'
           }`}
         >
-          <Youtube className="w-3.5 h-3.5 text-red-600" />
+          <YoutubeIcon className="w-3.5 h-3.5 text-red-600" />
           <span>YouTube</span>
         </button>
         <button
@@ -526,7 +526,7 @@ export default function MusicPanel({
         <div className="space-y-3">
           <div className="bg-stone-50 border border-stone-200/80 rounded-xl p-3.5 space-y-2">
             <div className="flex items-center gap-1.5 text-xs font-semibold text-stone-800">
-              <Youtube className="w-4 h-4 text-red-600" />
+              <YoutubeIcon className="w-4 h-4 text-red-600" />
               <span>YouTube Video Song Finder</span>
             </div>
             <p className="text-[11px] text-stone-500 leading-relaxed">
@@ -556,6 +556,7 @@ export default function MusicPanel({
             {ytInfo && (
               <div className="bg-white border border-stone-200 rounded-xl p-3 space-y-3 mt-3">
                 <div className="flex gap-3">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={ytInfo.thumbnailUrl}
                     alt={ytInfo.title}

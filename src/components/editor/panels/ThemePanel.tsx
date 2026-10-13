@@ -1,10 +1,12 @@
 'use client'
 
-import { WeddingData, THEME_PRESETS, WeddingTheme } from '@/types/wedding'
+import { WeddingData, THEME_PRESETS, WeddingTheme, Template } from '@/types/wedding'
+import { TEMPLATES } from '@/data/templates'
+import { LayoutTemplate, Check } from 'lucide-react'
 
 const FONT_OPTIONS = [
-  { value: 'cormorant', label: 'Cormorant Garamond (Elegant)' },
-  { value: 'inter', label: 'Inter (Modern)' },
+  { value: 'cormorant', label: 'Cormorant Garamond (Elegant Serif)' },
+  { value: 'inter', label: 'Inter (Modern Sans-Serif)' },
 ]
 
 export default function ThemePanel({
@@ -15,13 +17,70 @@ export default function ThemePanel({
   onUpdate: (updates: Partial<WeddingData>) => void
 }) {
   const theme = wedding.theme
+  const currentTemplateId = wedding.templateId || 'template-royal-gold'
 
   const updateTheme = (updates: Partial<WeddingTheme>) => {
     onUpdate({ theme: { ...theme, ...updates } })
   }
 
+  const handleSelectTemplate = (tmpl: Template) => {
+    const defaultTheme = (tmpl.config as { defaultTheme?: WeddingTheme })?.defaultTheme
+    onUpdate({
+      templateId: tmpl.id,
+      theme: defaultTheme ? { ...defaultTheme } : theme,
+    })
+  }
+
   return (
     <div className="space-y-4">
+      {/* ── Template Switcher ── */}
+      <div className="bg-stone-50 border border-stone-200/80 rounded-2xl p-4 space-y-3">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <LayoutTemplate className="w-4 h-4 text-amber-700" />
+            <h4 className="text-xs font-semibold text-stone-800 uppercase tracking-wider">
+              Invitation Template
+            </h4>
+          </div>
+          <span className="text-[10px] text-stone-400 font-medium">Switch anytime</span>
+        </div>
+
+        <div className="grid grid-cols-2 gap-2">
+          {TEMPLATES.map((tmpl) => {
+            const isSelected =
+              currentTemplateId === tmpl.id ||
+              wedding.slug?.includes(tmpl.slug) ||
+              (tmpl.id.includes('royal') && currentTemplateId.includes('royal')) ||
+              (tmpl.id.includes('floral') && currentTemplateId.includes('floral')) ||
+              (tmpl.id.includes('minimal') && currentTemplateId.includes('minimal')) ||
+              (tmpl.id.includes('kerala') && currentTemplateId.includes('kerala'))
+
+            return (
+              <button
+                key={tmpl.id}
+                type="button"
+                onClick={() => handleSelectTemplate(tmpl)}
+                className={`relative p-3 rounded-xl border text-left transition-all ${
+                  isSelected
+                    ? 'border-amber-600 bg-amber-50/80 shadow-sm ring-1 ring-amber-500'
+                    : 'border-stone-200 hover:border-amber-300 bg-white hover:bg-stone-50/80'
+                }`}
+              >
+                {isSelected && (
+                  <span className="absolute top-2 right-2 w-4 h-4 rounded-full bg-amber-700 text-white flex items-center justify-center">
+                    <Check className="w-2.5 h-2.5 stroke-[3]" />
+                  </span>
+                )}
+                <p className="text-xs font-bold text-stone-800">{tmpl.name}</p>
+                <p className="text-[10px] text-stone-500 line-clamp-1 mt-0.5">
+                  {tmpl.category.toUpperCase()}
+                </p>
+              </button>
+            )
+          })}
+        </div>
+      </div>
+
       {/* Color presets */}
       <div className="bg-stone-50 border border-stone-100 rounded-xl p-4">
         <h4 className="text-xs font-semibold text-stone-600 uppercase tracking-wider mb-3">Color Palette</h4>
@@ -29,6 +88,7 @@ export default function ThemePanel({
           {THEME_PRESETS.map((preset) => (
             <button
               key={preset.name}
+              type="button"
               onClick={() => updateTheme({
                 primaryColor: preset.primaryColor,
                 secondaryColor: preset.secondaryColor,
@@ -66,7 +126,7 @@ export default function ThemePanel({
             <div className="flex items-center gap-2">
               <input
                 type="color"
-                value={theme[key as keyof WeddingTheme] as string || '#000000'}
+                value={(theme[key as keyof WeddingTheme] as string) || '#000000'}
                 onChange={(e) => updateTheme({ [key]: e.target.value })}
                 className="w-8 h-8 rounded-lg border border-stone-200 cursor-pointer p-0.5"
               />
@@ -85,6 +145,7 @@ export default function ThemePanel({
           {FONT_OPTIONS.map((font) => (
             <button
               key={font.value}
+              type="button"
               onClick={() => updateTheme({ fontFamily: font.value })}
               className={`w-full flex items-center justify-between p-2.5 rounded-lg border transition-all text-left ${
                 theme.fontFamily === font.value
