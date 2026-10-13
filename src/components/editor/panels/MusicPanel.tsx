@@ -224,9 +224,11 @@ export default function MusicPanel({
 
   // Stop any sound when the panel unmounts
   useEffect(() => {
+    const audio = audioRef.current
+    const preview = previewRef.current
     return () => {
-      audioRef.current?.pause()
-      previewRef.current?.pause()
+      audio?.pause()
+      preview?.pause()
     }
   }, [])
 
@@ -278,9 +280,16 @@ export default function MusicPanel({
       setStatusMessage(message)
       try {
         await task()
-      } catch (err) {
+      } catch (err: unknown) {
         console.error(failure, err)
-        setError(failure)
+        const dbErr = err as { code?: string; message?: string } | null
+        if (dbErr?.message?.includes('music_type_check')) {
+          setError(
+            'Database error: The "music_type_check" constraint in Supabase needs to be updated to allow YouTube links. Please execute the updated migration in your Supabase SQL Editor.'
+          )
+        } else {
+          setError(failure)
+        }
       } finally {
         setBusy(false)
         setStatusMessage(null)

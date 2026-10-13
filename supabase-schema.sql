@@ -205,6 +205,10 @@ CREATE TABLE IF NOT EXISTS public.music (
   created_at TIMESTAMPTZ DEFAULT NOW() NOT NULL
 );
 
+-- Ensure check constraint includes 'youtube' if table was previously created with only ('upload', 'preset')
+ALTER TABLE public.music DROP CONSTRAINT IF EXISTS music_type_check;
+ALTER TABLE public.music ADD CONSTRAINT music_type_check CHECK (type IN ('upload', 'preset', 'youtube'));
+
 ALTER TABLE public.music ENABLE ROW LEVEL SECURITY;
 
 DROP POLICY IF EXISTS "Wedding owners can manage music" ON public.music;
