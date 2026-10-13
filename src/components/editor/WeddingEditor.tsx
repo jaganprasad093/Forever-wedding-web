@@ -1,27 +1,27 @@
 'use client'
 
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
-import { motion } from 'framer-motion'
 import Link from 'next/link'
 import {
   Heart,
   ChevronLeft,
   Eye,
   Globe,
-  Save,
   Check,
   Loader2,
   User2,
   Calendar,
   BookOpen,
-  MapPin,
   Images,
   Music,
   Palette,
   Lock,
+  Smartphone,
+  Monitor,
+  ExternalLink,
 } from 'lucide-react'
-import { WeddingData, WeddingTheme } from '@/types/wedding'
+import { WeddingData } from '@/types/wedding'
 import { Json } from '@/types/supabase'
 import { createClient } from '@/lib/supabase/client'
 import { cn } from '@/lib/utils'
@@ -62,6 +62,7 @@ export default function WeddingEditor({ initialWedding }: WeddingEditorProps) {
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle')
   const [publishing, setPublishing] = useState(false)
   const [previewMode, setPreviewMode] = useState(false)
+  const [deviceMode, setDeviceMode] = useState<'mobile' | 'desktop'>('mobile')
 
   // Auto-save debounce
   const saveChanges = useCallback(
@@ -81,6 +82,7 @@ export default function WeddingEditor({ initialWedding }: WeddingEditorProps) {
           story: updatedWedding.story,
           theme: updatedWedding.theme as unknown as Json,
           slug: updatedWedding.slug,
+          template_id: updatedWedding.templateId,
           updated_at: new Date().toISOString(),
         })
         .eq('id', updatedWedding.id)
@@ -301,7 +303,7 @@ export default function WeddingEditor({ initialWedding }: WeddingEditorProps) {
               <GalleryPanel weddingId={wedding.id} />
             )}
             {activePanel === 'music' && (
-              <MusicPanel weddingId={wedding.id} />
+              <MusicPanel weddingId={wedding.id} onUpdate={updateWedding} />
             )}
             {activePanel === 'theme' && (
               <ThemePanel wedding={wedding} onUpdate={updateWedding} />
@@ -309,13 +311,74 @@ export default function WeddingEditor({ initialWedding }: WeddingEditorProps) {
           </div>
         </div>
 
-        {/* Preview */}
-        <div className={cn(
-          'flex-1 overflow-hidden bg-stone-100',
-          !previewMode && 'hidden lg:block'
-        )}>
-          <div className="h-full flex items-start justify-center p-4 overflow-y-auto">
-            <div className="w-full max-w-sm bg-white rounded-2xl shadow-2xl overflow-hidden my-4">
+        {/* Preview Container */}
+        <div
+          className={cn(
+            'flex-1 flex flex-col overflow-hidden bg-stone-100',
+            !previewMode ? 'hidden lg:flex' : 'flex'
+          )}
+        >
+          {/* Preview Controls Bar */}
+          <div className="h-10 bg-white/90 backdrop-blur border-b border-stone-200/80 px-4 flex items-center justify-between flex-shrink-0 z-20">
+            <div className="flex items-center gap-1 bg-stone-100 p-0.5 rounded-lg text-stone-600">
+              <button
+                type="button"
+                onClick={() => setDeviceMode('mobile')}
+                className={cn(
+                  'flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-medium transition-all',
+                  deviceMode === 'mobile'
+                    ? 'bg-white text-stone-900 shadow-xs font-semibold'
+                    : 'text-stone-500 hover:text-stone-800'
+                )}
+                title="Mobile View (390px)"
+              >
+                <Smartphone className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">Mobile</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setDeviceMode('desktop')}
+                className={cn(
+                  'flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-medium transition-all',
+                  deviceMode === 'desktop'
+                    ? 'bg-white text-stone-900 shadow-xs font-semibold'
+                    : 'text-stone-500 hover:text-stone-800'
+                )}
+                title="Desktop / Tablet View"
+              >
+                <Monitor className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">Desktop</span>
+              </button>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <span className="text-[11px] text-stone-400 font-medium hidden sm:inline">
+                Selected Template Preview
+              </span>
+              {wedding.slug && (
+                <Link
+                  href={`/w/${wedding.slug}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1 text-[11px] text-amber-700 hover:text-amber-800 font-medium hover:underline"
+                >
+                  <span>Open Full Page</span>
+                  <ExternalLink className="w-3 h-3" />
+                </Link>
+              )}
+            </div>
+          </div>
+
+          {/* Preview Frame */}
+          <div className="flex-1 overflow-y-auto p-4 sm:p-6 flex items-start justify-center">
+            <div
+              className={cn(
+                'bg-white shadow-2xl transition-all duration-300 overflow-hidden my-auto',
+                deviceMode === 'mobile'
+                  ? 'w-full max-w-[390px] rounded-[2.5rem] border-[8px] border-stone-800 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)]'
+                  : 'w-full max-w-4xl rounded-2xl border border-stone-200'
+              )}
+            >
               <WeddingPreviewFrame wedding={wedding} />
             </div>
           </div>
