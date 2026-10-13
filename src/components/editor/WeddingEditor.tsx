@@ -492,6 +492,7 @@ export default function WeddingEditor({ initialWedding }: WeddingEditorProps) {
               <div className="relative h-full w-full bg-stone-50">
                 <WeddingPreviewFrame wedding={wedding} />
               </div>
+              
             </div>
           </div>
         </section>
