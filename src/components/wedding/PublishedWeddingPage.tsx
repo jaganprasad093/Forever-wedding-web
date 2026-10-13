@@ -13,7 +13,6 @@ import {
   type Variants,
 } from 'framer-motion'
 import {
-  Music,
   MapPin,
   Calendar,
   Clock,
@@ -30,6 +29,7 @@ import RSVPForm from '@/components/rsvp/RSVPForm'
 import FloralRomanticTemplate from './FloralRomanticTemplate'
 import RoyalGoldTemplate from './RoyalGoldTemplate'
 import MinimalWhiteTemplate from './MinimalWhiteTemplate'
+import WeddingMusicPlayer from './WeddingMusicPlayer'
 
 type Photo = NonNullable<WeddingData['gallery']>[number]
 type WeddingEvent = NonNullable<WeddingData['events']>[number]
@@ -345,89 +345,7 @@ function CountdownTimer({ weddingDate, primary }: { weddingDate: string; primary
 /* ───────────────────────── Music ───────────────────────── */
 
 function MusicPlayer({ music, accent, primary }: { music: MusicItem; accent: string; primary: string }) {
-  const audioRef = useRef<HTMLAudioElement>(null)
-  const [playing, setPlaying] = useState(false)
-
-  // Browsers block autoplay, so start on the first tap or click.
-  useEffect(() => {
-    const cleanup = () => {
-      document.removeEventListener('click', start)
-      document.removeEventListener('touchstart', start)
-    }
-    function start() {
-      const a = audioRef.current
-      if (a) {
-        a.volume = 0.5
-        a.play().catch(() => { })
-      }
-      cleanup()
-    }
-    document.addEventListener('click', start)
-    document.addEventListener('touchstart', start)
-    return cleanup
-  }, [])
-
-  const toggle = () => {
-    const a = audioRef.current
-    if (!a) return
-    if (a.paused) a.play().catch(() => { })
-    else a.pause()
-  }
-
-  return (
-    <>
-      <audio
-        ref={audioRef}
-        src={music.url}
-        loop
-        onPlay={() => setPlaying(true)}
-        onPause={() => setPlaying(false)}
-      />
-      <motion.button
-        type="button"
-        initial={{ scale: 0, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ delay: 2, type: 'spring', stiffness: 260, damping: 18 }}
-        whileHover={{ scale: 1.08 }}
-        whileTap={{ scale: 0.92 }}
-        onClick={toggle}
-        aria-label={playing ? 'Pause music' : 'Play music'}
-        aria-pressed={playing}
-        className="fixed z-50 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white/95 backdrop-blur shadow-2xl border flex items-center justify-center"
-        style={{
-          right: 'max(1rem, env(safe-area-inset-right))',
-          bottom: 'max(1.25rem, env(safe-area-inset-bottom))',
-          color: primary,
-          borderColor: `${accent}80`,
-        }}
-      >
-        {playing ? (
-          <span className="flex items-end gap-[3px] h-4" aria-hidden>
-            {[0, 1, 2, 3].map((b) => (
-              <motion.span
-                key={b}
-                className="w-[3px] rounded-full"
-                style={{ backgroundColor: primary }}
-                animate={{ height: [4, 16, 7, 14, 4] }}
-                transition={{ duration: 1 + b * 0.15, repeat: Infinity, ease: 'easeInOut', delay: b * 0.1 }}
-              />
-            ))}
-          </span>
-        ) : (
-          <Music className="w-5 h-5" />
-        )}
-        {playing && (
-          <motion.span
-            aria-hidden
-            className="absolute inset-0 rounded-full border-2"
-            style={{ borderColor: accent }}
-            animate={{ scale: [1, 1.5], opacity: [0.7, 0] }}
-            transition={{ duration: 1.8, repeat: Infinity, ease: 'easeOut' }}
-          />
-        )}
-      </motion.button>
-    </>
-  )
+  return <WeddingMusicPlayer music={music} accent={accent} primary={primary} />
 }
 
 /* ───────────────────────── Events timeline ───────────────────────── */

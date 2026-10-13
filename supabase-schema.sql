@@ -201,9 +201,13 @@ CREATE TABLE IF NOT EXISTS public.music (
   artist TEXT,
   url TEXT NOT NULL,
   path TEXT,
-  type TEXT DEFAULT 'upload' CHECK (type IN ('upload', 'preset')),
+  type TEXT DEFAULT 'upload' CHECK (type IN ('upload', 'preset', 'youtube')),
   created_at TIMESTAMPTZ DEFAULT NOW() NOT NULL
 );
+
+-- Ensure check constraint includes 'youtube' if table was previously created with only ('upload', 'preset')
+ALTER TABLE public.music DROP CONSTRAINT IF EXISTS music_type_check;
+ALTER TABLE public.music ADD CONSTRAINT music_type_check CHECK (type IN ('upload', 'preset', 'youtube'));
 
 ALTER TABLE public.music ENABLE ROW LEVEL SECURITY;
 

@@ -24,6 +24,7 @@ import { ArrowUpRight, ChevronLeft, ChevronRight, X } from 'lucide-react'
 import { WeddingData, MusicItem } from '@/types/wedding'
 import { formatDate, formatTime, getCountdown } from '@/lib/utils'
 import RSVPForm from '@/components/rsvp/RSVPForm'
+import WeddingMusicPlayer from './WeddingMusicPlayer'
 
 type Photo = NonNullable<WeddingData['gallery']>[number]
 type WeddingEvent = NonNullable<WeddingData['events']>[number]
@@ -383,82 +384,8 @@ function ScrollWords({ text }: { text: string }) {
 }
 
 /* ───────────────────────── Music ───────────────────────── */
-
 function EditorialMusicPlayer({ music }: { music?: MusicItem | null }) {
-  const audioRef = useRef<HTMLAudioElement>(null)
-  const [playing, setPlaying] = useState(false)
-
-  // Browsers block autoplay, so start on the first tap or click.
-  useEffect(() => {
-    const cleanup = () => {
-      document.removeEventListener('click', start)
-      document.removeEventListener('touchstart', start)
-    }
-    function start() {
-      const a = audioRef.current
-      if (a) {
-        a.volume = 0.5
-        a.play().catch(() => { })
-      }
-      cleanup()
-    }
-    document.addEventListener('click', start)
-    document.addEventListener('touchstart', start)
-    return cleanup
-  }, [])
-
-  const toggle = () => {
-    const a = audioRef.current
-    if (!a) return
-    if (a.paused) a.play().catch(() => { })
-    else a.pause()
-  }
-
-  return (
-    <>
-      <audio
-        ref={audioRef}
-        src={music?.url || 'https://actions.google.com/sounds/v1/ambiences/soft_gentle_piano.ogg'}
-        loop
-        onPlay={() => setPlaying(true)}
-        onPause={() => setPlaying(false)}
-      />
-      <motion.button
-        type="button"
-        initial={{ opacity: 0, y: -12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.2, duration: 0.7, ease }}
-        whileHover={{ scale: 1.04 }}
-        whileTap={{ scale: 0.96 }}
-        onClick={toggle}
-        aria-label={playing ? 'Pause music' : 'Play music'}
-        aria-pressed={playing}
-        className="fixed z-50 flex h-11 cursor-pointer items-center gap-3 rounded-full bg-stone-900 font-mono text-[0.65rem] uppercase tracking-widest text-stone-100 shadow-xl transition-colors hover:bg-stone-800"
-        style={{
-          top: 'max(1rem, env(safe-area-inset-top))',
-          right: 'max(1rem, env(safe-area-inset-right))',
-          padding: '0 1rem',
-        }}
-      >
-        <span className="flex h-3.5 items-end gap-[3px]" aria-hidden>
-          {[0, 1, 2, 3].map((b) => (
-            <motion.span
-              key={b}
-              className="w-[2px] rounded-full"
-              style={{ backgroundColor: playing ? GOLD : '#78716c' }}
-              animate={playing ? { height: [3, 14, 6, 12, 3] } : { height: 3 }}
-              transition={
-                playing
-                  ? { duration: 1 + b * 0.15, repeat: Infinity, ease: 'easeInOut', delay: b * 0.1 }
-                  : { duration: 0.3 }
-              }
-            />
-          ))}
-        </span>
-        <span className="hidden sm:inline">{playing ? 'Sound / On' : 'Play Audio'}</span>
-      </motion.button>
-    </>
-  )
+  return <WeddingMusicPlayer music={music} accent="#b08d57" primary="#1c1917" />
 }
 
 /* ───────────────────────── Gallery ───────────────────────── */

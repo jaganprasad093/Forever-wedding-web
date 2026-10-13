@@ -2,6 +2,11 @@ import { createClient } from '@/lib/supabase/server'
 import { notFound, redirect } from 'next/navigation'
 import WeddingEditor from '@/components/editor/WeddingEditor'
 import { WeddingData } from '@/types/wedding'
+import { Database } from '@/types/supabase'
+
+type DbEvent = Database['public']['Tables']['events']['Row']
+type DbGallery = Database['public']['Tables']['gallery']['Row']
+type DbMusic = Database['public']['Tables']['music']['Row']
 
 export const dynamic = 'force-dynamic'
 
@@ -26,6 +31,11 @@ export default async function EditorPage({
     .single()
 
   if (!wedding) notFound()
+
+  const rawEvents = (wedding.events || []) as unknown as DbEvent[]
+  const rawGallery = (wedding.gallery || []) as unknown as DbGallery[]
+  const rawMusic = (wedding.music || []) as unknown as DbMusic[]
+  const currentMusic = rawMusic[0]
 
   const weddingData: WeddingData = {
     id: wedding.id,
@@ -52,34 +62,34 @@ export default async function EditorPage({
     views: wedding.views,
     createdAt: wedding.created_at,
     updatedAt: wedding.updated_at,
-    events: (((wedding as any).events || []) as any[]).map((e: any) => ({
-      id: e.id as string,
-      weddingId: e.wedding_id as string,
-      title: e.title as string,
-      date: e.date as string | null,
-      time: e.time as string | null,
-      venue: e.venue as string | null,
-      address: e.address as string | null,
-      mapsUrl: e.maps_url as string | null,
-      orderIndex: e.order_index as number,
+    events: rawEvents.map((e) => ({
+      id: e.id,
+      weddingId: e.wedding_id,
+      title: e.title,
+      date: e.date,
+      time: e.time,
+      venue: e.venue,
+      address: e.address,
+      mapsUrl: e.maps_url,
+      orderIndex: e.order_index ?? 0,
     })),
-    gallery: (((wedding as any).gallery || []) as any[]).map((g: any) => ({
-      id: g.id as string,
-      weddingId: g.wedding_id as string,
-      url: g.url as string,
-      path: g.path as string,
-      isCover: g.is_cover as boolean,
-      orderIndex: g.order_index as number,
+    gallery: rawGallery.map((g) => ({
+      id: g.id,
+      weddingId: g.wedding_id,
+      url: g.url,
+      path: g.path,
+      isCover: g.is_cover,
+      orderIndex: g.order_index ?? 0,
     })),
-    music: (wedding as any).music?.[0]
+    music: currentMusic
       ? {
-          id: (wedding as any).music[0].id as string,
-          weddingId: (wedding as any).music[0].wedding_id as string,
-          title: (wedding as any).music[0].title as string,
-          artist: (wedding as any).music[0].artist as string | null,
-          url: (wedding as any).music[0].url as string,
-          path: (wedding as any).music[0].path as string | null,
-          type: (wedding as any).music[0].type as 'upload' | 'preset',
+          id: currentMusic.id,
+          weddingId: currentMusic.wedding_id,
+          title: currentMusic.title,
+          artist: currentMusic.artist,
+          url: currentMusic.url,
+          path: currentMusic.path,
+          type: currentMusic.type,
         }
       : null,
   }

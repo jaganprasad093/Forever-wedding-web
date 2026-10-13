@@ -61,7 +61,7 @@ export interface MusicItem {
   artist: string | null
   url: string
   path: string | null
-  type: 'upload' | 'preset'
+  type: 'upload' | 'preset' | 'youtube'
 }
 
 export interface Template {

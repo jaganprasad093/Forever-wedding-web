@@ -3,7 +3,7 @@ import { notFound, redirect } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft, Edit3 } from 'lucide-react'
 import PublishedWeddingPage from '@/components/wedding/PublishedWeddingPage'
-import { WeddingData } from '@/types/wedding'
+import { MusicItem, WeddingData } from '@/types/wedding'
 
 export const dynamic = 'force-dynamic'
 
@@ -39,7 +39,7 @@ interface DbMusic {
   artist: string | null
   url: string
   path: string | null
-  type: 'upload' | 'preset'
+  type: MusicItem['type']
 }
 
 export default async function WeddingPreviewPage({ params }: Props) {
