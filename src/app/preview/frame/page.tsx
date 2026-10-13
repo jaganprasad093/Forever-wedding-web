@@ -1,20 +1,51 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useSyncExternalStore } from 'react'
 import PublishedWeddingPage from '@/components/wedding/PublishedWeddingPage'
 import { WeddingData } from '@/types/wedding'
 
-export default function PreviewFramePage() {
-  const [wedding, setWedding] = useState<WeddingData | null>(() => {
-    if (typeof window === 'undefined') return null
-    try {
-      const cached = window.sessionStorage.getItem('forever_vows_preview_cache')
-      if (cached) return JSON.parse(cached)
-    } catch {
-      // Ignore sessionStorage parsing errors
+const emptySubscribe = () => () => {}
+
+let currentWedding: WeddingData | null = null
+const listeners = new Set<() => void>()
+
+function subscribeWedding(callback: () => void) {
+  listeners.add(callback)
+  return () => {
+    listeners.delete(callback)
+  }
+}
+
+function getWeddingSnapshot(): WeddingData | null {
+  if (currentWedding) return currentWedding
+  try {
+    const cached = window.sessionStorage.getItem('forever_vows_preview_cache')
+    if (cached) {
+      currentWedding = JSON.parse(cached)
+      return currentWedding
     }
-    return null
-  })
+  } catch {
+    // Ignore sessionStorage parsing errors
+  }
+  return null
+}
+
+function getServerWeddingSnapshot(): WeddingData | null {
+  return null
+}
+
+export default function PreviewFramePage() {
+  const isMounted = useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false
+  )
+
+  const wedding = useSyncExternalStore(
+    subscribeWedding,
+    getWeddingSnapshot,
+    getServerWeddingSnapshot
+  )
 
   useEffect(() => {
     // Notify parent editor that the preview iframe is mounted and ready
@@ -26,7 +57,8 @@ export default function PreviewFramePage() {
 
     const handleMessage = (event: MessageEvent) => {
       if (event.data?.type === 'UPDATE_WEDDING_DATA' && event.data.wedding) {
-        setWedding(event.data.wedding)
+        currentWedding = event.data.wedding
+        listeners.forEach((listener) => listener())
       }
     }
 
@@ -55,7 +87,7 @@ export default function PreviewFramePage() {
     return () => document.removeEventListener('click', handleClick, { capture: true })
   }, [])
 
-  if (!wedding) {
+  if (!isMounted || !wedding) {
     return (
       <div className="min-h-screen bg-stone-950 flex flex-col items-center justify-center text-amber-200/80 p-6 text-center">
         <div className="w-8 h-8 rounded-full border-2 border-amber-400/30 border-t-amber-400 animate-spin mb-3" />
