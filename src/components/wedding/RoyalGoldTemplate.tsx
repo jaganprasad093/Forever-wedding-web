@@ -45,13 +45,10 @@ const SECTION_PAD: React.CSSProperties = {
   padding: 'clamp(4.5rem, 10vw, 8rem) clamp(1.25rem, 5vw, 3rem)',
 }
 
-// Subtle diamond lattice used as a background texture.
-const LATTICE =
-  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56'%3E%3Cpath d='M28 4 52 28 28 52 4 28Z' fill='none' stroke='%23d97706' stroke-opacity='0.09'/%3E%3C/svg%3E\")"
-
 // Gold foil text (vertical gradient) and its shimmering horizontal variant.
 const FOIL: React.CSSProperties = {
-  backgroundImage: 'linear-gradient(180deg, #fef3c7 0%, #fcd34d 45%, #d97706 100%)',
+  backgroundImage:
+    'linear-gradient(180deg, #ffffff 0%, var(--accent, #fcd34d) 45%, var(--primary, #d97706) 100%)',
   WebkitBackgroundClip: 'text',
   backgroundClip: 'text',
   WebkitTextFillColor: 'transparent',
@@ -59,7 +56,7 @@ const FOIL: React.CSSProperties = {
 }
 const FOIL_SHIMMER: React.CSSProperties = {
   backgroundImage:
-    'linear-gradient(100deg, #b45309 0%, #fde68a 22%, #f59e0b 45%, #fff7d6 55%, #f59e0b 68%, #b45309 100%)',
+    'linear-gradient(100deg, var(--secondary, #b45309) 0%, var(--accent, #fde68a) 22%, var(--primary, #f59e0b) 45%, #ffffff 55%, var(--primary, #f59e0b) 68%, var(--secondary, #b45309) 100%)',
   backgroundSize: '200% 100%',
   WebkitBackgroundClip: 'text',
   backgroundClip: 'text',
@@ -84,7 +81,7 @@ function Section({
       style={{
         ...SECTION_PAD,
         backgroundColor: bg,
-        backgroundImage: lattice ? LATTICE : undefined,
+        backgroundImage: lattice ? 'var(--lattice, none)' : undefined,
       }}
     >
       <div style={{ width: '100%', maxWidth: max, marginInline: 'auto' }}>{children}</div>
@@ -833,6 +830,20 @@ export default function RoyalGoldTemplate({ wedding }: { wedding: WeddingData })
   const bride = wedding.brideName || 'Anu Sharma'
   const couple = `${groom} & ${bride}`
 
+  const theme = wedding.theme || {
+    primaryColor: '#d97706',
+    secondaryColor: '#b45309',
+    backgroundColor: '#0a0a0a',
+    accentColor: '#fbbf24',
+    fontFamily: 'cormorant',
+  }
+  const primary = theme.primaryColor || '#d97706'
+  const secondary = theme.secondaryColor || '#b45309'
+  const accent = theme.accentColor || '#fbbf24'
+  const bg = theme.backgroundColor || '#0a0a0a'
+  const fontFamily = theme.fontFamily === 'inter' ? 'Inter, sans-serif' : '"Cormorant Garamond", serif'
+  const latticeSvg = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56'%3E%3Cpath d='M28 4 52 28 28 52 4 28Z' fill='none' stroke='${encodeURIComponent(accent)}' stroke-opacity='0.12'/%3E%3C/svg%3E")`
+
   const coverPhoto = wedding.gallery?.find((g) => g.isCover) || wedding.gallery?.[0]
 
   /* Page progress bar */
@@ -851,18 +862,29 @@ export default function RoyalGoldTemplate({ wedding }: { wedding: WeddingData })
 
   const heroPill: React.CSSProperties = {
     padding: '0.6rem 1.15rem',
-    border: '1px solid rgba(217,119,6,0.45)',
-    background: 'rgba(12,10,9,0.65)',
+    border: `1px solid ${accent}66`,
+    background: 'rgba(12,10,9,0.75)',
   }
 
   return (
     <MotionConfig reducedMotion="user">
-      <div className="relative min-h-screen w-full overflow-x-hidden bg-[#0a0a0a] font-serif text-[#fef3c7] selection:bg-amber-500 selection:text-stone-950">
+      <div
+        className="relative min-h-screen w-full overflow-x-hidden font-serif text-[#fef3c7] selection:bg-amber-500 selection:text-stone-950"
+        style={{
+          ['--primary' as string]: primary,
+          ['--secondary' as string]: secondary,
+          ['--accent' as string]: accent,
+          ['--bg' as string]: bg,
+          ['--lattice' as string]: latticeSvg,
+          backgroundColor: bg,
+          fontFamily,
+        }}
+      >
         {/* Scroll progress */}
         <motion.div
           aria-hidden
           className="fixed inset-x-0 top-0 z-[55] h-[3px] origin-left"
-          style={{ scaleX: progress, background: 'linear-gradient(to right, #b45309, #fde68a, #d97706)' }}
+          style={{ scaleX: progress, background: `linear-gradient(to right, ${secondary}, ${accent}, ${primary})` }}
         />
 
         <RoyalMusicPlayer music={wedding.music} />
@@ -892,11 +914,10 @@ export default function RoyalGoldTemplate({ wedding }: { wedding: WeddingData })
             <div
               className="absolute inset-0"
               style={{
-                background:
-                  'radial-gradient(ellipse at 50% 40%, rgba(217,119,6,0.18), transparent 60%), radial-gradient(ellipse at 50% 110%, rgba(90,15,30,0.55), transparent 60%)',
+                background: `radial-gradient(ellipse at 50% 40%, ${accent}26, transparent 60%), radial-gradient(ellipse at 50% 110%, ${primary}55, transparent 60%)`,
               }}
             />
-            <div className="absolute inset-0 opacity-70" style={{ backgroundImage: LATTICE }} />
+            <div className="absolute inset-0 opacity-70" style={{ backgroundImage: latticeSvg }} />
           </div>
 
           <GoldDustParticles />
@@ -1115,7 +1136,7 @@ export default function RoyalGoldTemplate({ wedding }: { wedding: WeddingData })
           />
           <Reveal delay={0.1}>
             <Frame padding="clamp(1.5rem, 4vw, 2.5rem)">
-              <RSVPForm weddingId={wedding.id} primaryColor="#d97706" accentColor="#fbbf24" />
+              <RSVPForm weddingId={wedding.id} primaryColor={primary} accentColor={accent} />
             </Frame>
           </Reveal>
         </Section>

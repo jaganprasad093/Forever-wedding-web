@@ -45,8 +45,8 @@ type Lang = 'EN' | 'ML'
 
 const ease = [0.22, 1, 0.36, 1] as const
 
-const ROSE = '#9f1239'
-const ROSE_SOFT = '#fb7185'
+const ROSE = 'var(--primary, #9f1239)'
+const ROSE_SOFT = 'var(--accent, #fb7185)'
 
 // Demo family lines (replace with real fields when your data model has them)
 const GROOM_PARENTS = 'Mr. Pavithran & Mrs. Mridhula'
@@ -1404,6 +1404,19 @@ export default function FloralRomanticTemplate({ wedding }: { wedding: WeddingDa
   const bride = wedding.brideName || 'Nidhisree'
   const couple = `${groom} & ${bride}`
 
+  const theme = wedding.theme || {
+    primaryColor: '#9f1239',
+    secondaryColor: '#f43f5e',
+    backgroundColor: '#fdf2f8',
+    accentColor: '#fb7185',
+    fontFamily: 'cormorant',
+  }
+  const primary = theme.primaryColor || '#9f1239'
+  const secondary = theme.secondaryColor || '#f43f5e'
+  const accent = theme.accentColor || '#fb7185'
+  const bg = theme.backgroundColor || '#fdf2f8'
+  const fontFamily = theme.fontFamily === 'inter' ? 'Inter, sans-serif' : '"Cormorant Garamond", serif'
+
   const coverPhoto = wedding.gallery?.find((g) => g.isCover) || wedding.gallery?.[0]
 
   const parentsLine = (kind: 'son' | 'daughter', parents: string) =>
@@ -1430,12 +1443,23 @@ export default function FloralRomanticTemplate({ wedding }: { wedding: WeddingDa
   return (
     <MotionConfig reducedMotion="user">
       <HeartClipDefs />
-      <div className="relative min-h-screen w-full overflow-x-hidden bg-[#fdf2f8] font-serif text-[#881337] selection:bg-rose-200 selection:text-rose-900">
+      <div
+        className="relative min-h-screen w-full overflow-x-hidden font-serif selection:bg-rose-200 selection:text-rose-900"
+        style={{
+          ['--primary' as string]: primary,
+          ['--secondary' as string]: secondary,
+          ['--accent' as string]: accent,
+          ['--bg' as string]: bg,
+          backgroundColor: bg,
+          fontFamily,
+          color: primary,
+        }}
+      >
         {/* Scroll progress */}
         <motion.div
           aria-hidden
           className="fixed inset-x-0 top-0 z-[55] h-[3px] origin-left"
-          style={{ scaleX: progress, background: 'linear-gradient(to right, #fda4af, #f43f5e, #9f1239)' }}
+          style={{ scaleX: progress, background: `linear-gradient(to right, ${accent}, ${secondary}, ${primary})` }}
         />
 
         <RomanticMusicPlayer music={wedding.music} />
@@ -1730,7 +1754,7 @@ export default function FloralRomanticTemplate({ wedding }: { wedding: WeddingDa
               className="relative rounded-3xl border border-rose-200 bg-white shadow-xl shadow-rose-200/50"
               style={{ padding: 'clamp(1.5rem, 4vw, 2.5rem)' }}
             >
-              <RSVPForm weddingId={wedding.id} primaryColor={ROSE} accentColor="#f43f5e" />
+              <RSVPForm weddingId={wedding.id} primaryColor={primary} accentColor={accent} />
             </div>
           </Reveal>
         </Section>

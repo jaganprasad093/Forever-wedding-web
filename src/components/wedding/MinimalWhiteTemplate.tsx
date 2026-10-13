@@ -31,8 +31,8 @@ type WeddingEvent = NonNullable<WeddingData['events']>[number]
 
 const ease = [0.22, 1, 0.36, 1] as const
 
-const INK = '#1c1917'
-const GOLD = '#b08d57' // champagne gold: the one "royal" accent
+const INK = 'var(--primary, #1c1917)'
+const GOLD = 'var(--accent, #b08d57)' // champagne gold: the one "royal" accent
 
 const GUTTER = 'clamp(1.25rem, 5vw, 3.5rem)'
 
@@ -384,8 +384,16 @@ function ScrollWords({ text }: { text: string }) {
 }
 
 /* ───────────────────────── Music ───────────────────────── */
-function EditorialMusicPlayer({ music }: { music?: MusicItem | null }) {
-  return <WeddingMusicPlayer music={music} accent="#b08d57" primary="#1c1917" />
+function EditorialMusicPlayer({
+  music,
+  accent = '#b08d57',
+  primary = '#1c1917',
+}: {
+  music?: MusicItem | null
+  accent?: string
+  primary?: string
+}) {
+  return <WeddingMusicPlayer music={music} accent={accent} primary={primary} />
 }
 
 /* ───────────────────────── Gallery ───────────────────────── */
@@ -662,17 +670,41 @@ export default function MinimalWhiteTemplate({ wedding }: { wedding: WeddingData
   })
   const imgY = useTransform(imgProgress, [0, 1], ['-7%', '7%'])
 
+  const theme = wedding.theme || {
+    primaryColor: '#1c1917',
+    secondaryColor: '#44403c',
+    backgroundColor: '#fafaf9',
+    accentColor: '#b08d57',
+    fontFamily: 'inter',
+  }
+  const primary = theme.primaryColor || '#1c1917'
+  const secondary = theme.secondaryColor || '#44403c'
+  const accent = theme.accentColor || '#b08d57'
+  const bg = theme.backgroundColor || '#fafaf9'
+  const fontFamily = theme.fontFamily === 'cormorant' ? '"Cormorant Garamond", serif' : 'Inter, sans-serif'
+
   return (
     <MotionConfig reducedMotion="user">
-      <div className="relative min-h-screen w-full overflow-x-hidden bg-[#fafaf9] font-sans text-stone-900 selection:bg-stone-900 selection:text-stone-50">
+      <div
+        className="relative min-h-screen w-full overflow-x-hidden font-sans text-stone-900 selection:bg-stone-900 selection:text-stone-50"
+        style={{
+          ['--primary' as string]: primary,
+          ['--secondary' as string]: secondary,
+          ['--accent' as string]: accent,
+          ['--bg' as string]: bg,
+          backgroundColor: bg,
+          fontFamily,
+          color: primary,
+        }}
+      >
         {/* Scroll progress */}
         <motion.div
           aria-hidden
           className="fixed inset-x-0 top-0 z-[55] h-[2px] origin-left"
-          style={{ scaleX: progress, backgroundColor: GOLD }}
+          style={{ scaleX: progress, backgroundColor: accent }}
         />
 
-        <EditorialMusicPlayer music={wedding.music} />
+        <EditorialMusicPlayer music={wedding.music} accent={accent} primary={primary} />
 
         {/* ───────── MASTHEAD & HERO ───────── */}
         <section
@@ -970,7 +1002,7 @@ export default function MinimalWhiteTemplate({ wedding }: { wedding: WeddingData
                   style={{ borderColor: GOLD, margin: '-1px' }}
                 />
               ))}
-              <RSVPForm weddingId={wedding.id} primaryColor="#1c1917" accentColor="#44403c" />
+              <RSVPForm weddingId={wedding.id} primaryColor={primary} accentColor={accent} />
             </div>
           </Reveal>
         </Block>
