@@ -192,6 +192,19 @@ export default function TemplatesPage() {
         return
       }
 
+      // Ensure profile exists for the current user to satisfy foreign key constraint
+      await supabase.from('profiles').upsert(
+        {
+          id: user.id,
+          name:
+            (user.user_metadata?.name as string) ||
+            (user.user_metadata?.full_name as string) ||
+            user.email?.split('@')[0] ||
+            'User',
+        },
+        { onConflict: 'id' }
+      )
+
       // Generate a unique slug
       const baseSlug = `${template.slug}-${Date.now().toString(36)}`
 

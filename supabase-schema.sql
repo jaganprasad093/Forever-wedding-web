@@ -1,5 +1,5 @@
 -- ForeverVows Database Schema
--- Run this in your Supabase SQL Editor
+-- Run this in your Supabase SQL Editor (safe to re-run multiple times)
 
 -- =============================================
 -- PROFILES TABLE
@@ -14,14 +14,17 @@ CREATE TABLE IF NOT EXISTS public.profiles (
 
 ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "Users can view their own profile" ON public.profiles;
 CREATE POLICY "Users can view their own profile"
   ON public.profiles FOR SELECT
   USING (auth.uid() = id);
 
+DROP POLICY IF EXISTS "Users can update their own profile" ON public.profiles;
 CREATE POLICY "Users can update their own profile"
   ON public.profiles FOR UPDATE
   USING (auth.uid() = id);
 
+DROP POLICY IF EXISTS "Users can insert their own profile" ON public.profiles;
 CREATE POLICY "Users can insert their own profile"
   ON public.profiles FOR INSERT
   WITH CHECK (auth.uid() = id);
@@ -44,6 +47,14 @@ CREATE TRIGGER on_auth_user_created
   AFTER INSERT ON auth.users
   FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
 
+-- Backfill existing users who signed up before this table/trigger was created
+INSERT INTO public.profiles (id, name)
+SELECT 
+  id, 
+  COALESCE(raw_user_meta_data->>'name', raw_user_meta_data->>'full_name', split_part(email, '@', 1))
+FROM auth.users
+ON CONFLICT (id) DO NOTHING;
+
 -- =============================================
 -- TEMPLATES TABLE
 -- =============================================
@@ -62,6 +73,7 @@ CREATE TABLE IF NOT EXISTS public.templates (
 
 ALTER TABLE public.templates ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "Templates are publicly readable" ON public.templates;
 CREATE POLICY "Templates are publicly readable"
   ON public.templates FOR SELECT
   USING (active = TRUE);
@@ -92,10 +104,12 @@ CREATE TABLE IF NOT EXISTS public.weddings (
 
 ALTER TABLE public.weddings ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "Users can manage their own weddings" ON public.weddings;
 CREATE POLICY "Users can manage their own weddings"
   ON public.weddings FOR ALL
   USING (auth.uid() = user_id);
 
+DROP POLICY IF EXISTS "Published weddings are publicly readable" ON public.weddings;
 CREATE POLICY "Published weddings are publicly readable"
   ON public.weddings FOR SELECT
   USING (published = TRUE);
@@ -118,6 +132,7 @@ CREATE TABLE IF NOT EXISTS public.events (
 
 ALTER TABLE public.events ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "Wedding owners can manage events" ON public.events;
 CREATE POLICY "Wedding owners can manage events"
   ON public.events FOR ALL
   USING (
@@ -128,6 +143,7 @@ CREATE POLICY "Wedding owners can manage events"
     )
   );
 
+DROP POLICY IF EXISTS "Events of published weddings are readable" ON public.events;
 CREATE POLICY "Events of published weddings are readable"
   ON public.events FOR SELECT
   USING (
@@ -153,6 +169,7 @@ CREATE TABLE IF NOT EXISTS public.gallery (
 
 ALTER TABLE public.gallery ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "Wedding owners can manage gallery" ON public.gallery;
 CREATE POLICY "Wedding owners can manage gallery"
   ON public.gallery FOR ALL
   USING (
@@ -163,6 +180,7 @@ CREATE POLICY "Wedding owners can manage gallery"
     )
   );
 
+DROP POLICY IF EXISTS "Gallery of published weddings is readable" ON public.gallery;
 CREATE POLICY "Gallery of published weddings is readable"
   ON public.gallery FOR SELECT
   USING (
@@ -189,6 +207,7 @@ CREATE TABLE IF NOT EXISTS public.music (
 
 ALTER TABLE public.music ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "Wedding owners can manage music" ON public.music;
 CREATE POLICY "Wedding owners can manage music"
   ON public.music FOR ALL
   USING (
@@ -199,6 +218,7 @@ CREATE POLICY "Wedding owners can manage music"
     )
   );
 
+DROP POLICY IF EXISTS "Music of published weddings is readable" ON public.music;
 CREATE POLICY "Music of published weddings is readable"
   ON public.music FOR SELECT
   USING (
@@ -225,7 +245,7 @@ CREATE TABLE IF NOT EXISTS public.rsvps (
 
 ALTER TABLE public.rsvps ENABLE ROW LEVEL SECURITY;
 
--- Anyone can submit RSVP to published wedding
+DROP POLICY IF EXISTS "Anyone can submit RSVP to published weddings" ON public.rsvps;
 CREATE POLICY "Anyone can submit RSVP to published weddings"
   ON public.rsvps FOR INSERT
   WITH CHECK (
@@ -236,7 +256,7 @@ CREATE POLICY "Anyone can submit RSVP to published weddings"
     )
   );
 
--- Wedding owners can view RSVPs
+DROP POLICY IF EXISTS "Wedding owners can view RSVPs" ON public.rsvps;
 CREATE POLICY "Wedding owners can view RSVPs"
   ON public.rsvps FOR SELECT
   USING (
@@ -260,7 +280,7 @@ CREATE TABLE IF NOT EXISTS public.analytics (
 
 ALTER TABLE public.analytics ENABLE ROW LEVEL SECURITY;
 
--- Anyone can insert analytics events for published weddings
+DROP POLICY IF EXISTS "Anyone can log analytics for published weddings" ON public.analytics;
 CREATE POLICY "Anyone can log analytics for published weddings"
   ON public.analytics FOR INSERT
   WITH CHECK (
@@ -271,7 +291,7 @@ CREATE POLICY "Anyone can log analytics for published weddings"
     )
   );
 
--- Wedding owners can view their analytics
+DROP POLICY IF EXISTS "Wedding owners can view their analytics" ON public.analytics;
 CREATE POLICY "Wedding owners can view their analytics"
   ON public.analytics FOR SELECT
   USING (
@@ -307,6 +327,7 @@ VALUES
 ON CONFLICT (id) DO NOTHING;
 
 -- Storage policies for wedding-images
+DROP POLICY IF EXISTS "Authenticated users can upload images" ON storage.objects;
 CREATE POLICY "Authenticated users can upload images"
   ON storage.objects FOR INSERT
   WITH CHECK (
@@ -314,10 +335,12 @@ CREATE POLICY "Authenticated users can upload images"
     AND auth.role() = 'authenticated'
   );
 
+DROP POLICY IF EXISTS "Anyone can view wedding images" ON storage.objects;
 CREATE POLICY "Anyone can view wedding images"
   ON storage.objects FOR SELECT
   USING (bucket_id = 'wedding-images');
 
+DROP POLICY IF EXISTS "Users can delete their own images" ON storage.objects;
 CREATE POLICY "Users can delete their own images"
   ON storage.objects FOR DELETE
   USING (
@@ -326,6 +349,7 @@ CREATE POLICY "Users can delete their own images"
   );
 
 -- Storage policies for wedding-music
+DROP POLICY IF EXISTS "Authenticated users can upload music" ON storage.objects;
 CREATE POLICY "Authenticated users can upload music"
   ON storage.objects FOR INSERT
   WITH CHECK (
@@ -333,10 +357,12 @@ CREATE POLICY "Authenticated users can upload music"
     AND auth.role() = 'authenticated'
   );
 
+DROP POLICY IF EXISTS "Anyone can view wedding music" ON storage.objects;
 CREATE POLICY "Anyone can view wedding music"
   ON storage.objects FOR SELECT
   USING (bucket_id = 'wedding-music');
 
+DROP POLICY IF EXISTS "Users can delete their own music" ON storage.objects;
 CREATE POLICY "Users can delete their own music"
   ON storage.objects FOR DELETE
   USING (
@@ -355,10 +381,12 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+DROP TRIGGER IF EXISTS update_weddings_updated_at ON public.weddings;
 CREATE TRIGGER update_weddings_updated_at
   BEFORE UPDATE ON public.weddings
   FOR EACH ROW EXECUTE FUNCTION public.update_updated_at();
 
+DROP TRIGGER IF EXISTS update_profiles_updated_at ON public.profiles;
 CREATE TRIGGER update_profiles_updated_at
   BEFORE UPDATE ON public.profiles
   FOR EACH ROW EXECUTE FUNCTION public.update_updated_at();
