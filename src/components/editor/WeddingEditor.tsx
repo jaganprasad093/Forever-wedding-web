@@ -18,6 +18,7 @@ import {
   Palette,
   Lock,
   Smartphone,
+  Tablet,
   Monitor,
   ExternalLink,
 } from 'lucide-react'
@@ -62,7 +63,7 @@ export default function WeddingEditor({ initialWedding }: WeddingEditorProps) {
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle')
   const [publishing, setPublishing] = useState(false)
   const [previewMode, setPreviewMode] = useState(false)
-  const [deviceMode, setDeviceMode] = useState<'mobile' | 'desktop'>('mobile')
+  const [deviceMode, setDeviceMode] = useState<'mobile' | 'tablet' | 'desktop'>('mobile')
 
   // Auto-save debounce
   const saveChanges = useCallback(
@@ -337,6 +338,20 @@ export default function WeddingEditor({ initialWedding }: WeddingEditorProps) {
               </button>
               <button
                 type="button"
+                onClick={() => setDeviceMode('tablet')}
+                className={cn(
+                  'flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-medium transition-all',
+                  deviceMode === 'tablet'
+                    ? 'bg-white text-stone-900 shadow-xs font-semibold'
+                    : 'text-stone-500 hover:text-stone-800'
+                )}
+                title="Tablet View (768px)"
+              >
+                <Tablet className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">Tablet</span>
+              </button>
+              <button
+                type="button"
                 onClick={() => setDeviceMode('desktop')}
                 className={cn(
                   'flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-medium transition-all',
@@ -344,7 +359,7 @@ export default function WeddingEditor({ initialWedding }: WeddingEditorProps) {
                     ? 'bg-white text-stone-900 shadow-xs font-semibold'
                     : 'text-stone-500 hover:text-stone-800'
                 )}
-                title="Desktop / Tablet View"
+                title="Desktop View"
               >
                 <Monitor className="w-3.5 h-3.5" />
                 <span className="hidden sm:inline">Desktop</span>
@@ -370,17 +385,61 @@ export default function WeddingEditor({ initialWedding }: WeddingEditorProps) {
           </div>
 
           {/* Preview Frame */}
-          <div className="flex-1 overflow-y-auto p-4 sm:p-6 flex items-start justify-center">
-            <div
-              className={cn(
-                'bg-white shadow-2xl transition-all duration-300 overflow-hidden my-auto',
-                deviceMode === 'mobile'
-                  ? 'w-full max-w-[390px] rounded-[2.5rem] border-[8px] border-stone-800 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)]'
-                  : 'w-full max-w-4xl rounded-2xl border border-stone-200'
-              )}
-            >
-              <WeddingPreviewFrame wedding={wedding} />
-            </div>
+          <div className="flex-1 overflow-hidden p-3 sm:p-5 flex items-center justify-center bg-stone-100/70">
+            {deviceMode === 'mobile' ? (
+              /* Mobile Phone Mockup */
+              <div className="w-[390px] max-w-full h-[780px] max-h-full rounded-[2.85rem] border-[10px] border-stone-900 bg-stone-950 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.35)] flex flex-col overflow-hidden transition-all duration-300 ring-1 ring-white/10 shrink-0">
+                {/* Dynamic Island / Notch */}
+                <div className="w-full pt-2 pb-1.5 flex justify-center items-center bg-stone-950 shrink-0 select-none">
+                  <div className="w-24 h-4 bg-stone-900 rounded-full flex items-center justify-center gap-2 px-2 shadow-inner">
+                    <div className="w-2 h-2 rounded-full bg-stone-800" />
+                    <div className="w-1.5 h-1.5 rounded-full bg-blue-950/60" />
+                  </div>
+                </div>
+
+                {/* Inner Phone Screen */}
+                <div className="flex-1 w-full overflow-hidden bg-stone-900 relative">
+                  <WeddingPreviewFrame wedding={wedding} />
+                </div>
+
+                {/* Home Indicator */}
+                <div className="w-full py-1.5 flex justify-center items-center bg-stone-950 shrink-0 select-none">
+                  <div className="w-32 h-1 bg-stone-700 rounded-full" />
+                </div>
+              </div>
+            ) : deviceMode === 'tablet' ? (
+              /* Tablet Mockup */
+              <div className="w-[768px] max-w-full h-full max-h-[820px] rounded-3xl border-[8px] border-stone-800 bg-stone-900 shadow-2xl flex flex-col overflow-hidden transition-all duration-300 ring-1 ring-white/10 shrink-0">
+                <div className="w-full py-1.5 flex justify-center items-center bg-stone-800 shrink-0 select-none">
+                  <div className="w-2 h-2 rounded-full bg-stone-700" />
+                </div>
+                <div className="flex-1 w-full overflow-hidden bg-stone-900 relative">
+                  <WeddingPreviewFrame wedding={wedding} />
+                </div>
+              </div>
+            ) : (
+              /* Desktop Browser Window Mockup */
+              <div className="w-full max-w-5xl h-full max-h-[840px] rounded-2xl border border-stone-200/90 bg-white shadow-2xl flex flex-col overflow-hidden transition-all duration-300">
+                {/* Browser Header Bar */}
+                <div className="h-9 bg-stone-100 border-b border-stone-200/80 px-4 flex items-center gap-3 shrink-0 select-none">
+                  {/* Traffic lights */}
+                  <div className="flex items-center gap-1.5">
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f56] border border-[#e0443e]" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#ffbd2e] border border-[#dea123]" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#27c93f] border border-[#1aab29]" />
+                  </div>
+                  {/* Address bar */}
+                  <div className="flex-1 max-w-sm mx-auto bg-white border border-stone-200 rounded-md py-0.5 px-3 text-[11px] text-stone-500 font-mono flex items-center justify-center gap-1 truncate shadow-2xs">
+                    <span className="text-stone-300">https://</span>
+                    <span className="text-stone-700 font-medium">forevervows.com/w/{wedding.slug || 'invitation'}</span>
+                  </div>
+                </div>
+                {/* Browser Viewport */}
+                <div className="flex-1 w-full overflow-hidden bg-stone-900 relative">
+                  <WeddingPreviewFrame wedding={wedding} />
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -1145,39 +1145,34 @@ function KeralaTraditionalTemplate({ wedding }: { wedding: WeddingData }) {
   )
 }
 
-/* ───────────────────────── Dispatcher ───────────────────────── */
-
 export default function PublishedWeddingPage({ wedding }: { wedding: WeddingData }) {
-  const templateSlug = wedding.slug?.toLowerCase() || ''
-  const templateId = wedding.templateId?.toLowerCase() || ''
+  const templateId = (wedding.templateId || '').toLowerCase()
+  const templateSlug = (wedding.slug || '').toLowerCase()
 
-  if (
-    templateId === 'template-floral-romantic' ||
-    templateId === 'floral-romantic' ||
-    templateId.includes('floral') ||
-    templateSlug.includes('floral-romantic') ||
-    templateSlug.includes('floral')
-  ) {
+  // 1. Explicit templateId selection takes first priority
+  if (templateId) {
+    if (templateId.includes('floral')) {
+      return <FloralRomanticTemplate wedding={wedding} />
+    }
+    if (templateId.includes('royal') || templateId.includes('gold')) {
+      return <RoyalGoldTemplate wedding={wedding} />
+    }
+    if (templateId.includes('minimal') || templateId.includes('white')) {
+      return <MinimalWhiteTemplate wedding={wedding} />
+    }
+    if (templateId.includes('kerala') || templateId.includes('traditional')) {
+      return <KeralaTraditionalTemplate wedding={wedding} />
+    }
+  }
+
+  // 2. Fallback to slug matching if templateId is not set
+  if (templateSlug.includes('floral')) {
     return <FloralRomanticTemplate wedding={wedding} />
   }
-
-  if (
-    templateId === 'template-royal-gold' ||
-    templateId === 'royal-gold' ||
-    templateId.includes('royal') ||
-    templateSlug.includes('royal-gold') ||
-    templateSlug.includes('royal')
-  ) {
+  if (templateSlug.includes('royal') || templateSlug.includes('gold')) {
     return <RoyalGoldTemplate wedding={wedding} />
   }
-
-  if (
-    templateId === 'template-minimal-white' ||
-    templateId === 'minimal-white' ||
-    templateId.includes('minimal') ||
-    templateSlug.includes('minimal-white') ||
-    templateSlug.includes('minimal')
-  ) {
+  if (templateSlug.includes('minimal') || templateSlug.includes('white')) {
     return <MinimalWhiteTemplate wedding={wedding} />
   }
 

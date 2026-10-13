@@ -17,7 +17,6 @@ export default function ThemePanel({
   onUpdate: (updates: Partial<WeddingData>) => void
 }) {
   const theme = wedding.theme
-  const currentTemplateId = wedding.templateId || 'template-royal-gold'
 
   const updateTheme = (updates: Partial<WeddingTheme>) => {
     onUpdate({ theme: { ...theme, ...updates } })
@@ -47,13 +46,8 @@ export default function ThemePanel({
 
         <div className="grid grid-cols-2 gap-2">
           {TEMPLATES.map((tmpl) => {
-            const isSelected =
-              currentTemplateId === tmpl.id ||
-              wedding.slug?.includes(tmpl.slug) ||
-              (tmpl.id.includes('royal') && currentTemplateId.includes('royal')) ||
-              (tmpl.id.includes('floral') && currentTemplateId.includes('floral')) ||
-              (tmpl.id.includes('minimal') && currentTemplateId.includes('minimal')) ||
-              (tmpl.id.includes('kerala') && currentTemplateId.includes('kerala'))
+            const activeId = (wedding.templateId || (wedding.slug?.includes('floral') ? 'template-floral-romantic' : wedding.slug?.includes('minimal') ? 'template-minimal-white' : wedding.slug?.includes('kerala') ? 'template-kerala-traditional' : 'template-royal-gold')).toLowerCase()
+            const isSelected = activeId === tmpl.id.toLowerCase() || activeId.includes(tmpl.slug.toLowerCase())
 
             return (
               <button
