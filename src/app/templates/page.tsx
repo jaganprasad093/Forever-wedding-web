@@ -358,13 +358,12 @@ export default function TemplatesPage() {
           >
             {filteredTemplates.length > 0 ? (
               <div
-                className={`grid gap-6 sm:gap-7 lg:gap-8 mx-auto ${
-                  filteredTemplates.length === 1
-                    ? 'grid-cols-1 max-w-md'
-                    : filteredTemplates.length === 2
-                      ? 'grid-cols-1 sm:grid-cols-2 max-w-3xl'
-                      : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 max-w-md sm:max-w-none'
-                }`}
+                className={`grid gap-6 sm:gap-7 lg:gap-8 mx-auto ${filteredTemplates.length === 1
+                  ? 'grid-cols-1 max-w-md'
+                  : filteredTemplates.length === 2
+                    ? 'grid-cols-1 sm:grid-cols-2 max-w-3xl'
+                    : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 max-w-md sm:max-w-none'
+                  }`}
                 style={{ width: '100%', marginInline: 'auto' }}
               >
                 {filteredTemplates.map((template, i) => (
