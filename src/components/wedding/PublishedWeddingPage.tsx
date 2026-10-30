@@ -29,6 +29,11 @@ import RSVPForm from '@/components/rsvp/RSVPForm'
 import FloralRomanticTemplate from './FloralRomanticTemplate'
 import RoyalGoldTemplate from './RoyalGoldTemplate'
 import MinimalWhiteTemplate from './MinimalWhiteTemplate'
+import CelestialStarlightTemplate from './CelestialStarlightTemplate'
+import SunsetBohoTemplate from './SunsetBohoTemplate'
+import VintageBotanicalTemplate from './VintageBotanicalTemplate'
+import RajputanaPalaceTemplate from './RajputanaPalaceTemplate'
+import OceanBreezeTemplate from './OceanBreezeTemplate'
 import WeddingMusicPlayer from './WeddingMusicPlayer'
 
 type Photo = NonNullable<WeddingData['gallery']>[number]
@@ -1069,6 +1074,21 @@ export default function PublishedWeddingPage({ wedding }: { wedding: WeddingData
 
   // 1. Explicit templateId selection takes first priority
   if (templateId) {
+    if (templateId.includes('celestial') || templateId.includes('starlight')) {
+      return <CelestialStarlightTemplate wedding={wedding} />
+    }
+    if (templateId.includes('sunset') || templateId.includes('boho')) {
+      return <SunsetBohoTemplate wedding={wedding} />
+    }
+    if (templateId.includes('vintage') || templateId.includes('botanical')) {
+      return <VintageBotanicalTemplate wedding={wedding} />
+    }
+    if (templateId.includes('rajputana') || templateId.includes('palace')) {
+      return <RajputanaPalaceTemplate wedding={wedding} />
+    }
+    if (templateId.includes('ocean') || templateId.includes('breeze')) {
+      return <OceanBreezeTemplate wedding={wedding} />
+    }
     if (templateId.includes('floral')) {
       return <FloralRomanticTemplate wedding={wedding} />
     }
@@ -1084,6 +1104,21 @@ export default function PublishedWeddingPage({ wedding }: { wedding: WeddingData
   }
 
   // 2. Fallback to slug matching if templateId is not set
+  if (templateSlug.includes('celestial') || templateSlug.includes('starlight')) {
+    return <CelestialStarlightTemplate wedding={wedding} />
+  }
+  if (templateSlug.includes('sunset') || templateSlug.includes('boho')) {
+    return <SunsetBohoTemplate wedding={wedding} />
+  }
+  if (templateSlug.includes('vintage') || templateSlug.includes('botanical')) {
+    return <VintageBotanicalTemplate wedding={wedding} />
+  }
+  if (templateSlug.includes('rajputana') || templateSlug.includes('palace')) {
+    return <RajputanaPalaceTemplate wedding={wedding} />
+  }
+  if (templateSlug.includes('ocean') || templateSlug.includes('breeze')) {
+    return <OceanBreezeTemplate wedding={wedding} />
+  }
   if (templateSlug.includes('floral')) {
     return <FloralRomanticTemplate wedding={wedding} />
   }
