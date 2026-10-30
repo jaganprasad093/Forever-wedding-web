@@ -16,27 +16,24 @@ import {
   useReducedMotion,
   useScroll,
   useSpring,
-  useTransform,
   type Variants,
 } from 'framer-motion'
 import {
   MapPin,
   Calendar,
   Clock,
-  Heart,
   ChevronDown,
   ChevronLeft,
   ChevronRight,
   Navigation,
   X,
-  Send,
   CalendarPlus,
   Check,
   Star,
   Moon,
   Sparkles,
 } from 'lucide-react'
-import { WeddingData, MusicItem } from '@/types/wedding'
+import { WeddingData } from '@/types/wedding'
 import { formatDate, formatTime, getCountdown } from '@/lib/utils'
 import RSVPForm from '@/components/rsvp/RSVPForm'
 import WeddingMusicPlayer from './WeddingMusicPlayer'
@@ -45,10 +42,6 @@ type Photo = NonNullable<WeddingData['gallery']>[number]
 type WeddingEvent = NonNullable<WeddingData['events']>[number]
 
 const ease = [0.22, 1, 0.36, 1] as const
-
-const GOLD = '#facc15'
-const CYAN_GLOW = '#38bdf8'
-const NAVY_BG = '#030712'
 
 const SECTION_PAD: React.CSSProperties = {
   padding: 'clamp(5rem, 11vw, 8.5rem) clamp(1.25rem, 5vw, 3rem)',

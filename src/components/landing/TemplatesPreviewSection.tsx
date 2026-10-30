@@ -318,26 +318,171 @@ function TemplateCardPreviewContent({
   }
 
   // 4. Minimal Editorial
-  return (
-    <div className="text-left w-full px-2">
-      <div className="flex items-center justify-between text-[8px] font-mono uppercase tracking-widest text-stone-400 border-b border-stone-200 pb-1.5 mb-3">
-        <span>VOL. 24 // INVITATION</span>
-        <span>ISSUE 04</span>
+  if (template.slug === 'minimal-white') {
+    return (
+      <div className="text-left w-full px-2">
+        <div className="flex items-center justify-between text-[8px] font-mono uppercase tracking-widest text-stone-400 border-b border-stone-200 pb-1.5 mb-3">
+          <span>VOL. 24 // INVITATION</span>
+          <span>ISSUE 04</span>
+        </div>
+        <h4
+          style={accent ? { color: accent } : undefined}
+          className="font-serif text-2xl sm:text-[25px] font-light text-stone-900 leading-tight tracking-tight mb-1 transition-colors"
+        >
+          <span className="block">{template.sampleGroom.split(' ')[0]}</span>
+          <span className="block font-sans text-xs italic text-stone-400 font-extralight">&amp;</span>
+          <span className="block">{template.sampleBride.split(' ')[0]}</span>
+        </h4>
+        <div className="pt-2 border-t border-stone-200 mt-2 flex items-center justify-between text-[9px] font-mono text-stone-500 uppercase tracking-wider">
+          <span>{template.date.split(',')[0]}</span>
+          <span>{template.venue.split(',')[0]}</span>
+        </div>
+        <div className="mt-2 text-[8px] font-mono text-stone-400 uppercase tracking-widest">
+          18.9220° N, 72.8347° E
+        </div>
       </div>
+    )
+  }
+
+  // 5. Celestial Starlight
+  if (template.slug === 'celestial-starlight') {
+    return (
+      <div className="text-center w-full px-1">
+        <div
+          style={accent ? { borderColor: accent } : undefined}
+          className="w-12 h-12 mx-auto rounded-full bg-slate-900 border-2 border-cyan-400 text-cyan-300 flex items-center justify-center text-sm shadow-xl shadow-cyan-500/20 mb-3"
+        >
+          ✨
+        </div>
+        <p className="text-[8px] uppercase tracking-[0.35em] text-cyan-300 font-semibold mb-1 opacity-90">
+          Written in the Stars
+        </p>
+        <h4
+          style={accent ? { color: accent } : undefined}
+          className="font-serif text-2xl sm:text-[25px] font-normal text-white leading-tight mb-2"
+        >
+          {template.sampleGroom.split(' ')[0]} &amp; {template.sampleBride.split(' ')[0]}
+        </h4>
+        <div className="w-16 h-px bg-gradient-to-r from-transparent via-cyan-400 to-transparent mx-auto my-1.5" />
+        <p className="text-[10px] text-cyan-200/90 tracking-wider font-medium">{template.date}</p>
+        <p className="text-[9px] text-cyan-300/60 mt-0.5">{template.venue}</p>
+        <div className="mt-2.5 inline-block text-[9px] uppercase tracking-wider text-cyan-200 bg-cyan-950/80 px-2.5 py-0.5 rounded-full border border-cyan-400/40">
+          🌙 Moon Phase Edition
+        </div>
+      </div>
+    )
+  }
+
+  // 6. Sunset Boho
+  if (template.slug === 'sunset-boho') {
+    return (
+      <div className="text-center w-full px-1">
+        <div
+          style={accent ? { backgroundColor: accent } : undefined}
+          className="w-12 h-12 mx-auto rounded-full bg-amber-600 text-white flex items-center justify-center text-sm shadow-md mb-3"
+        >
+          🌅
+        </div>
+        <p className="text-[8px] uppercase tracking-[0.35em] text-[#9a3412] font-semibold mb-1 opacity-90">
+          Golden Hour Mirage
+        </p>
+        <h4
+          style={accent ? { color: accent } : undefined}
+          className="font-serif text-2xl sm:text-[25px] font-normal text-stone-900 leading-tight mb-2"
+        >
+          {template.sampleGroom.split(' ')[0]} &amp; {template.sampleBride.split(' ')[0]}
+        </h4>
+        <div className="w-14 h-px bg-amber-400 mx-auto my-1.5 opacity-60" />
+        <p className="text-[10px] text-stone-700 tracking-wider font-medium">{template.date}</p>
+        <p className="text-[9px] text-amber-800/70 mt-0.5">{template.venue}</p>
+        <div className="mt-2.5 inline-block text-[9px] uppercase tracking-wider text-amber-900 bg-amber-100 px-2.5 py-0.5 rounded-full border border-amber-300">
+          🌾 Wax-Sealed Arch
+        </div>
+      </div>
+    )
+  }
+
+  // 7. Vintage Botanical
+  if (template.slug === 'vintage-botanical') {
+    return (
+      <div className="text-center w-full px-1">
+        <div
+          style={accent ? { backgroundColor: accent } : undefined}
+          className="w-12 h-12 mx-auto rounded-full bg-emerald-800 text-white flex items-center justify-center text-sm shadow-md mb-3"
+        >
+          🌿
+        </div>
+        <p className="text-[8px] uppercase tracking-[0.35em] text-emerald-900 font-semibold mb-1 opacity-90">
+          Herbarium Specimen
+        </p>
+        <h4
+          style={accent ? { color: accent } : undefined}
+          className="font-serif text-2xl sm:text-[25px] font-normal text-emerald-950 leading-tight mb-2"
+        >
+          {template.sampleGroom.split(' ')[0]} &amp; {template.sampleBride.split(' ')[0]}
+        </h4>
+        <div className="w-14 h-px bg-emerald-700/30 mx-auto my-1.5" />
+        <p className="text-[10px] text-emerald-900 tracking-wider font-medium">{template.date}</p>
+        <p className="text-[9px] text-emerald-800/70 mt-0.5">{template.venue}</p>
+        <div className="mt-2.5 inline-block text-[9px] uppercase tracking-wider text-emerald-900 bg-emerald-100/70 px-2.5 py-0.5 rounded-full border border-emerald-300">
+          🍃 Pressed Olive Leaves
+        </div>
+      </div>
+    )
+  }
+
+  // 8. Rajputana Palace
+  if (template.slug === 'rajputana-palace') {
+    return (
+      <div className="text-center w-full px-1">
+        <div
+          style={accent ? { borderColor: accent } : undefined}
+          className="w-12 h-12 mx-auto rounded-full bg-[#300813] border-2 border-amber-400 text-amber-300 flex items-center justify-center text-sm shadow-xl shadow-amber-500/20 mb-3"
+        >
+          👑
+        </div>
+        <p className="text-[8px] uppercase tracking-[0.35em] text-amber-300 font-semibold mb-1 opacity-90">
+          Shubh Vivah // Royal Farman
+        </p>
+        <h4
+          style={accent ? { color: accent } : undefined}
+          className="font-serif text-2xl sm:text-[25px] font-normal text-amber-100 leading-tight mb-2"
+        >
+          {template.sampleGroom.split(' ')[0]} &amp; {template.sampleBride.split(' ')[0]}
+        </h4>
+        <div className="w-16 h-px bg-gradient-to-r from-transparent via-amber-400 to-transparent mx-auto my-1.5" />
+        <p className="text-[10px] text-amber-300/90 tracking-wider font-medium">{template.date}</p>
+        <p className="text-[9px] text-amber-400/60 mt-0.5">{template.venue}</p>
+        <div className="mt-2.5 inline-block text-[9px] uppercase tracking-wider text-amber-300 bg-amber-950/70 px-2.5 py-0.5 rounded-full border border-amber-500/50">
+          ⚜️ Jharokha Arch Edition
+        </div>
+      </div>
+    )
+  }
+
+  // 9. Ocean Breeze
+  return (
+    <div className="text-center w-full px-1">
+      <div
+        style={accent ? { backgroundColor: accent } : undefined}
+        className="w-12 h-12 mx-auto rounded-full bg-cyan-700 text-white flex items-center justify-center text-sm shadow-md mb-3"
+      >
+        ⚓
+      </div>
+      <p className="text-[8px] uppercase tracking-[0.35em] text-cyan-800 font-semibold mb-1 opacity-90">
+        Coastal Riviera Nuptials
+      </p>
       <h4
         style={accent ? { color: accent } : undefined}
-        className="font-serif text-2xl sm:text-[25px] font-light text-stone-900 leading-tight tracking-tight mb-1 transition-colors"
+        className="font-serif text-2xl sm:text-[25px] font-normal text-cyan-950 leading-tight mb-2"
       >
-        <span className="block">{template.sampleGroom.split(' ')[0]}</span>
-        <span className="block font-sans text-xs italic text-stone-400 font-extralight">&amp;</span>
-        <span className="block">{template.sampleBride.split(' ')[0]}</span>
+        {template.sampleGroom.split(' ')[0]} &amp; {template.sampleBride.split(' ')[0]}
       </h4>
-      <div className="pt-2 border-t border-stone-200 mt-2 flex items-center justify-between text-[9px] font-mono text-stone-500 uppercase tracking-wider">
-        <span>{template.date.split(',')[0]}</span>
-        <span>{template.venue.split(',')[0]}</span>
-      </div>
-      <div className="mt-2 text-[8px] font-mono text-stone-400 uppercase tracking-widest">
-        18.9220° N, 72.8347° E
+      <div className="w-14 h-px bg-cyan-400 mx-auto my-1.5 opacity-60" />
+      <p className="text-[10px] text-cyan-900 tracking-wider font-medium">{template.date}</p>
+      <p className="text-[9px] text-cyan-700/70 mt-0.5">{template.venue}</p>
+      <div className="mt-2.5 inline-block text-[9px] uppercase tracking-wider text-cyan-900 bg-cyan-100 px-2.5 py-0.5 rounded-full border border-cyan-300">
+        🌊 Message in a Bottle
       </div>
     </div>
   )
