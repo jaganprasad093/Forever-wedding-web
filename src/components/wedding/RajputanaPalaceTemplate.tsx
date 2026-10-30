@@ -16,14 +16,12 @@ import {
   useReducedMotion,
   useScroll,
   useSpring,
-  useTransform,
   type Variants,
 } from 'framer-motion'
 import {
   MapPin,
   Calendar,
   Clock,
-  Heart,
   ChevronDown,
   ChevronLeft,
   ChevronRight,
@@ -43,10 +41,6 @@ type Photo = NonNullable<WeddingData['gallery']>[number]
 type WeddingEvent = NonNullable<WeddingData['events']>[number]
 
 const ease = [0.22, 1, 0.36, 1] as const
-
-const RUBY_CRIMSON = '#881337'
-const MARIGOLD = '#f59e0b'
-const PALACE_GOLD = '#fbbf24'
 
 const SECTION_PAD: React.CSSProperties = {
   padding: 'clamp(5rem, 10vw, 8rem) clamp(1.25rem, 5vw, 3rem)',
