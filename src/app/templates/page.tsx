@@ -267,7 +267,7 @@ export default function TemplatesPage() {
             animate="visible"
             className="inline-flex items-center gap-2 !px-4 !py-1.5 rounded-full bg-white/10 border border-white/15 backdrop-blur-sm text-[11px] sm:text-xs font-semibold text-amber-200 uppercase tracking-[0.25em] !mb-6"
           >
-            <Sparkles className="w-3.5 h-3.5" />
+            {/* <Sparkles className="w-3.5 h-3.5" /> */}
             Premium Templates
           </motion.div>
 

@@ -156,7 +156,7 @@ export default function LandingNav() {
             >
               {/* Shine sweep on hover */}
               <span className="absolute inset-y-0 -left-full w-1/2 bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-[-20deg] group-hover:left-[150%] transition-all duration-700" />
-              <Sparkles className="relative w-3.5 h-3.5" />
+              {/* <Sparkles className="relative w-3.5 h-3.5" /> */}
               <span className="relative">Create Invitation</span>
               <ArrowRight className="relative w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
             </Link>
@@ -243,7 +243,7 @@ export default function LandingNav() {
                   onClick={() => setMenuOpen(false)}
                   className="w-full text-center !py-3.5 bg-gradient-to-r from-amber-600 to-amber-700 text-white text-sm font-semibold rounded-xl shadow-gold flex items-center justify-center gap-2"
                 >
-                  <Sparkles className="w-4 h-4" />
+                  {/* <Sparkles className="w-4 h-4" /> */}
                   <span>Start Free Invitation</span>
                 </Link>
               </motion.div>

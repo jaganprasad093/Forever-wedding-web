@@ -142,7 +142,7 @@ export default async function DashboardPage() {
         <div className="bg-gradient-to-br from-[#faf6f0] via-[#f7f1e6] to-[#f4ebe0] rounded-3xl border border-[#e5d8c6] p-6 sm:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
           <div className="max-w-xl">
             <div className="flex items-center gap-2 text-[#8c6b48] text-xs font-semibold uppercase tracking-wider mb-1.5">
-              <Sparkles className="w-3.5 h-3.5" />
+              {/* <Sparkles className="w-3.5 h-3.5" /> */}
               <span>Pro Tip for Couples</span>
             </div>
             <h3 className="font-serif text-xl font-normal text-stone-900 mb-1">

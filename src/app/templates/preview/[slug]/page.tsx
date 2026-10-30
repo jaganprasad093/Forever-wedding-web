@@ -145,7 +145,7 @@ export default async function TemplatePreviewPage({ params }: Props) {
           </Link>
           <span className="text-stone-600">|</span>
           <div className="flex items-center gap-1.5 text-xs text-amber-400 font-medium">
-            <Sparkles className="w-3.5 h-3.5" />
+            {/* <Sparkles className="w-3.5 h-3.5" /> */}
             <span className="hidden sm:inline">Previewing:</span>
             <span className="text-white font-semibold">{template.name}</span>
           </div>

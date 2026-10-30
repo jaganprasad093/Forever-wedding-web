@@ -256,7 +256,7 @@ export default function HowItWorksSection() {
                 href="/register"
                 className="group w-full sm:w-auto inline-flex items-center justify-center gap-2.5 bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 text-stone-950 font-semibold text-xs sm:text-sm uppercase tracking-wider !px-8 sm:!px-10 !py-4 rounded-full shadow-lg shadow-amber-500/25 hover:shadow-xl hover:shadow-amber-500/40 transition-shadow duration-300"
               >
-                <Sparkles className="w-4 h-4" />
+                {/* <Sparkles className="w-4 h-4" /> */}
                 <span>Start Free — Instant Setup</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>

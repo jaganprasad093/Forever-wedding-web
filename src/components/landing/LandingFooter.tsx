@@ -94,7 +94,7 @@ export default function LandingFooter() {
             </p>
 
             <div className="inline-flex items-center gap-2 !px-4 !py-2 rounded-full bg-stone-900 border border-stone-800 text-xs text-amber-300">
-              <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+              {/* <Sparkles className="w-3.5 h-3.5 text-amber-400" /> */}
               <span>100% Eco-friendly &amp; Carbon Neutral</span>
             </div>
           </motion.div>

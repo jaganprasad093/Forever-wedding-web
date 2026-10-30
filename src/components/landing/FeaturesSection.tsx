@@ -136,7 +136,7 @@ export default function FeaturesSection() {
               transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
               className="inline-flex"
             >
-              <Sparkles className="w-3.5 h-3.5 text-amber-600" />
+              {/* <Sparkles className="w-3.5 h-3.5 text-amber-600" /> */}
             </motion.span>
             Designed For Modern Couples
           </motion.div>

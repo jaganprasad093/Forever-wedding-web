@@ -169,7 +169,7 @@ export default function DashboardInvitationsManager({ weddings }: DashboardInvit
                 href="/templates"
                 className="group w-full sm:w-auto inline-flex items-center justify-center gap-2.5 !px-7 !py-4 bg-gradient-to-r from-[#8c6b48] via-[#81613f] to-[#6e4f30] hover:from-[#7e5e3c] hover:to-[#5e4226] text-white text-sm font-medium rounded-2xl shadow-lg shadow-[#8c6b48]/25 hover:shadow-xl transition-shadow duration-200"
               >
-                <Sparkles className="w-4 h-4 text-amber-200" />
+                {/* <Sparkles className="w-4 h-4 text-amber-200" /> */}
                 <span>Choose a Luxury Template</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>

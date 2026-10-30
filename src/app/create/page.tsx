@@ -150,7 +150,7 @@ function CreateInvitationContent() {
             {status === 'loading' ? (
               <div className="flex flex-col items-center">
                 <div className="relative w-16 h-16 bg-[#f7f2ea] border border-[#e5dacf] rounded-full flex items-center justify-center mx-auto !mb-6 shadow-xs">
-                  <Sparkles className="w-7 h-7 text-[#8c6b48] animate-pulse" />
+                  {/* <Sparkles className="w-7 h-7 text-[#8c6b48] animate-pulse" /> */}
                   <span className="absolute -top-1 -right-1 flex h-4 w-4">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#8c6b48] opacity-60" />
                     <span className="relative inline-flex rounded-full h-4 w-4 bg-[#8c6b48] border-2 border-white" />
