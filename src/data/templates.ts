@@ -81,6 +81,106 @@ export const TEMPLATES: Template[] = [
     },
     active: true,
   },
+  {
+    id: 'template-celestial-starlight',
+    name: 'Celestial Starlight',
+    slug: 'celestial-starlight',
+    category: 'luxury',
+    thumbnail: '/templates/celestial-starlight/thumbnail.jpg',
+    description:
+      'Cosmic midnight indigo, glowing starlight constellations, interactive moon phase, and shooting stars for a celestial union.',
+    componentKey: 'CelestialStarlight',
+    config: {
+      defaultTheme: {
+        primaryColor: '#0f172a',
+        secondaryColor: '#38bdf8',
+        backgroundColor: '#030712',
+        accentColor: '#facc15',
+        fontFamily: 'cormorant',
+      },
+    },
+    active: true,
+  },
+  {
+    id: 'template-sunset-boho',
+    name: 'Sunset Boho',
+    slug: 'sunset-boho',
+    category: 'modern',
+    thumbnail: '/templates/sunset-boho/thumbnail.jpg',
+    description:
+      'Warm terracotta, desert sand, swaying pampas grass, and wax-sealed save-the-date envelope in golden hour light.',
+    componentKey: 'SunsetBoho',
+    config: {
+      defaultTheme: {
+        primaryColor: '#9a3412',
+        secondaryColor: '#f59e0b',
+        backgroundColor: '#fffbeb',
+        accentColor: '#fdba74',
+        fontFamily: 'cormorant',
+      },
+    },
+    active: true,
+  },
+  {
+    id: 'template-vintage-botanical',
+    name: 'Vintage Botanical',
+    slug: 'vintage-botanical',
+    category: 'floral',
+    thumbnail: '/templates/vintage-botanical/thumbnail.jpg',
+    description:
+      'Antique parchment, eucalyptus leaves, herbarium plates, and vintage pocket watch countdown for an enchanted garden wedding.',
+    componentKey: 'VintageBotanical',
+    config: {
+      defaultTheme: {
+        primaryColor: '#14532d',
+        secondaryColor: '#3f6212',
+        backgroundColor: '#faf7ee',
+        accentColor: '#84cc16',
+        fontFamily: 'cormorant',
+      },
+    },
+    active: true,
+  },
+  {
+    id: 'template-rajputana-palace',
+    name: 'Rajputana Palace',
+    slug: 'rajputana-palace',
+    category: 'royal',
+    thumbnail: '/templates/rajputana-palace/thumbnail.jpg',
+    description:
+      'Regal ruby velvet, marigold flower showers, Jharokha window reveals, and opulent royal darbar heritage.',
+    componentKey: 'RajputanaPalace',
+    config: {
+      defaultTheme: {
+        primaryColor: '#881337',
+        secondaryColor: '#f59e0b',
+        backgroundColor: '#1c040b',
+        accentColor: '#fbbf24',
+        fontFamily: 'cormorant',
+      },
+    },
+    active: true,
+  },
+  {
+    id: 'template-ocean-breeze',
+    name: 'Ocean Breeze',
+    slug: 'ocean-breeze',
+    category: 'elegant',
+    thumbnail: '/templates/ocean-breeze/thumbnail.jpg',
+    description:
+      'Coastal aquamarine, animated sea waves, pearl shimmer bubbles, and interactive message-in-a-bottle for a seaside celebration.',
+    componentKey: 'OceanBreeze',
+    config: {
+      defaultTheme: {
+        primaryColor: '#0e7490',
+        secondaryColor: '#06b6d4',
+        backgroundColor: '#f0fdfa',
+        accentColor: '#38bdf8',
+        fontFamily: 'cormorant',
+      },
+    },
+    active: true,
+  },
 ]
 
 export const TEMPLATE_CATEGORIES: { id: TemplateCategory; label: string }[] = [

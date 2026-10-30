@@ -76,6 +76,46 @@ const templateThemeMap: Record<
     tagBg: 'bg-[#f7d6dc]/70 text-[#7a3240] border-[#eec2cb]',
     fontStyle: 'font-serif italic',
   },
+  'template-celestial-starlight': {
+    name: 'Celestial Starlight',
+    cardBg: 'from-[#030712] via-[#0f172a] to-[#1e1b4b]',
+    textColor: 'text-[#e0f2fe]',
+    accentColor: 'text-[#38bdf8]',
+    tagBg: 'bg-cyan-950/80 text-cyan-200 border-cyan-800',
+    fontStyle: 'font-serif tracking-wide',
+  },
+  'template-sunset-boho': {
+    name: 'Sunset Boho',
+    cardBg: 'from-[#fffbeb] via-[#fef3c7] to-[#fed7aa]',
+    textColor: 'text-[#9a3412]',
+    accentColor: 'text-[#c2410c]',
+    tagBg: 'bg-amber-100 text-amber-900 border-amber-300',
+    fontStyle: 'font-serif',
+  },
+  'template-vintage-botanical': {
+    name: 'Vintage Botanical',
+    cardBg: 'from-[#faf7ee] via-[#f7f5ed] to-[#ede8d8]',
+    textColor: 'text-[#14532d]',
+    accentColor: 'text-[#15803d]',
+    tagBg: 'bg-emerald-100 text-emerald-900 border-emerald-300',
+    fontStyle: 'font-serif italic',
+  },
+  'template-rajputana-palace': {
+    name: 'Rajputana Palace',
+    cardBg: 'from-[#2e0712] via-[#1c040b] to-[#120207]',
+    textColor: 'text-[#fef08a]',
+    accentColor: 'text-[#f59e0b]',
+    tagBg: 'bg-amber-950 text-amber-300 border-amber-800',
+    fontStyle: 'font-serif tracking-wider',
+  },
+  'template-ocean-breeze': {
+    name: 'Ocean Breeze',
+    cardBg: 'from-[#f0fdfa] via-[#e6fffa] to-[#ccfbf1]',
+    textColor: 'text-[#0e7490]',
+    accentColor: 'text-[#0891b2]',
+    tagBg: 'bg-cyan-100 text-cyan-900 border-cyan-300',
+    fontStyle: 'font-serif',
+  },
 }
 
 export default function DashboardInvitationCard({ wedding }: { wedding: Wedding }) {

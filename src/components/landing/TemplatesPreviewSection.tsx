@@ -97,11 +97,116 @@ const templateList = [
     date: 'March 22, 2027',
     venue: 'Alibaug, Maharashtra',
   },
+  {
+    name: 'Celestial Starlight',
+    tagline: 'Cosmic indigo, glowing constellations, moon phases, and shooting stars',
+    category: 'Luxury',
+    badge: 'Starlit Edition',
+    slug: 'celestial-starlight',
+    motif: '✦',
+    previewTheme: {
+      bg: 'bg-gradient-to-br from-slate-950 via-indigo-950 to-slate-900',
+      border: 'border-cyan-400/40',
+      accent: 'text-cyan-200',
+      subAccent: 'text-cyan-300/70',
+      seal: 'bg-cyan-500 text-slate-950 font-bold',
+      frame: 'border-cyan-400/30',
+    },
+    accents: ['#38bdf8', '#facc15', '#a855f7', '#34d399'],
+    sampleBride: 'Anu Nair',
+    sampleGroom: 'Jagan Prasad',
+    date: 'April 14, 2027',
+    venue: 'Ladakh, India',
+  },
+  {
+    name: 'Sunset Boho',
+    tagline: 'Terracotta sand, swaying pampas grass, and wax-sealed save the date',
+    category: 'Modern',
+    badge: 'Golden Hour',
+    slug: 'sunset-boho',
+    motif: '☼',
+    previewTheme: {
+      bg: 'bg-gradient-to-br from-amber-100 via-orange-50 to-amber-200/60',
+      border: 'border-amber-400',
+      accent: 'text-amber-950',
+      subAccent: 'text-amber-800',
+      seal: 'bg-amber-700 text-amber-50',
+      frame: 'border-amber-400/50',
+    },
+    accents: ['#9a3412', '#f59e0b', '#d97706', '#ea580c'],
+    sampleBride: 'Anu Mehta',
+    sampleGroom: 'Jagan Prasad',
+    date: 'May 08, 2027',
+    venue: 'Jaisalmer, Rajasthan',
+  },
+  {
+    name: 'Vintage Botanical',
+    tagline: 'Pressed eucalyptus, antique parchment, herbarium plates, and olive leaves',
+    category: 'Floral',
+    badge: 'Herbarium',
+    slug: 'vintage-botanical',
+    motif: '🌿',
+    previewTheme: {
+      bg: 'bg-gradient-to-br from-[#faf7ee] via-emerald-50 to-[#ede8d8]',
+      border: 'border-emerald-600/30',
+      accent: 'text-emerald-950',
+      subAccent: 'text-emerald-800',
+      seal: 'bg-emerald-800 text-emerald-50',
+      frame: 'border-emerald-600/40',
+    },
+    accents: ['#14532d', '#3f6212', '#65a30d', '#15803d'],
+    sampleBride: 'Anu Nair',
+    sampleGroom: 'Jagan Prasad',
+    date: 'June 19, 2027',
+    venue: 'Munnar, Kerala',
+  },
+  {
+    name: 'Rajputana Palace',
+    tagline: 'Regal ruby velvet, marigold petal showers, and royal Jharokha arches',
+    category: 'Royal',
+    badge: 'Heritage Imperial',
+    slug: 'rajputana-palace',
+    motif: '⚜',
+    previewTheme: {
+      bg: 'bg-gradient-to-br from-[#2e0712] via-[#1c040b] to-[#120207]',
+      border: 'border-amber-500/50',
+      accent: 'text-amber-300',
+      subAccent: 'text-amber-400/80',
+      seal: 'bg-amber-500 text-stone-950 font-bold',
+      frame: 'border-amber-400/40',
+    },
+    accents: ['#881337', '#f59e0b', '#fbbf24', '#b45309'],
+    sampleBride: 'Anu Singhania',
+    sampleGroom: 'Jagan Prasad',
+    date: 'November 28, 2027',
+    venue: 'Jaipur, Rajasthan',
+  },
+  {
+    name: 'Ocean Breeze',
+    tagline: 'Coastal aquamarine, rolling sea wave ripples, and message-in-a-bottle',
+    category: 'Minimal',
+    badge: 'Riviera Serene',
+    slug: 'ocean-breeze',
+    motif: '⚓',
+    previewTheme: {
+      bg: 'bg-gradient-to-br from-cyan-50 via-teal-50 to-cyan-100',
+      border: 'border-cyan-400/50',
+      accent: 'text-cyan-950',
+      subAccent: 'text-cyan-700',
+      seal: 'bg-cyan-700 text-white',
+      frame: 'border-cyan-400/40',
+    },
+    accents: ['#0e7490', '#06b6d4', '#0891b2', '#0284c7'],
+    sampleBride: 'Anu Nair',
+    sampleGroom: 'Jagan Prasad',
+    date: 'December 05, 2027',
+    venue: 'Varkala, Kerala',
+  },
 ]
 
 type Template = (typeof templateList)[number]
 
-const categories = ['All', 'Traditional', 'Royal', 'Floral', 'Minimal']
+const categories = ['All', 'Traditional', 'Royal', 'Floral', 'Minimal', 'Luxury', 'Modern']
 
 /* ─── Animation variants ─────────────────────────────────────────────── */
 const fadeUp = {
@@ -213,26 +318,171 @@ function TemplateCardPreviewContent({
   }
 
   // 4. Minimal Editorial
-  return (
-    <div className="text-left w-full px-2">
-      <div className="flex items-center justify-between text-[8px] font-mono uppercase tracking-widest text-stone-400 border-b border-stone-200 pb-1.5 mb-3">
-        <span>VOL. 24 // INVITATION</span>
-        <span>ISSUE 04</span>
+  if (template.slug === 'minimal-white') {
+    return (
+      <div className="text-left w-full px-2">
+        <div className="flex items-center justify-between text-[8px] font-mono uppercase tracking-widest text-stone-400 border-b border-stone-200 pb-1.5 mb-3">
+          <span>VOL. 24 // INVITATION</span>
+          <span>ISSUE 04</span>
+        </div>
+        <h4
+          style={accent ? { color: accent } : undefined}
+          className="font-serif text-2xl sm:text-[25px] font-light text-stone-900 leading-tight tracking-tight mb-1 transition-colors"
+        >
+          <span className="block">{template.sampleGroom.split(' ')[0]}</span>
+          <span className="block font-sans text-xs italic text-stone-400 font-extralight">&amp;</span>
+          <span className="block">{template.sampleBride.split(' ')[0]}</span>
+        </h4>
+        <div className="pt-2 border-t border-stone-200 mt-2 flex items-center justify-between text-[9px] font-mono text-stone-500 uppercase tracking-wider">
+          <span>{template.date.split(',')[0]}</span>
+          <span>{template.venue.split(',')[0]}</span>
+        </div>
+        <div className="mt-2 text-[8px] font-mono text-stone-400 uppercase tracking-widest">
+          18.9220° N, 72.8347° E
+        </div>
       </div>
+    )
+  }
+
+  // 5. Celestial Starlight
+  if (template.slug === 'celestial-starlight') {
+    return (
+      <div className="text-center w-full px-1">
+        <div
+          style={accent ? { borderColor: accent } : undefined}
+          className="w-12 h-12 mx-auto rounded-full bg-slate-900 border-2 border-cyan-400 text-cyan-300 flex items-center justify-center text-sm shadow-xl shadow-cyan-500/20 mb-3"
+        >
+          ✨
+        </div>
+        <p className="text-[8px] uppercase tracking-[0.35em] text-cyan-300 font-semibold mb-1 opacity-90">
+          Written in the Stars
+        </p>
+        <h4
+          style={accent ? { color: accent } : undefined}
+          className="font-serif text-2xl sm:text-[25px] font-normal text-white leading-tight mb-2"
+        >
+          {template.sampleGroom.split(' ')[0]} &amp; {template.sampleBride.split(' ')[0]}
+        </h4>
+        <div className="w-16 h-px bg-gradient-to-r from-transparent via-cyan-400 to-transparent mx-auto my-1.5" />
+        <p className="text-[10px] text-cyan-200/90 tracking-wider font-medium">{template.date}</p>
+        <p className="text-[9px] text-cyan-300/60 mt-0.5">{template.venue}</p>
+        <div className="mt-2.5 inline-block text-[9px] uppercase tracking-wider text-cyan-200 bg-cyan-950/80 px-2.5 py-0.5 rounded-full border border-cyan-400/40">
+          🌙 Moon Phase Edition
+        </div>
+      </div>
+    )
+  }
+
+  // 6. Sunset Boho
+  if (template.slug === 'sunset-boho') {
+    return (
+      <div className="text-center w-full px-1">
+        <div
+          style={accent ? { backgroundColor: accent } : undefined}
+          className="w-12 h-12 mx-auto rounded-full bg-amber-600 text-white flex items-center justify-center text-sm shadow-md mb-3"
+        >
+          🌅
+        </div>
+        <p className="text-[8px] uppercase tracking-[0.35em] text-[#9a3412] font-semibold mb-1 opacity-90">
+          Golden Hour Mirage
+        </p>
+        <h4
+          style={accent ? { color: accent } : undefined}
+          className="font-serif text-2xl sm:text-[25px] font-normal text-stone-900 leading-tight mb-2"
+        >
+          {template.sampleGroom.split(' ')[0]} &amp; {template.sampleBride.split(' ')[0]}
+        </h4>
+        <div className="w-14 h-px bg-amber-400 mx-auto my-1.5 opacity-60" />
+        <p className="text-[10px] text-stone-700 tracking-wider font-medium">{template.date}</p>
+        <p className="text-[9px] text-amber-800/70 mt-0.5">{template.venue}</p>
+        <div className="mt-2.5 inline-block text-[9px] uppercase tracking-wider text-amber-900 bg-amber-100 px-2.5 py-0.5 rounded-full border border-amber-300">
+          🌾 Wax-Sealed Arch
+        </div>
+      </div>
+    )
+  }
+
+  // 7. Vintage Botanical
+  if (template.slug === 'vintage-botanical') {
+    return (
+      <div className="text-center w-full px-1">
+        <div
+          style={accent ? { backgroundColor: accent } : undefined}
+          className="w-12 h-12 mx-auto rounded-full bg-emerald-800 text-white flex items-center justify-center text-sm shadow-md mb-3"
+        >
+          🌿
+        </div>
+        <p className="text-[8px] uppercase tracking-[0.35em] text-emerald-900 font-semibold mb-1 opacity-90">
+          Herbarium Specimen
+        </p>
+        <h4
+          style={accent ? { color: accent } : undefined}
+          className="font-serif text-2xl sm:text-[25px] font-normal text-emerald-950 leading-tight mb-2"
+        >
+          {template.sampleGroom.split(' ')[0]} &amp; {template.sampleBride.split(' ')[0]}
+        </h4>
+        <div className="w-14 h-px bg-emerald-700/30 mx-auto my-1.5" />
+        <p className="text-[10px] text-emerald-900 tracking-wider font-medium">{template.date}</p>
+        <p className="text-[9px] text-emerald-800/70 mt-0.5">{template.venue}</p>
+        <div className="mt-2.5 inline-block text-[9px] uppercase tracking-wider text-emerald-900 bg-emerald-100/70 px-2.5 py-0.5 rounded-full border border-emerald-300">
+          🍃 Pressed Olive Leaves
+        </div>
+      </div>
+    )
+  }
+
+  // 8. Rajputana Palace
+  if (template.slug === 'rajputana-palace') {
+    return (
+      <div className="text-center w-full px-1">
+        <div
+          style={accent ? { borderColor: accent } : undefined}
+          className="w-12 h-12 mx-auto rounded-full bg-[#300813] border-2 border-amber-400 text-amber-300 flex items-center justify-center text-sm shadow-xl shadow-amber-500/20 mb-3"
+        >
+          👑
+        </div>
+        <p className="text-[8px] uppercase tracking-[0.35em] text-amber-300 font-semibold mb-1 opacity-90">
+          Shubh Vivah // Royal Farman
+        </p>
+        <h4
+          style={accent ? { color: accent } : undefined}
+          className="font-serif text-2xl sm:text-[25px] font-normal text-amber-100 leading-tight mb-2"
+        >
+          {template.sampleGroom.split(' ')[0]} &amp; {template.sampleBride.split(' ')[0]}
+        </h4>
+        <div className="w-16 h-px bg-gradient-to-r from-transparent via-amber-400 to-transparent mx-auto my-1.5" />
+        <p className="text-[10px] text-amber-300/90 tracking-wider font-medium">{template.date}</p>
+        <p className="text-[9px] text-amber-400/60 mt-0.5">{template.venue}</p>
+        <div className="mt-2.5 inline-block text-[9px] uppercase tracking-wider text-amber-300 bg-amber-950/70 px-2.5 py-0.5 rounded-full border border-amber-500/50">
+          ⚜️ Jharokha Arch Edition
+        </div>
+      </div>
+    )
+  }
+
+  // 9. Ocean Breeze
+  return (
+    <div className="text-center w-full px-1">
+      <div
+        style={accent ? { backgroundColor: accent } : undefined}
+        className="w-12 h-12 mx-auto rounded-full bg-cyan-700 text-white flex items-center justify-center text-sm shadow-md mb-3"
+      >
+        ⚓
+      </div>
+      <p className="text-[8px] uppercase tracking-[0.35em] text-cyan-800 font-semibold mb-1 opacity-90">
+        Coastal Riviera Nuptials
+      </p>
       <h4
         style={accent ? { color: accent } : undefined}
-        className="font-serif text-2xl sm:text-[25px] font-light text-stone-900 leading-tight tracking-tight mb-1 transition-colors"
+        className="font-serif text-2xl sm:text-[25px] font-normal text-cyan-950 leading-tight mb-2"
       >
-        <span className="block">{template.sampleGroom.split(' ')[0]}</span>
-        <span className="block font-sans text-xs italic text-stone-400 font-extralight">&amp;</span>
-        <span className="block">{template.sampleBride.split(' ')[0]}</span>
+        {template.sampleGroom.split(' ')[0]} &amp; {template.sampleBride.split(' ')[0]}
       </h4>
-      <div className="pt-2 border-t border-stone-200 mt-2 flex items-center justify-between text-[9px] font-mono text-stone-500 uppercase tracking-wider">
-        <span>{template.date.split(',')[0]}</span>
-        <span>{template.venue.split(',')[0]}</span>
-      </div>
-      <div className="mt-2 text-[8px] font-mono text-stone-400 uppercase tracking-widest">
-        18.9220° N, 72.8347° E
+      <div className="w-14 h-px bg-cyan-400 mx-auto my-1.5 opacity-60" />
+      <p className="text-[10px] text-cyan-900 tracking-wider font-medium">{template.date}</p>
+      <p className="text-[9px] text-cyan-700/70 mt-0.5">{template.venue}</p>
+      <div className="mt-2.5 inline-block text-[9px] uppercase tracking-wider text-cyan-900 bg-cyan-100 px-2.5 py-0.5 rounded-full border border-cyan-300">
+        🌊 Message in a Bottle
       </div>
     </div>
   )
