@@ -267,7 +267,7 @@ export default function TemplatesPage() {
             animate="visible"
             className="inline-flex items-center gap-2 !px-4 !py-1.5 rounded-full bg-white/10 border border-white/15 backdrop-blur-sm text-[11px] sm:text-xs font-semibold text-amber-200 uppercase tracking-[0.25em] !mb-6"
           >
-            <Sparkles className="w-3.5 h-3.5" />
+            {/* <Sparkles className="w-3.5 h-3.5" /> */}
             Premium Templates
           </motion.div>
 
@@ -358,13 +358,12 @@ export default function TemplatesPage() {
           >
             {filteredTemplates.length > 0 ? (
               <div
-                className={`grid gap-6 sm:gap-7 lg:gap-8 mx-auto ${
-                  filteredTemplates.length === 1
-                    ? 'grid-cols-1 max-w-md'
-                    : filteredTemplates.length === 2
-                      ? 'grid-cols-1 sm:grid-cols-2 max-w-3xl'
-                      : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 max-w-md sm:max-w-none'
-                }`}
+                className={`grid gap-6 sm:gap-7 lg:gap-8 mx-auto ${filteredTemplates.length === 1
+                  ? 'grid-cols-1 max-w-md'
+                  : filteredTemplates.length === 2
+                    ? 'grid-cols-1 sm:grid-cols-2 max-w-3xl'
+                    : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 max-w-md sm:max-w-none'
+                  }`}
                 style={{ width: '100%', marginInline: 'auto' }}
               >
                 {filteredTemplates.map((template, i) => (

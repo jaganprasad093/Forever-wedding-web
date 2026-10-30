@@ -1722,7 +1722,7 @@ export default function FloralRomanticTemplate({ wedding }: { wedding: WeddingDa
             </div>
 
             <Reveal className="relative flex flex-col items-center gap-6">
-              <Sparkles className="h-6 w-6 text-rose-400" />
+              {/* <Sparkles className="h-6 w-6 text-rose-400" /> */}
               <h2
                 className="font-serif font-normal italic leading-[1.1] text-balance text-[clamp(2rem,6vw,3.75rem)]"
                 style={{ color: ROSE }}

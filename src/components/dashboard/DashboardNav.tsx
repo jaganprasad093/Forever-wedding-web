@@ -190,10 +190,10 @@ export default function DashboardNav({ userName, userEmail }: DashboardNavProps)
             href="/templates"
             className="group w-full flex items-center justify-center gap-2 py-2.5 px-3 bg-gradient-to-r from-[#8c6b48] to-[#795938] hover:from-[#7e5f3e] hover:to-[#6c4f31] text-white text-xs font-medium tracking-wide rounded-xl shadow-sm shadow-[#8c6b48]/25 hover:shadow-md active:scale-[0.98] transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8c6b48]/60 focus-visible:ring-offset-2"
           >
-            <Sparkles
+            {/* <Sparkles
               className="w-3.5 h-3.5 text-amber-200 group-hover:rotate-12 transition-transform duration-200"
               aria-hidden="true"
-            />
+            /> */}
             <span>Create Invitation</span>
           </Link>
         </div>
@@ -399,7 +399,7 @@ export default function DashboardNav({ userName, userEmail }: DashboardNavProps)
                   href="/templates"
                   className="w-full flex items-center justify-center gap-2 py-2.5 px-3 bg-gradient-to-r from-[#8c6b48] to-[#795938] text-white text-xs font-medium rounded-xl shadow-sm active:scale-[0.98] transition-transform"
                 >
-                  <Sparkles className="w-3.5 h-3.5 text-amber-200" aria-hidden="true" />
+                  {/* <Sparkles className="w-3.5 h-3.5 text-amber-200" aria-hidden="true" /> */}
                   <span>Create Invitation</span>
                 </Link>
               </div>

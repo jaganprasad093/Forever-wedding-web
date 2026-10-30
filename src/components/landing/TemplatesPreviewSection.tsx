@@ -401,7 +401,7 @@ function TemplateCard({
             href={`/register?template=${template.slug}`}
             className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider text-white bg-stone-900 hover:bg-amber-700 !px-4 !py-2.5 rounded-full transition-colors"
           >
-            <Sparkles className="w-3 h-3" />
+            {/* <Sparkles className="w-3 h-3" /> */}
             Use Template
           </Link>
         </div>
@@ -458,7 +458,7 @@ export default function TemplatesPreviewSection() {
               transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
               className="inline-flex"
             >
-              <Sparkles className="w-3.5 h-3.5 text-amber-600" />
+              {/* <Sparkles className="w-3.5 h-3.5 text-amber-600" /> */}
             </motion.span>
             Curated Designer Themes
           </motion.div>
@@ -534,13 +534,12 @@ export default function TemplatesPreviewSection() {
         {/* ───────── Cards: swipe carousel on phones, grid from sm ───────── */}
         <motion.div
           layout
-          className={`flex sm:grid gap-5 sm:gap-7 lg:gap-8 overflow-x-auto sm:overflow-visible snap-x snap-mandatory sm:snap-none -mx-5 sm:mx-0 !px-5 sm:!px-0 !pt-3 !pb-6 sm:!pt-0 sm:!pb-0 !mb-4 sm:!mb-16 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${
-            filteredTemplates.length === 1
-              ? 'justify-center sm:grid-cols-1 sm:max-w-md'
-              : filteredTemplates.length === 2
-                ? 'sm:grid-cols-2 sm:max-w-3xl'
-                : 'sm:grid-cols-2 lg:grid-cols-4'
-          }`}
+          className={`flex sm:grid gap-5 sm:gap-7 lg:gap-8 overflow-x-auto sm:overflow-visible snap-x snap-mandatory sm:snap-none -mx-5 sm:mx-0 !px-5 sm:!px-0 !pt-3 !pb-6 sm:!pt-0 sm:!pb-0 !mb-4 sm:!mb-16 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${filteredTemplates.length === 1
+            ? 'justify-center sm:grid-cols-1 sm:max-w-md'
+            : filteredTemplates.length === 2
+              ? 'sm:grid-cols-2 sm:max-w-3xl'
+              : 'sm:grid-cols-2 lg:grid-cols-4'
+            }`}
           style={{ width: '100%', marginInline: 'auto' }}
         >
           <AnimatePresence mode="popLayout">
