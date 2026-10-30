@@ -45,6 +45,36 @@ const previewStyles: Record<string, { bg: string; text: string; accent: string; 
     accent: 'border-rose-300',
     rule: 'bg-rose-600',
   },
+  'template-celestial-starlight': {
+    bg: 'bg-gradient-to-br from-slate-950 via-indigo-950 to-slate-900',
+    text: 'text-cyan-200',
+    accent: 'border-cyan-400',
+    rule: 'bg-cyan-400',
+  },
+  'template-sunset-boho': {
+    bg: 'bg-gradient-to-br from-amber-100 via-orange-50 to-amber-200',
+    text: 'text-amber-950',
+    accent: 'border-amber-500',
+    rule: 'bg-amber-600',
+  },
+  'template-vintage-botanical': {
+    bg: 'bg-gradient-to-br from-[#faf7ee] via-emerald-50 to-[#ede8d8]',
+    text: 'text-emerald-950',
+    accent: 'border-emerald-600',
+    rule: 'bg-emerald-700',
+  },
+  'template-rajputana-palace': {
+    bg: 'bg-gradient-to-br from-[#2e0712] via-[#1c040b] to-[#120207]',
+    text: 'text-amber-300',
+    accent: 'border-amber-400',
+    rule: 'bg-amber-500',
+  },
+  'template-ocean-breeze': {
+    bg: 'bg-gradient-to-br from-cyan-50 via-teal-50 to-cyan-100',
+    text: 'text-cyan-950',
+    accent: 'border-cyan-400',
+    rule: 'bg-cyan-600',
+  },
 }
 
 const categoryColors: Record<string, string> = {
@@ -53,6 +83,9 @@ const categoryColors: Record<string, string> = {
   minimal: 'bg-stone-100 text-stone-700',
   floral: 'bg-rose-100 text-rose-700',
   luxury: 'bg-yellow-100 text-yellow-700',
+  modern: 'bg-orange-100 text-orange-700',
+  elegant: 'bg-teal-100 text-teal-700',
+  traditional: 'bg-amber-100 text-amber-800',
 }
 
 function TemplateCard({
