@@ -65,7 +65,7 @@ export default function ThemePanel({
 
         <div className="grid grid-cols-2 gap-2">
           {TEMPLATES.map((tmpl) => {
-            const activeId = (wedding.templateId || (wedding.slug?.includes('floral') ? 'template-floral-romantic' : wedding.slug?.includes('minimal') ? 'template-minimal-white' : wedding.slug?.includes('kerala') ? 'template-kerala-traditional' : 'template-royal-gold')).toLowerCase()
+            const activeId = (wedding.templateId || wedding.slug || '').toLowerCase()
             const isSelected = activeId === tmpl.id.toLowerCase() || activeId.includes(tmpl.slug.toLowerCase())
 
             return (
