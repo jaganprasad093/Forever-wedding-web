@@ -16,7 +16,6 @@ import {
   useReducedMotion,
   useScroll,
   useSpring,
-  useTransform,
   type Variants,
 } from 'framer-motion'
 import {
@@ -29,7 +28,6 @@ import {
   ChevronRight,
   Navigation,
   X,
-  Send,
   CalendarPlus,
   Check,
   Sun,
@@ -44,10 +42,6 @@ type Photo = NonNullable<WeddingData['gallery']>[number]
 type WeddingEvent = NonNullable<WeddingData['events']>[number]
 
 const ease = [0.22, 1, 0.36, 1] as const
-
-const TERRACOTTA = '#9a3412'
-const GOLDEN_SAND = '#f59e0b'
-const WARM_CREAM = '#fffbeb'
 
 const SECTION_PAD: React.CSSProperties = {
   padding: 'clamp(5rem, 10vw, 8rem) clamp(1.25rem, 5vw, 3rem)',
