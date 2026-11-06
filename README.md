@@ -162,7 +162,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 ## 📂 Project Structure
 
 ```
-forever-vows/
+wedora/
 ├── public/                     # Static assets, template thumbnails, audio presets
 ├── src/
 │   ├── app/

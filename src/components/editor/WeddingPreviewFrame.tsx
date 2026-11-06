@@ -10,7 +10,7 @@ export default function WeddingPreviewFrame({ wedding }: { wedding: WeddingData 
   // Cache latest wedding state in sessionStorage for zero-flash initial render
   useEffect(() => {
     try {
-      window.sessionStorage.setItem('forever_vows_preview_cache', JSON.stringify(wedding))
+      window.sessionStorage.setItem('wedora_preview_cache', JSON.stringify(wedding))
     } catch {
       // Ignore quota/access errors
     }

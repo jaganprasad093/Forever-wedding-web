@@ -13,29 +13,35 @@ export default function GalleryPanel({ weddingId }: { weddingId: string }) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    loadPhotos()
-  }, [weddingId])
+    let ignore = false
+    async function fetchPhotos() {
+      const supabase = createClient()
+      const { data } = await supabase
+        .from('gallery')
+        .select('*')
+        .eq('wedding_id', weddingId)
+        .order('order_index', { ascending: true })
 
-  const loadPhotos = async () => {
-    const supabase = createClient()
-    const { data } = await supabase
-      .from('gallery')
-      .select('*')
-      .eq('wedding_id', weddingId)
-      .order('order_index', { ascending: true })
-
-    if (data) {
-      setPhotos(data.map((p) => ({
-        id: p.id,
-        weddingId: p.wedding_id,
-        url: p.url,
-        path: p.path,
-        isCover: p.is_cover,
-        orderIndex: p.order_index,
-      })))
+      if (!ignore) {
+        if (data) {
+          setPhotos(data.map((p) => ({
+            id: p.id,
+            weddingId: p.wedding_id,
+            url: p.url,
+            path: p.path,
+            isCover: p.is_cover,
+            orderIndex: p.order_index,
+          })))
+        }
+        setLoading(false)
+      }
     }
-    setLoading(false)
-  }
+
+    void fetchPhotos()
+    return () => {
+      ignore = true
+    }
+  }, [weddingId])
 
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     setUploading(true)

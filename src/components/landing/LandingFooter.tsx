@@ -85,7 +85,7 @@ export default function LandingFooter() {
                 <Heart className="w-4 h-4 text-white fill-white" />
               </motion.div>
               <span className="font-serif text-2xl text-white font-medium">
-                Forever<span className="italic text-amber-400 font-normal">Vows</span>
+                Wed<span className="italic text-amber-400 font-normal">ora</span>
               </span>
             </Link>
 
