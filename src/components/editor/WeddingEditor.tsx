@@ -125,7 +125,7 @@ export default function WeddingEditor({ initialWedding }: WeddingEditorProps) {
   const updateWedding = useCallback(
     (updates: Partial<WeddingData>) => {
       latestRef.current = { ...latestRef.current, ...updates }
-      setWedding(latestRef.current)
+      setWedding({ ...latestRef.current })
       dirtyRef.current = true
 
       // Proper debounce: only the last edit within the window triggers a save
@@ -186,7 +186,7 @@ export default function WeddingEditor({ initialWedding }: WeddingEditorProps) {
       )
     } else {
       latestRef.current = { ...current, published: true, slug }
-      setWedding(latestRef.current)
+      setWedding({ ...latestRef.current })
       router.refresh()
     }
     setPublishing(false)
@@ -206,7 +206,7 @@ export default function WeddingEditor({ initialWedding }: WeddingEditorProps) {
       return
     }
     latestRef.current = { ...latestRef.current, published: false }
-    setWedding(latestRef.current)
+    setWedding({ ...latestRef.current })
     router.refresh()
   }
 
@@ -428,8 +428,20 @@ export default function WeddingEditor({ initialWedding }: WeddingEditorProps) {
                 <CoupleDetailsPanel wedding={wedding} onUpdate={updateWedding} />
               )}
               {activePanel === 'story' && <StoryPanel wedding={wedding} onUpdate={updateWedding} />}
-              {activePanel === 'events' && <EventsPanel weddingId={wedding.id} />}
-              {activePanel === 'gallery' && <GalleryPanel weddingId={wedding.id} />}
+              {activePanel === 'events' && (
+                <EventsPanel
+                  weddingId={wedding.id}
+                  initialEvents={wedding.events}
+                  onUpdate={updateWedding}
+                />
+              )}
+              {activePanel === 'gallery' && (
+                <GalleryPanel
+                  weddingId={wedding.id}
+                  initialPhotos={wedding.gallery}
+                  onUpdate={updateWedding}
+                />
+              )}
               {activePanel === 'music' && (
                 <MusicPanel weddingId={wedding.id} onUpdate={updateWedding} />
               )}
