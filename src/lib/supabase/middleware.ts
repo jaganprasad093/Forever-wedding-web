@@ -2,6 +2,20 @@ import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
 export async function updateSession(request: NextRequest) {
+  // If auth callback params arrive at root '/' (e.g. Supabase OAuth fallback to Site URL)
+  // forward them to /auth/callback so the authorization code can be exchanged for a session
+  if (
+    request.nextUrl.pathname === '/' &&
+    (request.nextUrl.searchParams.has('code') ||
+      request.nextUrl.searchParams.has('token_hash') ||
+      request.nextUrl.searchParams.has('error') ||
+      request.nextUrl.searchParams.has('error_description'))
+  ) {
+    const url = request.nextUrl.clone()
+    url.pathname = '/auth/callback'
+    return NextResponse.redirect(url)
+  }
+
   let supabaseResponse = NextResponse.next({
     request,
   })
