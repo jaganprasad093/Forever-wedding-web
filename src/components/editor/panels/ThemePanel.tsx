@@ -9,6 +9,22 @@ const FONT_OPTIONS = [
   { value: 'inter', label: 'Inter (Modern Sans-Serif)' },
 ]
 
+function getActiveTemplate(wedding: WeddingData): Template {
+  const tid = (wedding.templateId || '').toLowerCase()
+  const slug = (wedding.slug || '').toLowerCase()
+
+  const match = TEMPLATES.find((t) => {
+    const id = t.id.toLowerCase()
+    const s = t.slug.toLowerCase()
+    return (
+      (tid && (tid === id || tid === s || tid.includes(s) || id.includes(tid))) ||
+      (slug && (slug === s || slug.includes(s)))
+    )
+  })
+
+  return match || TEMPLATES[0]
+}
+
 export default function ThemePanel({
   wedding,
   onUpdate,
@@ -16,6 +32,8 @@ export default function ThemePanel({
   wedding: WeddingData
   onUpdate: (updates: Partial<WeddingData>) => void
 }) {
+  const activeTemplate = getActiveTemplate(wedding)
+
   const currentTheme: WeddingTheme = {
     primaryColor: wedding.theme?.primaryColor || '#92400e',
     secondaryColor: wedding.theme?.secondaryColor || '#b45309',
@@ -56,7 +74,7 @@ export default function ThemePanel({
       <div className="bg-stone-50 border border-stone-200/80 rounded-2xl p-4 space-y-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <LayoutTemplate className="w-4 h-4 text-amber-700" />
+            <LayoutTemplate className="w-4 h-4 text-[#8c6b48]" />
             <h4 className="text-xs font-semibold text-stone-800 uppercase tracking-wider">
               Invitation Template
             </h4>
@@ -64,10 +82,24 @@ export default function ThemePanel({
           <span className="text-[10px] text-stone-400 font-medium">Switch anytime</span>
         </div>
 
+        {/* Current template banner showing active template name */}
+        <div className="p-3 bg-white border border-[#8c6b48]/30 rounded-xl flex items-center justify-between shadow-xs">
+          <div>
+            <p className="text-[10px] font-semibold text-[#8c6b48] uppercase tracking-wider">
+              Active Template
+            </p>
+            <p className="text-sm font-bold text-stone-900 mt-0.5">{activeTemplate.name}</p>
+          </div>
+          <span className="px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider rounded-full bg-[#8c6b48]/10 text-[#704e2e] border border-[#8c6b48]/20">
+            {activeTemplate.category}
+          </span>
+        </div>
+
+        {/* Templates list with clear names and style accents */}
         <div className="grid grid-cols-2 gap-2">
           {TEMPLATES.map((tmpl) => {
-            const activeId = (wedding.templateId || wedding.slug || '').toLowerCase()
-            const isSelected = activeId === tmpl.id.toLowerCase() || activeId.includes(tmpl.slug.toLowerCase())
+            const isSelected = activeTemplate.id === tmpl.id
+            const defaultTheme = (tmpl.config as { defaultTheme?: WeddingTheme })?.defaultTheme
 
             return (
               <button
@@ -76,19 +108,39 @@ export default function ThemePanel({
                 onClick={() => handleSelectTemplate(tmpl)}
                 className={`relative p-3 rounded-xl border text-left transition-all ${
                   isSelected
-                    ? 'border-amber-600 bg-amber-50/80 shadow-sm ring-1 ring-amber-500'
+                    ? 'border-[#8c6b48] bg-amber-50/60 shadow-sm ring-1 ring-[#8c6b48]'
                     : 'border-stone-200 hover:border-amber-300 bg-white hover:bg-stone-50/80'
                 }`}
               >
-                {isSelected && (
-                  <span className="absolute top-2 right-2 w-4 h-4 rounded-full bg-amber-700 text-white flex items-center justify-center">
-                    <Check className="w-2.5 h-2.5 stroke-[3]" />
+                <div className="flex items-start justify-between gap-1">
+                  <p className="text-xs font-bold text-stone-900 leading-tight">{tmpl.name}</p>
+                  {isSelected && (
+                    <span className="shrink-0 w-4 h-4 rounded-full bg-[#8c6b48] text-white flex items-center justify-center">
+                      <Check className="w-2.5 h-2.5 stroke-[3]" />
+                    </span>
+                  )}
+                </div>
+
+                <div className="flex items-center gap-1.5 mt-2.5">
+                  <div
+                    className="w-3.5 h-3.5 rounded-full border border-black/10 shadow-xs shrink-0"
+                    style={{ backgroundColor: defaultTheme?.primaryColor || '#8c6b48' }}
+                    title="Primary color"
+                  />
+                  <div
+                    className="w-3.5 h-3.5 rounded-full border border-black/10 shadow-xs shrink-0"
+                    style={{ backgroundColor: defaultTheme?.accentColor || '#fcd34d' }}
+                    title="Accent color"
+                  />
+                  <div
+                    className="w-3.5 h-3.5 rounded-full border border-black/10 shadow-xs shrink-0"
+                    style={{ backgroundColor: defaultTheme?.backgroundColor || '#ffffff' }}
+                    title="Background color"
+                  />
+                  <span className="text-[9px] uppercase tracking-wider text-stone-400 font-semibold ml-auto truncate">
+                    {tmpl.category}
                   </span>
-                )}
-                <p className="text-xs font-bold text-stone-800">{tmpl.name}</p>
-                <p className="text-[10px] text-stone-500 line-clamp-1 mt-0.5">
-                  {tmpl.category.toUpperCase()}
-                </p>
+                </div>
               </button>
             )
           })}

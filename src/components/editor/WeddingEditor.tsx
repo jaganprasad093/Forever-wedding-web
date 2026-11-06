@@ -26,6 +26,7 @@ import {
   type LucideIcon,
 } from 'lucide-react'
 import { WeddingData } from '@/types/wedding'
+import { TEMPLATES } from '@/data/templates'
 import { Json } from '@/types/supabase'
 import { createClient } from '@/lib/supabase/client'
 import { cn } from '@/lib/utils'
@@ -211,6 +212,17 @@ export default function WeddingEditor({ initialWedding }: WeddingEditorProps) {
 
   const coupleName =
     [wedding.groomName, wedding.brideName].filter(Boolean).join(' & ') || 'Your Invitation'
+  const activeTemplate =
+    TEMPLATES.find((t) => {
+      const tid = (wedding.templateId || '').toLowerCase()
+      const slug = (wedding.slug || '').toLowerCase()
+      const id = t.id.toLowerCase()
+      const s = t.slug.toLowerCase()
+      return (
+        (tid && (tid === id || tid === s || tid.includes(s) || id.includes(tid))) ||
+        (slug && (slug === s || slug.includes(s)))
+      )
+    }) || TEMPLATES[0]
   const activeLabel = editorPanels.find((p) => p.id === activePanel)?.label
   const activeDevice = devices.find((d) => d.id === deviceMode)!
 
@@ -235,9 +247,11 @@ export default function WeddingEditor({ initialWedding }: WeddingEditorProps) {
               <p className="font-serif text-base font-semibold text-stone-800 truncate leading-tight">
                 {coupleName}
               </p>
-              <p className="text-[10px] text-stone-400 leading-none hidden sm:block">
-                {wedding.published ? 'Published' : 'Draft'}
-              </p>
+              <div className="flex items-center gap-1.5 text-[10px] text-stone-400 leading-none mt-0.5">
+                <span className="font-medium text-[#8c6b48] truncate">{activeTemplate.name}</span>
+                <span className="hidden sm:inline">•</span>
+                <span className="hidden sm:inline">{wedding.published ? 'Published' : 'Draft'}</span>
+              </div>
             </div>
           </div>
         </div>
