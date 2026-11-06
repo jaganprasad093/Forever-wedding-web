@@ -61,7 +61,9 @@ export function getCountdown(weddingDate: string | null): {
 }
 
 export function absoluteUrl(path: string): string {
-  const baseUrl =
+  const rawUrl =
     process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
-  return `${baseUrl}${path}`
+  const baseUrl = rawUrl.replace(/\/+$/, '')
+  const cleanPath = path.startsWith('/') ? path : `/${path}`
+  return `${baseUrl}${cleanPath}`
 }

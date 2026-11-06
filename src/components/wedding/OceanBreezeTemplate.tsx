@@ -16,14 +16,12 @@ import {
   useReducedMotion,
   useScroll,
   useSpring,
-  useTransform,
   type Variants,
 } from 'framer-motion'
 import {
   MapPin,
   Calendar,
   Clock,
-  Heart,
   ChevronDown,
   ChevronLeft,
   ChevronRight,
@@ -43,10 +41,6 @@ type Photo = NonNullable<WeddingData['gallery']>[number]
 type WeddingEvent = NonNullable<WeddingData['events']>[number]
 
 const ease = [0.22, 1, 0.36, 1] as const
-
-const OCEAN_BLUE = '#0e7490'
-const AQUAMARINE = '#06b6d4'
-const SAND_LIGHT = '#f0fdfa'
 
 const SECTION_PAD: React.CSSProperties = {
   padding: 'clamp(5rem, 10vw, 8rem) clamp(1.25rem, 5vw, 3rem)',
@@ -820,6 +814,7 @@ export default function OceanBreezeTemplate({ wedding }: { wedding: WeddingData 
         )}
 
         {/* ───────── RSVP ───────── */}
+        {wedding.theme?.rsvpEnabled !== false && (
         <Section max="38rem">
           <Reveal className="flex flex-col items-center text-center gap-4 !mb-10">
             <span className="font-mono text-xs uppercase tracking-[0.3em] text-cyan-700 font-semibold">
@@ -835,6 +830,7 @@ export default function OceanBreezeTemplate({ wedding }: { wedding: WeddingData 
             </div>
           </Reveal>
         </Section>
+        )}
 
         {/* ───────── FOOTER ───────── */}
         <footer className="border-t border-cyan-500/20 bg-[#e6fffa]/60 !py-12 text-center text-stone-600 text-xs font-mono">

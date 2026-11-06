@@ -961,6 +961,7 @@ export default function MinimalWhiteTemplate({ wedding }: { wedding: WeddingData
         )}
 
         {/* ───────── RSVP ───────── */}
+        {wedding.theme?.rsvpEnabled !== false && (
         <Block max="44rem">
           <div className="flex flex-col items-center gap-3 text-center" style={{ marginBottom: 'clamp(2rem, 5vw, 3.5rem)' }}>
             <Reveal className="flex flex-col items-center gap-3">
@@ -1006,6 +1007,7 @@ export default function MinimalWhiteTemplate({ wedding }: { wedding: WeddingData
             </div>
           </Reveal>
         </Block>
+        )}
 
         {/* ───────── FOOTER ───────── */}
         <footer className="overflow-hidden border-t border-stone-200 bg-white">
