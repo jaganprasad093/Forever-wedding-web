@@ -248,7 +248,7 @@ function RegisterContent() {
             <span className="flex items-center justify-center w-8 h-8 rounded-full border border-stone-200 bg-white/70 group-hover:border-[#cbb8a3] group-hover:bg-[#f8f3ed] transition-all duration-200">
               <ArrowLeft className="w-3.5 h-3.5 text-stone-400 group-hover:text-[#8c6b48] group-hover:-translate-x-0.5 transition-all duration-200" />
             </span>
-            <span>Back to ForeverVows</span>
+            <span>Back to Wedora</span>
           </Link>
         </header>
 
@@ -319,7 +319,7 @@ function RegisterContent() {
                       1
                     </div>
                     <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
-                      Open your inbox and look for an email from <strong className="text-stone-900 font-medium">ForeverVows</strong> with subject <em className="text-stone-700">&ldquo;Confirm your signup&rdquo;</em>.
+                      Open your inbox and look for an email from <strong className="text-stone-900 font-medium">Wedora</strong> with subject <em className="text-stone-700">&ldquo;Confirm your signup&rdquo;</em>.
                     </p>
                   </div>
 
@@ -347,11 +347,10 @@ function RegisterContent() {
                   <motion.div
                     initial={{ opacity: 0, y: -6 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className={`!mb-6 !px-4 !py-3.5 rounded-xl text-xs sm:text-sm font-medium flex items-center gap-3 text-left ${
-                      resendFeedback.type === 'success'
+                    className={`!mb-6 !px-4 !py-3.5 rounded-xl text-xs sm:text-sm font-medium flex items-center gap-3 text-left ${resendFeedback.type === 'success'
                         ? 'bg-emerald-50 border border-emerald-200 text-emerald-800'
                         : 'bg-red-50 border border-red-200 text-red-700'
-                    }`}
+                      }`}
                   >
                     {resendFeedback.type === 'success' ? (
                       <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
@@ -440,7 +439,7 @@ function RegisterContent() {
             custom={2}
             className="!mt-12 text-center text-xs text-stone-400 tracking-wide"
           >
-            © {new Date().getFullYear()} ForeverVows · All rights reserved.
+            © {new Date().getFullYear()} Wedora · All rights reserved.
           </motion.p>
         </main>
       </div>
@@ -468,7 +467,7 @@ function RegisterContent() {
             <ArrowLeft className="w-3.5 h-3.5 text-stone-400 group-hover:text-[#8c6b48] group-hover:-translate-x-0.5 transition-all duration-200" />
           </span>
 
-          <span>Back to ForeverVows</span>
+          <span>Back to Wedora</span>
         </Link>
       </header>
 
@@ -713,7 +712,7 @@ function RegisterContent() {
           custom={7}
           className="!mt-12 text-center text-xs text-stone-400 tracking-wide"
         >
-          © {new Date().getFullYear()} ForeverVows · All rights reserved.
+          © {new Date().getFullYear()} Wedora · All rights reserved.
         </motion.p>
       </main>
     </div>

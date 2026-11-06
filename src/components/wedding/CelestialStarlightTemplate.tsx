@@ -312,9 +312,9 @@ function MoonPhaseCard({ date, couple }: { date?: string | null; couple: string 
     const icsContent = [
       'BEGIN:VCALENDAR',
       'VERSION:2.0',
-      'PRODID:-//ForeverVows//Celestial//EN',
+      'PRODID:-//Wedora//Celestial//EN',
       'BEGIN:VEVENT',
-      `UID:celestial-${Date.now()}@forevervows`,
+      `UID:celestial-${Date.now()}@Wedora`,
       `DTSTAMP:${stamp}`,
       `DTSTART;VALUE=DATE:${cleanDate}`,
       `SUMMARY:Celestial Union of ${couple}`,
@@ -528,9 +528,8 @@ function CelestialEvents({ events }: { events: WeddingEvent[] }) {
                 viewport={{ once: true, margin: '-80px' }}
                 transition={{ duration: 0.9, ease }}
                 whileHover={{ y: -4 }}
-                className={`flex flex-col gap-5 rounded-3xl border border-cyan-500/20 bg-slate-900/70 backdrop-blur-xl shadow-xl shadow-cyan-950/30 transition-all hover:border-cyan-400/40 ${
-                  left ? 'col-start-2 sm:col-start-1' : 'col-start-2'
-                }`}
+                className={`flex flex-col gap-5 rounded-3xl border border-cyan-500/20 bg-slate-900/70 backdrop-blur-xl shadow-xl shadow-cyan-950/30 transition-all hover:border-cyan-400/40 ${left ? 'col-start-2 sm:col-start-1' : 'col-start-2'
+                  }`}
                 style={{ padding: 'clamp(1.5rem, 3.5vw, 2.25rem)' }}
               >
                 <div className="flex items-start justify-between gap-4">
@@ -917,24 +916,24 @@ export default function CelestialStarlightTemplate({ wedding }: { wedding: Weddi
 
         {/* ───────── RSVP ───────── */}
         {wedding.theme?.rsvpEnabled !== false && (
-        <Section max="38rem">
-          <Reveal className="flex flex-col items-center text-center gap-4 !mb-10">
-            <span className="font-mono text-xs uppercase tracking-[0.3em] text-cyan-400">
-              Confirm Your Seat
-            </span>
-            <h2 className="font-serif text-3xl sm:text-5xl text-white font-light">
-              Will You Celebrate With Us?
-            </h2>
-            <p className="text-sm text-cyan-100/60 font-sans max-w-md">
-              Please let us know if you can join us under the stars.
-            </p>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <div className="rounded-3xl border border-cyan-500/25 bg-slate-900/80 !p-6 sm:!p-10 backdrop-blur-xl shadow-2xl">
-              <RSVPForm weddingId={wedding.id} primaryColor="#38bdf8" accentColor="#facc15" />
-            </div>
-          </Reveal>
-        </Section>
+          <Section max="38rem">
+            <Reveal className="flex flex-col items-center text-center gap-4 !mb-10">
+              <span className="font-mono text-xs uppercase tracking-[0.3em] text-cyan-400">
+                Confirm Your Seat
+              </span>
+              <h2 className="font-serif text-3xl sm:text-5xl text-white font-light">
+                Will You Celebrate With Us?
+              </h2>
+              <p className="text-sm text-cyan-100/60 font-sans max-w-md">
+                Please let us know if you can join us under the stars.
+              </p>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <div className="rounded-3xl border border-cyan-500/25 bg-slate-900/80 !p-6 sm:!p-10 backdrop-blur-xl shadow-2xl">
+                <RSVPForm weddingId={wedding.id} primaryColor="#38bdf8" accentColor="#facc15" />
+              </div>
+            </Reveal>
+          </Section>
         )}
 
         {/* ───────── FOOTER ───────── */}
@@ -943,7 +942,7 @@ export default function CelestialStarlightTemplate({ wedding }: { wedding: Weddi
           <p>
             Created with{' '}
             <Link href="/" className="text-amber-300 underline underline-offset-4 hover:text-white">
-              ForeverVows
+              Wedora
             </Link>
           </p>
         </footer>

@@ -484,9 +484,9 @@ function downloadIcs(couple: string, date: string, venue?: string | null) {
   const lines = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
-    'PRODID:-//ForeverVows//Wedding//EN',
+    'PRODID:-//Wedora//Wedding//EN',
     'BEGIN:VEVENT',
-    `UID:${ymd.start}-${Math.random().toString(36).slice(2)}@forevervows`,
+    `UID:${ymd.start}-${Math.random().toString(36).slice(2)}@Wedora`,
     `DTSTAMP:${stamp}`,
     `DTSTART;VALUE=DATE:${ymd.start}`,
     `DTEND;VALUE=DATE:${ymd.end}`,
@@ -1748,17 +1748,17 @@ export default function FloralRomanticTemplate({ wedding }: { wedding: WeddingDa
 
         {/* ───────── RSVP ───────── */}
         {wedding.theme?.rsvpEnabled !== false && (
-        <Section max="36rem">
-          <Heading title={t.rsvp} subtitle={t.rsvpSub} />
-          <Reveal delay={0.1}>
-            <div
-              className="relative rounded-3xl border border-rose-200 bg-white shadow-xl shadow-rose-200/50"
-              style={{ padding: 'clamp(1.5rem, 4vw, 2.5rem)' }}
-            >
-              <RSVPForm weddingId={wedding.id} primaryColor={primary} accentColor={accent} />
-            </div>
-          </Reveal>
-        </Section>
+          <Section max="36rem">
+            <Heading title={t.rsvp} subtitle={t.rsvpSub} />
+            <Reveal delay={0.1}>
+              <div
+                className="relative rounded-3xl border border-rose-200 bg-white shadow-xl shadow-rose-200/50"
+                style={{ padding: 'clamp(1.5rem, 4vw, 2.5rem)' }}
+              >
+                <RSVPForm weddingId={wedding.id} primaryColor={primary} accentColor={accent} />
+              </div>
+            </Reveal>
+          </Section>
         )}
 
         {/* ───────── FOOTER ───────── */}
@@ -1771,7 +1771,7 @@ export default function FloralRomanticTemplate({ wedding }: { wedding: WeddingDa
           <p className="font-sans text-xs text-rose-500/80">
             {t.footer}{' '}
             <Link href="/" className="underline hover:text-rose-700">
-              ForeverVows
+              Wedora
             </Link>
           </p>
         </footer>

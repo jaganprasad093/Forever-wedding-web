@@ -211,9 +211,9 @@ function BottleMessageReveal({ date, couple, venue }: { date?: string | null; co
     const icsContent = [
       'BEGIN:VCALENDAR',
       'VERSION:2.0',
-      'PRODID:-//ForeverVows//OceanBreeze//EN',
+      'PRODID:-//Wedora//OceanBreeze//EN',
       'BEGIN:VEVENT',
-      `UID:ocean-${Date.now()}@forevervows`,
+      `UID:ocean-${Date.now()}@Wedora`,
       `DTSTAMP:${stamp}`,
       `DTSTART;VALUE=DATE:${cleanDate}`,
       `SUMMARY:Coastal Wedding of ${couple}`,
@@ -447,9 +447,8 @@ function OceanEvents({ events }: { events: WeddingEvent[] }) {
                 viewport={{ once: true, margin: '-80px' }}
                 transition={{ duration: 0.9, ease }}
                 whileHover={{ y: -4 }}
-                className={`flex flex-col gap-5 rounded-3xl border border-cyan-400/30 bg-white/90 backdrop-blur-sm shadow-xl shadow-cyan-950/5 transition-all ${
-                  left ? 'col-start-2 sm:col-start-1' : 'col-start-2'
-                }`}
+                className={`flex flex-col gap-5 rounded-3xl border border-cyan-400/30 bg-white/90 backdrop-blur-sm shadow-xl shadow-cyan-950/5 transition-all ${left ? 'col-start-2 sm:col-start-1' : 'col-start-2'
+                  }`}
                 style={{ padding: 'clamp(1.5rem, 3.5vw, 2.25rem)' }}
               >
                 <div className="flex items-start justify-between gap-4">
@@ -815,21 +814,21 @@ export default function OceanBreezeTemplate({ wedding }: { wedding: WeddingData 
 
         {/* ───────── RSVP ───────── */}
         {wedding.theme?.rsvpEnabled !== false && (
-        <Section max="38rem">
-          <Reveal className="flex flex-col items-center text-center gap-4 !mb-10">
-            <span className="font-mono text-xs uppercase tracking-[0.3em] text-cyan-700 font-semibold">
-              Presence &amp; Blessings
-            </span>
-            <h2 className="font-serif text-3xl sm:text-5xl text-cyan-950 font-normal">
-              Will You Sail With Us?
-            </h2>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <div className="rounded-3xl border-2 border-cyan-400/40 bg-white !p-6 sm:!p-10 shadow-xl shadow-cyan-950/10">
-              <RSVPForm weddingId={wedding.id} primaryColor="#0e7490" accentColor="#06b6d4" />
-            </div>
-          </Reveal>
-        </Section>
+          <Section max="38rem">
+            <Reveal className="flex flex-col items-center text-center gap-4 !mb-10">
+              <span className="font-mono text-xs uppercase tracking-[0.3em] text-cyan-700 font-semibold">
+                Presence &amp; Blessings
+              </span>
+              <h2 className="font-serif text-3xl sm:text-5xl text-cyan-950 font-normal">
+                Will You Sail With Us?
+              </h2>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <div className="rounded-3xl border-2 border-cyan-400/40 bg-white !p-6 sm:!p-10 shadow-xl shadow-cyan-950/10">
+                <RSVPForm weddingId={wedding.id} primaryColor="#0e7490" accentColor="#06b6d4" />
+              </div>
+            </Reveal>
+          </Section>
         )}
 
         {/* ───────── FOOTER ───────── */}
@@ -838,7 +837,7 @@ export default function OceanBreezeTemplate({ wedding }: { wedding: WeddingData 
           <p>
             Designed on{' '}
             <Link href="/" className="text-cyan-800 font-semibold underline underline-offset-4 hover:text-stone-900">
-              ForeverVows
+              Wedora
             </Link>
           </p>
         </footer>

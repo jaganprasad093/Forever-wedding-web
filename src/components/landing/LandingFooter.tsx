@@ -170,7 +170,7 @@ export default function LandingFooter() {
           className="!pt-8 border-t border-stone-900 flex flex-col-reverse sm:flex-row items-center justify-between gap-6 text-xs text-stone-500"
         >
           <p className="text-center sm:text-left leading-relaxed">
-            © {new Date().getFullYear()} ForeverVows. Made with love for couples worldwide.
+            © {new Date().getFullYear()} Wedora. Made with love for couples worldwide.
           </p>
 
           <div className="flex items-center gap-5 sm:gap-6">

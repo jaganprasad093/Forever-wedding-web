@@ -181,9 +181,9 @@ function JharokhaWindowReveal({ date, couple, venue }: { date?: string | null; c
     const icsContent = [
       'BEGIN:VCALENDAR',
       'VERSION:2.0',
-      'PRODID:-//ForeverVows//Rajputana//EN',
+      'PRODID:-//Wedora//Rajputana//EN',
       'BEGIN:VEVENT',
-      `UID:rajputana-${Date.now()}@forevervows`,
+      `UID:rajputana-${Date.now()}@Wedora`,
       `DTSTAMP:${stamp}`,
       `DTSTART;VALUE=DATE:${cleanDate}`,
       `SUMMARY:Royal Wedding of ${couple}`,
@@ -409,9 +409,8 @@ function RajputanaEvents({ events }: { events: WeddingEvent[] }) {
                 viewport={{ once: true, margin: '-80px' }}
                 transition={{ duration: 0.9, ease }}
                 whileHover={{ y: -4 }}
-                className={`flex flex-col gap-5 rounded-3xl border border-amber-500/40 bg-gradient-to-br from-[#2f0914] to-[#1c040b] backdrop-blur-sm shadow-xl shadow-black/40 transition-all ${
-                  left ? 'col-start-2 sm:col-start-1' : 'col-start-2'
-                }`}
+                className={`flex flex-col gap-5 rounded-3xl border border-amber-500/40 bg-gradient-to-br from-[#2f0914] to-[#1c040b] backdrop-blur-sm shadow-xl shadow-black/40 transition-all ${left ? 'col-start-2 sm:col-start-1' : 'col-start-2'
+                  }`}
                 style={{ padding: 'clamp(1.5rem, 3.5vw, 2.25rem)' }}
               >
                 <div className="flex items-start justify-between gap-4">
@@ -775,21 +774,21 @@ export default function RajputanaPalaceTemplate({ wedding }: { wedding: WeddingD
 
         {/* ───────── RSVP ───────── */}
         {wedding.theme?.rsvpEnabled !== false && (
-        <Section max="38rem">
-          <Reveal className="flex flex-col items-center text-center gap-4 !mb-10">
-            <span className="font-mono text-xs uppercase tracking-[0.3em] text-amber-400 font-semibold">
-              Presence &amp; Blessings
-            </span>
-            <h2 className="font-serif text-3xl sm:text-5xl text-amber-100 font-normal">
-              Confirm Your Attendance
-            </h2>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <div className="rounded-3xl border-2 border-amber-500/40 bg-gradient-to-b from-[#2b0813] to-[#1a040b] !p-6 sm:!p-10 shadow-2xl">
-              <RSVPForm weddingId={wedding.id} primaryColor="#fbbf24" accentColor="#f59e0b" />
-            </div>
-          </Reveal>
-        </Section>
+          <Section max="38rem">
+            <Reveal className="flex flex-col items-center text-center gap-4 !mb-10">
+              <span className="font-mono text-xs uppercase tracking-[0.3em] text-amber-400 font-semibold">
+                Presence &amp; Blessings
+              </span>
+              <h2 className="font-serif text-3xl sm:text-5xl text-amber-100 font-normal">
+                Confirm Your Attendance
+              </h2>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <div className="rounded-3xl border-2 border-amber-500/40 bg-gradient-to-b from-[#2b0813] to-[#1a040b] !p-6 sm:!p-10 shadow-2xl">
+                <RSVPForm weddingId={wedding.id} primaryColor="#fbbf24" accentColor="#f59e0b" />
+              </div>
+            </Reveal>
+          </Section>
         )}
 
         {/* ───────── FOOTER ───────── */}
@@ -798,7 +797,7 @@ export default function RajputanaPalaceTemplate({ wedding }: { wedding: WeddingD
           <p>
             Crafted with prestige on{' '}
             <Link href="/" className="text-amber-400 font-semibold underline underline-offset-4 hover:text-white">
-              ForeverVows
+              Wedora
             </Link>
           </p>
         </footer>

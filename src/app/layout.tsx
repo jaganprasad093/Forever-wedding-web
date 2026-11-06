@@ -3,8 +3,8 @@ import './globals.css'
 
 export const metadata: Metadata = {
   title: {
-    default: 'ForeverVows — Premium Digital Wedding Invitations',
-    template: '%s | ForeverVows',
+    default: 'Wedora — Premium Digital Wedding Invitations',
+    template: '%s | Wedora',
   },
   description:
     'Create stunning digital wedding invitations they will remember forever. Choose from premium templates, customize with your details, and share with a unique URL.',
@@ -16,8 +16,8 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     type: 'website',
-    siteName: 'ForeverVows',
-    title: 'ForeverVows — Premium Digital Wedding Invitations',
+    siteName: 'Wedora',
+    title: 'Wedora — Premium Digital Wedding Invitations',
     description:
       'Create stunning digital wedding invitations they will remember forever.',
   },

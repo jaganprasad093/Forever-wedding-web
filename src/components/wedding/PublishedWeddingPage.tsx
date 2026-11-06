@@ -988,22 +988,22 @@ function KeralaTraditionalTemplate({ wedding }: { wedding: WeddingData }) {
 
         {/* ───────── RSVP ───────── */}
         {wedding.theme?.rsvpEnabled !== false && (
-        <Section max="36rem">
-          <SectionHeading
-            eyebrow="RSVP"
-            title="Will You Join Us?"
-            subtitle="We would be honoured by your presence. Please confirm your attendance."
-            color={secondary}
-          />
-          <Reveal delay={0.1}>
-            <div
-              className="rounded-[2rem] border bg-white/85 backdrop-blur-sm shadow-2xl shadow-black/10"
-              style={{ borderColor: `${accent}66`, ...CARD_PAD }}
-            >
-              <RSVPForm weddingId={wedding.id} primaryColor={primary} accentColor={accent} />
-            </div>
-          </Reveal>
-        </Section>
+          <Section max="36rem">
+            <SectionHeading
+              eyebrow="RSVP"
+              title="Will You Join Us?"
+              subtitle="We would be honoured by your presence. Please confirm your attendance."
+              color={secondary}
+            />
+            <Reveal delay={0.1}>
+              <div
+                className="rounded-[2rem] border bg-white/85 backdrop-blur-sm shadow-2xl shadow-black/10"
+                style={{ borderColor: `${accent}66`, ...CARD_PAD }}
+              >
+                <RSVPForm weddingId={wedding.id} primaryColor={primary} accentColor={accent} />
+              </div>
+            </Reveal>
+          </Section>
         )}
 
         {/* ───────── THANK YOU ───────── */}
@@ -1061,7 +1061,7 @@ function KeralaTraditionalTemplate({ wedding }: { wedding: WeddingData }) {
           <p className="text-xs text-stone-500">
             Made with ❤️ by{' '}
             <Link href="/" className="text-amber-400 hover:underline">
-              ForeverVows
+              Wedora
             </Link>
           </p>
         </footer>

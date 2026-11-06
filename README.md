@@ -1,4 +1,4 @@
-# 💍 ForeverVows — Luxury Digital Wedding Invitation Platform
+# 💍 Wedora — Luxury Digital Wedding Invitation Platform
 
 A modern, full-featured SaaS platform for couples to design, personalize, and share interactive digital wedding invitations. Built with Next.js 16 (App Router), React 19, Tailwind CSS 4, Framer Motion, and Supabase.
 
@@ -6,7 +6,7 @@ A modern, full-featured SaaS platform for couples to design, personalize, and sh
 
 ## 🌟 Overview
 
-**ForeverVows** transforms traditional wedding cards into immersive digital celebration experiences. Couples can choose from 9 artisanal templates, customize schedules, photo galleries, background soundtracks, and love stories in a real-time multi-device editor, share their invites via WhatsApp with branded QR codes, and manage RSVPs and analytics directly from a personal host dashboard.
+**Wedora** transforms traditional wedding cards into immersive digital celebration experiences. Couples can choose from 9 artisanal templates, customize schedules, photo galleries, background soundtracks, and love stories in a real-time multi-device editor, share their invites via WhatsApp with branded QR codes, and manage RSVPs and analytics directly from a personal host dashboard.
 
 ---
 
@@ -221,4 +221,4 @@ forever-vows/
 
 ## 📄 License
 
-Private and proprietary. Developed for **ForeverVows**. All rights reserved.
+Private and proprietary. Developed for **Wedora**. All rights reserved.

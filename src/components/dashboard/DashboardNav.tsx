@@ -175,7 +175,7 @@ export default function DashboardNav({ userName, userEmail }: DashboardNavProps)
             </div>
             <div>
               <span className="font-serif text-lg font-semibold text-stone-900 tracking-tight block leading-none">
-                ForeverVows
+                Wedora
               </span>
               <span className="text-[10px] text-[#9c7d5c] tracking-widest uppercase font-medium mt-0.5 block">
                 Studio
@@ -330,7 +330,7 @@ export default function DashboardNav({ userName, userEmail }: DashboardNavProps)
           <BrandMark size="sm" />
           <div>
             <span className="font-serif text-base font-semibold text-stone-900 leading-none block">
-              ForeverVows
+              Wedora
             </span>
             <span className="text-[9px] text-[#9c7d5c] tracking-widest uppercase font-medium block">
               Studio
@@ -381,7 +381,7 @@ export default function DashboardNav({ userName, userEmail }: DashboardNavProps)
                 <div className="flex items-center gap-2">
                   <BrandMark size="sm" />
                   <span className="font-serif text-base font-semibold text-stone-900">
-                    ForeverVows
+                    Wedora
                   </span>
                 </div>
                 <button

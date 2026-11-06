@@ -1129,18 +1129,18 @@ export default function RoyalGoldTemplate({ wedding }: { wedding: WeddingData })
 
         {/* ───────── RSVP ───────── */}
         {wedding.theme?.rsvpEnabled !== false && (
-        <Section max="38rem">
-          <RoyalHeading
-            eyebrow="RSVP"
-            title="Request the Pleasure of Your Company"
-            subtitle="Kindly confirm your attendance so we may welcome you in royal style."
-          />
-          <Reveal delay={0.1}>
-            <Frame padding="clamp(1.5rem, 4vw, 2.5rem)">
-              <RSVPForm weddingId={wedding.id} primaryColor={primary} accentColor={accent} />
-            </Frame>
-          </Reveal>
-        </Section>
+          <Section max="38rem">
+            <RoyalHeading
+              eyebrow="RSVP"
+              title="Request the Pleasure of Your Company"
+              subtitle="Kindly confirm your attendance so we may welcome you in royal style."
+            />
+            <Reveal delay={0.1}>
+              <Frame padding="clamp(1.5rem, 4vw, 2.5rem)">
+                <RSVPForm weddingId={wedding.id} primaryColor={primary} accentColor={accent} />
+              </Frame>
+            </Reveal>
+          </Section>
         )}
 
         {/* ───────── FOOTER ───────── */}
@@ -1161,7 +1161,7 @@ export default function RoyalGoldTemplate({ wedding }: { wedding: WeddingData })
           <p className="font-sans text-[0.7rem] text-stone-500">
             Crafted with{' '}
             <Link href="/" className="text-amber-400 hover:underline">
-              ForeverVows
+              Wedora
             </Link>
           </p>
         </footer>

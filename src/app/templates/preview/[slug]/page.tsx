@@ -124,7 +124,7 @@ export default async function TemplatePreviewPage({ params }: Props) {
       id: 'm-1',
       weddingId: `demo-${template.id}`,
       title: 'Romantic Strings & Sitar Melodies',
-      artist: 'ForeverVows Classics',
+      artist: 'Wedora Classics',
       url: '/music/canon-in-d.mp3',
       path: null,
       type: 'preset',

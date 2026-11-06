@@ -962,51 +962,51 @@ export default function MinimalWhiteTemplate({ wedding }: { wedding: WeddingData
 
         {/* ───────── RSVP ───────── */}
         {wedding.theme?.rsvpEnabled !== false && (
-        <Block max="44rem">
-          <div className="flex flex-col items-center gap-3 text-center" style={{ marginBottom: 'clamp(2rem, 5vw, 3.5rem)' }}>
-            <Reveal className="flex flex-col items-center gap-3">
-              <span className="font-mono text-xs uppercase tracking-[0.3em]" style={{ color: GOLD }}>
-                Confirmation
-              </span>
-              <h2
-                className="font-serif font-light leading-none tracking-tight text-[clamp(2.5rem,6vw,4.5rem)]"
-                style={{ color: INK }}
-              >
-                Will you attend?
-              </h2>
-              <p className="font-mono text-xs uppercase tracking-wider text-stone-500">
-                Kindly respond at your earliest convenience
-              </p>
-            </Reveal>
-          </div>
-
-          <Reveal delay={0.1}>
-            <div
-              className="relative bg-white"
-              style={{
-                padding: 'clamp(1.75rem, 5vw, 3.25rem)',
-                border: '1px solid #e7e5e4',
-                boxShadow: '0 30px 80px -40px rgba(0,0,0,0.15)',
-              }}
-            >
-              {/* Editorial crop marks */}
-              {[
-                'left-0 top-0 border-l border-t',
-                'right-0 top-0 border-r border-t',
-                'bottom-0 left-0 border-b border-l',
-                'bottom-0 right-0 border-b border-r',
-              ].map((c) => (
-                <span
-                  key={c}
-                  aria-hidden
-                  className={`pointer-events-none absolute h-5 w-5 ${c}`}
-                  style={{ borderColor: GOLD, margin: '-1px' }}
-                />
-              ))}
-              <RSVPForm weddingId={wedding.id} primaryColor={primary} accentColor={accent} />
+          <Block max="44rem">
+            <div className="flex flex-col items-center gap-3 text-center" style={{ marginBottom: 'clamp(2rem, 5vw, 3.5rem)' }}>
+              <Reveal className="flex flex-col items-center gap-3">
+                <span className="font-mono text-xs uppercase tracking-[0.3em]" style={{ color: GOLD }}>
+                  Confirmation
+                </span>
+                <h2
+                  className="font-serif font-light leading-none tracking-tight text-[clamp(2.5rem,6vw,4.5rem)]"
+                  style={{ color: INK }}
+                >
+                  Will you attend?
+                </h2>
+                <p className="font-mono text-xs uppercase tracking-wider text-stone-500">
+                  Kindly respond at your earliest convenience
+                </p>
+              </Reveal>
             </div>
-          </Reveal>
-        </Block>
+
+            <Reveal delay={0.1}>
+              <div
+                className="relative bg-white"
+                style={{
+                  padding: 'clamp(1.75rem, 5vw, 3.25rem)',
+                  border: '1px solid #e7e5e4',
+                  boxShadow: '0 30px 80px -40px rgba(0,0,0,0.15)',
+                }}
+              >
+                {/* Editorial crop marks */}
+                {[
+                  'left-0 top-0 border-l border-t',
+                  'right-0 top-0 border-r border-t',
+                  'bottom-0 left-0 border-b border-l',
+                  'bottom-0 right-0 border-b border-r',
+                ].map((c) => (
+                  <span
+                    key={c}
+                    aria-hidden
+                    className={`pointer-events-none absolute h-5 w-5 ${c}`}
+                    style={{ borderColor: GOLD, margin: '-1px' }}
+                  />
+                ))}
+                <RSVPForm weddingId={wedding.id} primaryColor={primary} accentColor={accent} />
+              </div>
+            </Reveal>
+          </Block>
         )}
 
         {/* ───────── FOOTER ───────── */}
@@ -1029,7 +1029,7 @@ export default function MinimalWhiteTemplate({ wedding }: { wedding: WeddingData
               <span>
                 Crafted with{' '}
                 <Link href="/" className="text-stone-700 underline-offset-4 hover:underline">
-                  ForeverVows
+                  Wedora
                 </Link>
               </span>
             </div>

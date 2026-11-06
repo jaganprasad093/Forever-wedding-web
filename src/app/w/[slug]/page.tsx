@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     .single()
 
   if (!wedding) {
-    return { title: 'Wedding Invitation | ForeverVows' }
+    return { title: 'Wedding Invitation | Wedora' }
   }
 
   const coupleName = [wedding.groom_name, wedding.bride_name].filter(Boolean).join(' & ')
@@ -66,13 +66,13 @@ export default async function WeddingPublicPage({ params }: Props) {
   // Track view
   try {
     await supabase.rpc('increment_views', { wedding_id: wedding.id })
-  } catch {}
+  } catch { }
   try {
     await supabase.from('analytics').insert({
       wedding_id: wedding.id,
       event_type: 'view',
     })
-  } catch {}
+  } catch { }
 
   const rawEvents = ((wedding.events || []) as unknown) as DbEvent[]
   const rawGallery = ((wedding.gallery || []) as unknown) as DbGallery[]
@@ -130,14 +130,14 @@ export default async function WeddingPublicPage({ params }: Props) {
       })),
     music: currentMusic
       ? {
-          id: currentMusic.id,
-          weddingId: currentMusic.wedding_id,
-          title: currentMusic.title,
-          artist: currentMusic.artist,
-          url: currentMusic.url,
-          path: currentMusic.path,
-          type: currentMusic.type as MusicItem['type'],
-        }
+        id: currentMusic.id,
+        weddingId: currentMusic.wedding_id,
+        title: currentMusic.title,
+        artist: currentMusic.artist,
+        url: currentMusic.url,
+        path: currentMusic.path,
+        type: currentMusic.type as MusicItem['type'],
+      }
       : null,
   }
 

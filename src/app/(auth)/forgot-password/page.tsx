@@ -271,7 +271,7 @@ export default function ForgotPasswordPage() {
           custom={4}
           className="mt-10 sm:mt-12 text-center text-xs text-stone-400 tracking-wide translate-y-6"
         >
-          © {new Date().getFullYear()} ForeverVows · All rights reserved.
+          © {new Date().getFullYear()} Wedora · All rights reserved.
         </motion.p>
       </main>
     </div>
