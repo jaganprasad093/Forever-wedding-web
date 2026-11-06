@@ -23,6 +23,7 @@ export default function ThemePanel({
     accentColor: wedding.theme?.accentColor || '#fcd34d',
     fontFamily: wedding.theme?.fontFamily || 'cormorant',
     preset: wedding.theme?.preset,
+    rsvpEnabled: wedding.theme?.rsvpEnabled !== false,
   }
 
   const updateTheme = (updates: Partial<WeddingTheme>) => {

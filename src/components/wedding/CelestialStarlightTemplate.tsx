@@ -916,6 +916,7 @@ export default function CelestialStarlightTemplate({ wedding }: { wedding: Weddi
         )}
 
         {/* ───────── RSVP ───────── */}
+        {wedding.theme?.rsvpEnabled !== false && (
         <Section max="38rem">
           <Reveal className="flex flex-col items-center text-center gap-4 !mb-10">
             <span className="font-mono text-xs uppercase tracking-[0.3em] text-cyan-400">
@@ -934,6 +935,7 @@ export default function CelestialStarlightTemplate({ wedding }: { wedding: Weddi
             </div>
           </Reveal>
         </Section>
+        )}
 
         {/* ───────── FOOTER ───────── */}
         <footer className="border-t border-cyan-500/20 bg-slate-950/80 !py-12 text-center text-cyan-300/60 text-xs font-mono">

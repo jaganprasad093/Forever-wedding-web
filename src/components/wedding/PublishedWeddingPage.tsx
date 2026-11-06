@@ -987,6 +987,7 @@ function KeralaTraditionalTemplate({ wedding }: { wedding: WeddingData }) {
         )}
 
         {/* ───────── RSVP ───────── */}
+        {wedding.theme?.rsvpEnabled !== false && (
         <Section max="36rem">
           <SectionHeading
             eyebrow="RSVP"
@@ -1003,6 +1004,7 @@ function KeralaTraditionalTemplate({ wedding }: { wedding: WeddingData }) {
             </div>
           </Reveal>
         </Section>
+        )}
 
         {/* ───────── THANK YOU ───────── */}
         <section
