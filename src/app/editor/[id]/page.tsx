@@ -56,6 +56,7 @@ export default async function EditorPage({
       backgroundColor: '#fffbeb',
       accentColor: '#fcd34d',
       fontFamily: 'cormorant',
+      rsvpEnabled: true,
     },
     published: wedding.published,
     publishedAt: wedding.published_at,

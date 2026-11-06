@@ -1747,6 +1747,7 @@ export default function FloralRomanticTemplate({ wedding }: { wedding: WeddingDa
         </Section>
 
         {/* ───────── RSVP ───────── */}
+        {wedding.theme?.rsvpEnabled !== false && (
         <Section max="36rem">
           <Heading title={t.rsvp} subtitle={t.rsvpSub} />
           <Reveal delay={0.1}>
@@ -1758,6 +1759,7 @@ export default function FloralRomanticTemplate({ wedding }: { wedding: WeddingDa
             </div>
           </Reveal>
         </Section>
+        )}
 
         {/* ───────── FOOTER ───────── */}
         <footer
