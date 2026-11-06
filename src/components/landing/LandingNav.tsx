@@ -107,7 +107,7 @@ export default function LandingNav() {
           </motion.div>
           <div className="flex flex-col gap-0.5">
             <span className="font-serif text-xl sm:text-2xl font-bold tracking-tight text-stone-900 group-hover:text-amber-800 transition-colors leading-none">
-              Forever<span className="italic font-normal text-amber-600">Vows</span>
+              Wed<span className="italic font-normal text-amber-600">ora</span>
             </span>
             <span className="hidden sm:block text-[9px] tracking-[0.25em] text-stone-400 uppercase font-sans font-medium leading-none">
               Digital Invitations

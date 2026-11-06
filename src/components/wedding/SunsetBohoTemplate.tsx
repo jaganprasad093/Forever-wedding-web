@@ -132,9 +132,8 @@ function SwayingPampas({ flip = false }: { flip?: boolean }) {
   const reduce = useReducedMotion()
   return (
     <div
-      className={`pointer-events-none absolute bottom-0 z-10 ${
-        flip ? 'right-0 -scale-x-100' : 'left-0'
-      } opacity-75`}
+      className={`pointer-events-none absolute bottom-0 z-10 ${flip ? 'right-0 -scale-x-100' : 'left-0'
+        } opacity-75`}
       style={{ width: 'clamp(9rem, 24vw, 18rem)' }}
       aria-hidden
     >
@@ -145,8 +144,8 @@ function SwayingPampas({ flip = false }: { flip?: boolean }) {
           reduce
             ? undefined
             : {
-                rotate: [0, flip ? -2.5 : 2.5, 0],
-              }
+              rotate: [0, flip ? -2.5 : 2.5, 0],
+            }
         }
         transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
         style={{ transformOrigin: 'bottom center' }}
@@ -226,9 +225,9 @@ function WaxSealedEnvelope({ date, couple, venue }: { date?: string | null; coup
     const icsContent = [
       'BEGIN:VCALENDAR',
       'VERSION:2.0',
-      'PRODID:-//ForeverVows//Boho//EN',
+      'PRODID:-//Wedora//Boho//EN',
       'BEGIN:VEVENT',
-      `UID:boho-${Date.now()}@forevervows`,
+      `UID:boho-${Date.now()}@Wedora`,
       `DTSTAMP:${stamp}`,
       `DTSTART;VALUE=DATE:${cleanDate}`,
       `SUMMARY:Sunset Celebration of ${couple}`,
@@ -473,9 +472,8 @@ function BohoEvents({ events }: { events: WeddingEvent[] }) {
                 viewport={{ once: true, margin: '-80px' }}
                 transition={{ duration: 0.9, ease }}
                 whileHover={{ y: -4 }}
-                className={`flex flex-col gap-5 rounded-3xl border border-amber-200/90 bg-white/95 backdrop-blur-sm shadow-xl shadow-amber-900/10 transition-all ${
-                  left ? 'col-start-2 sm:col-start-1' : 'col-start-2'
-                }`}
+                className={`flex flex-col gap-5 rounded-3xl border border-amber-200/90 bg-white/95 backdrop-blur-sm shadow-xl shadow-amber-900/10 transition-all ${left ? 'col-start-2 sm:col-start-1' : 'col-start-2'
+                  }`}
                 style={{ padding: 'clamp(1.5rem, 3.5vw, 2.25rem)' }}
               >
                 <div className="flex items-start justify-between gap-4">
@@ -843,21 +841,21 @@ export default function SunsetBohoTemplate({ wedding }: { wedding: WeddingData }
 
         {/* ───────── RSVP ───────── */}
         {wedding.theme?.rsvpEnabled !== false && (
-        <Section max="38rem">
-          <Reveal className="flex flex-col items-center text-center gap-4 !mb-10">
-            <span className="font-mono text-xs uppercase tracking-[0.3em] text-[#9a3412] font-semibold">
-              Presence &amp; Blessings
-            </span>
-            <h2 className="font-serif text-3xl sm:text-5xl text-stone-900 font-normal">
-              Will You Grace Our Day?
-            </h2>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <div className="rounded-3xl border-2 border-amber-300/60 bg-white !p-6 sm:!p-10 shadow-2xl shadow-amber-950/10">
-              <RSVPForm weddingId={wedding.id} primaryColor="#9a3412" accentColor="#f59e0b" />
-            </div>
-          </Reveal>
-        </Section>
+          <Section max="38rem">
+            <Reveal className="flex flex-col items-center text-center gap-4 !mb-10">
+              <span className="font-mono text-xs uppercase tracking-[0.3em] text-[#9a3412] font-semibold">
+                Presence &amp; Blessings
+              </span>
+              <h2 className="font-serif text-3xl sm:text-5xl text-stone-900 font-normal">
+                Will You Grace Our Day?
+              </h2>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <div className="rounded-3xl border-2 border-amber-300/60 bg-white !p-6 sm:!p-10 shadow-2xl shadow-amber-950/10">
+                <RSVPForm weddingId={wedding.id} primaryColor="#9a3412" accentColor="#f59e0b" />
+              </div>
+            </Reveal>
+          </Section>
         )}
 
         {/* ───────── FOOTER ───────── */}
@@ -866,7 +864,7 @@ export default function SunsetBohoTemplate({ wedding }: { wedding: WeddingData }
           <p>
             Designed with love on{' '}
             <Link href="/" className="text-[#9a3412] font-semibold underline underline-offset-4 hover:text-stone-900">
-              ForeverVows
+              Wedora
             </Link>
           </p>
         </footer>

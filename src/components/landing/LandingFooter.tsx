@@ -85,7 +85,7 @@ export default function LandingFooter() {
                 <Heart className="w-4 h-4 text-white fill-white" />
               </motion.div>
               <span className="font-serif text-2xl text-white font-medium">
-                Forever<span className="italic text-amber-400 font-normal">Vows</span>
+                Wed<span className="italic text-amber-400 font-normal">ora</span>
               </span>
             </Link>
 
@@ -170,7 +170,7 @@ export default function LandingFooter() {
           className="!pt-8 border-t border-stone-900 flex flex-col-reverse sm:flex-row items-center justify-between gap-6 text-xs text-stone-500"
         >
           <p className="text-center sm:text-left leading-relaxed">
-            © {new Date().getFullYear()} ForeverVows. Made with love for couples worldwide.
+            © {new Date().getFullYear()} Wedora. Made with love for couples worldwide.
           </p>
 
           <div className="flex items-center gap-5 sm:gap-6">

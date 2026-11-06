@@ -19,7 +19,7 @@ function subscribeWedding(callback: () => void) {
 function getWeddingSnapshot(): WeddingData | null {
   if (currentWedding) return currentWedding
   try {
-    const cached = window.sessionStorage.getItem('forever_vows_preview_cache')
+    const cached = window.sessionStorage.getItem('wedora_preview_cache')
     if (cached) {
       currentWedding = JSON.parse(cached)
       return currentWedding

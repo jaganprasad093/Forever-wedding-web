@@ -221,7 +221,7 @@ function CreateInvitationContent() {
 
       {/* Footer */}
       <footer className="!pb-8 text-center text-xs text-stone-400">
-        © {new Date().getFullYear()} ForeverVows · All rights reserved.
+        © {new Date().getFullYear()} Wedora · All rights reserved.
       </footer>
     </div>
   )

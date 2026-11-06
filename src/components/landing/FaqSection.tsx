@@ -9,7 +9,7 @@ const faqs = [
   {
     question: 'How do my wedding guests receive and view the invitation?',
     answer:
-      'You receive your own unique, personalized link (such as forevervows.com/w/jagan-anu) and a custom QR code. You can share this link on WhatsApp, Instagram, iMessage, or email. When guests tap the link, it opens instantly in their browser with background music and full animations — no app download or login required.',
+      'You receive your own unique, personalized link (such as Wedora.com/w/jagan-anu) and a custom QR code. You can share this link on WhatsApp, Instagram, iMessage, or email. When guests tap the link, it opens instantly in their browser with background music and full animations — no app download or login required.',
   },
   {
     question: 'Can guests RSVP directly and choose their meal preferences?',
@@ -27,7 +27,7 @@ const faqs = [
       'Yes, you can edit your wedding details at any time from your dashboard! Any updates you make (e.g. changing ceremony timing or updating venue directions) will reflect immediately for all guests who open your link.',
   },
   {
-    question: 'Is ForeverVows mobile friendly?',
+    question: 'Is Wedora mobile friendly?',
     answer:
       '100%. Every single template is designed mobile-first and tested on all modern iPhones and Android devices, as well as tablets and desktop screens. It looks flawless regardless of device size.',
   },

@@ -146,7 +146,7 @@ function LoginContent() {
             />
           </span>
 
-          <span>Back to ForeverVows</span>
+          <span>Back to Wedora</span>
         </Link>
       </header>
 
@@ -170,7 +170,7 @@ function LoginContent() {
 
           {/* Welcome pill badge */}
           <div className="inline-flex items-center gap-2.5 !px-5 !py-1 rounded-full border border-[#d8c8b4]/80 bg-[#f7f2ea]/90 text-[#856543] !text-xs sm:!text-sm font-medium tracking-[0.18em] uppercase shadow-xs">            <span className="text-[9px] leading-none text-[#a07c57]">♦</span>
-            <span>Welcome to ForeverVows</span>
+            <span>Welcome to Wedora</span>
           </div>
 
           <p className="text-stone-500 text-sm leading-relaxed max-w-[360px]">
@@ -324,7 +324,7 @@ function LoginContent() {
                 className="!mt-3 !pt-2 border-t border-stone-100 text-center"
               >
                 <p className="text-sm text-stone-500">
-                  New to ForeverVows?{' '}
+                  New to Wedora?{' '}
                   <Link
                     href={
                       templateSlug
@@ -352,7 +352,7 @@ function LoginContent() {
           custom={7}
           className="mt-10 sm:mt-12 text-center text-xs text-stone-400 tracking-wide translate-y-6"
         >
-          © {new Date().getFullYear()} ForeverVows · All rights reserved.
+          © {new Date().getFullYear()} Wedora · All rights reserved.
         </motion.p>
       </main>
     </div>

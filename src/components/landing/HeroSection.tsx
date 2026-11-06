@@ -460,7 +460,7 @@ export default function HeroSection() {
               <Share2 className="w-4 h-4" />
             </div>
             <div className="text-left">
-              <p className="text-xs font-semibold text-stone-800">forevervows.com/w/jagan-anu</p>
+              <p className="text-xs font-semibold text-stone-800">Wedora.com/w/jagan-anu</p>
               <p className="text-[11px] text-amber-700 font-medium !mt-0.5">Ready for WhatsApp 1-tap</p>
             </div>
           </motion.div>

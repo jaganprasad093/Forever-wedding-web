@@ -36,32 +36,38 @@ export default function EventsPanel({ weddingId }: { weddingId: string }) {
   const [expandedEventId, setExpandedEventId] = useState<string | null>(null)
 
   useEffect(() => {
-    loadEvents()
-  }, [weddingId])
-
-  const loadEvents = async () => {
-    const supabase = createClient()
-    const { data } = await supabase
-      .from('events')
-      .select('*')
-      .eq('wedding_id', weddingId)
-      .order('order_index', { ascending: true })
-    
-    if (data) {
-      setEvents(data.map((e) => ({
-        id: e.id,
-        weddingId: e.wedding_id,
-        title: e.title,
-        date: e.date,
-        time: e.time,
-        venue: e.venue,
-        address: e.address,
-        mapsUrl: e.maps_url,
-        orderIndex: e.order_index,
-      })))
+    let ignore = false
+    async function fetchEvents() {
+      const supabase = createClient()
+      const { data } = await supabase
+        .from('events')
+        .select('*')
+        .eq('wedding_id', weddingId)
+        .order('order_index', { ascending: true })
+      
+      if (!ignore) {
+        if (data) {
+          setEvents(data.map((e) => ({
+            id: e.id,
+            weddingId: e.wedding_id,
+            title: e.title,
+            date: e.date,
+            time: e.time,
+            venue: e.venue,
+            address: e.address,
+            mapsUrl: e.maps_url,
+            orderIndex: e.order_index,
+          })))
+        }
+        setLoading(false)
+      }
     }
-    setLoading(false)
-  }
+
+    void fetchEvents()
+    return () => {
+      ignore = true
+    }
+  }, [weddingId])
 
   const addEvent = async (title: string) => {
     const supabase = createClient()

@@ -289,7 +289,7 @@ export default function TemplatesPage() {
               className="group inline-flex items-center gap-2 text-xs font-medium text-amber-200/80 hover:text-white transition-colors"
             >
               <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
-              <span>Back to ForeverVows</span>
+              <span>Back to Wedora</span>
             </Link>
           </motion.div>
 

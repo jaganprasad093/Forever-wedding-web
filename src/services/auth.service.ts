@@ -53,7 +53,7 @@ export const authService = {
         data: {
           name,
           full_name: name,
-          app_name: 'ForeverVows',
+          app_name: 'Wedora',
         },
         emailRedirectTo: callbackUrl,
       },

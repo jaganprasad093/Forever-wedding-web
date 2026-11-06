@@ -44,7 +44,7 @@ const steps = [
     icon: Share2,
     title: 'Send on WhatsApp & Track',
     time: 'Instant',
-    description: 'Get your customized link (forevervows.com/w/your-names) and share with one tap. Watch guest RSVPs roll into your private live dashboard.',
+    description: 'Get your customized link (Wedora.com/w/your-names) and share with one tap. Watch guest RSVPs roll into your private live dashboard.',
     highlight: 'No app download for guests',
   },
 ]
