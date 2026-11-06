@@ -14,11 +14,11 @@ import {
   Trash2,
   Calendar,
   MapPin,
-  Sparkles,
   Users,
 } from 'lucide-react'
 import { formatDate } from '@/lib/utils'
 import { createClient } from '@/lib/supabase/client'
+import ShareModal from './ShareModal'
 
 interface Wedding {
   id: string
@@ -123,6 +123,7 @@ export default function DashboardInvitationCard({ wedding }: { wedding: Wedding 
   const [menuOpen, setMenuOpen] = useState(false)
   const [copied, setCopied] = useState(false)
   const [deleting, setDeleting] = useState(false)
+  const [shareOpen, setShareOpen] = useState(false)
 
   const publicUrl = `${typeof window !== 'undefined' ? window.location.origin : ''}/w/${wedding.slug}`
   const coupleName =
@@ -148,14 +149,6 @@ export default function DashboardInvitationCard({ wedding }: { wedding: Wedding 
     }
   }
 
-  const handleShareWhatsApp = (e: React.MouseEvent) => {
-    e.stopPropagation()
-    const message = encodeURIComponent(
-      `You are cordially invited to celebrate the wedding of ${coupleName} 💍\n\nView the interactive invitation:\n${publicUrl}`
-    )
-    window.open(`https://wa.me/?text=${message}`, '_blank')
-  }
-
   const handleDelete = async () => {
     if (
       !confirm(
@@ -177,6 +170,15 @@ export default function DashboardInvitationCard({ wedding }: { wedding: Wedding 
 
   return (
     <div className="group bg-white rounded-3xl border border-[#ece4d8] shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_16px_40px_rgba(140,107,72,0.1)] hover:-translate-y-1 transition-all duration-300 flex flex-col overflow-hidden relative">
+      {/* Share Modal */}
+      <ShareModal
+        isOpen={shareOpen}
+        onClose={() => setShareOpen(false)}
+        weddingUrl={publicUrl}
+        coupleName={coupleName}
+        weddingDate={wedding.wedding_date ? formatDate(wedding.wedding_date) : null}
+      />
+
       {/* ── Top Invitation Preview Visual ── */}
       <div
         className={`relative h-48 bg-gradient-to-br ${theme.cardBg} p-5 flex flex-col justify-between overflow-hidden border-b border-[#ece4d8]/70`}
@@ -303,14 +305,25 @@ export default function DashboardInvitationCard({ wedding }: { wedding: Wedding 
                   </Link>
 
                   {wedding.published && (
-                    <Link
-                      href={`/w/${wedding.slug}`}
-                      target="_blank"
-                      className="flex items-center gap-2.5 px-3.5 py-2 text-xs font-medium text-stone-700 hover:bg-[#faf7f2] hover:text-[#704e2e] transition-colors"
-                    >
-                      <ExternalLink className="w-3.5 h-3.5 text-stone-400" />
-                      <span>Open Live Site</span>
-                    </Link>
+                    <>
+                      <button
+                        type="button"
+                        onClick={() => { setMenuOpen(false); setShareOpen(true) }}
+                        className="w-full flex items-center gap-2.5 px-3.5 py-2 text-xs font-medium text-stone-700 hover:bg-[#faf7f2] hover:text-[#704e2e] transition-colors text-left cursor-pointer"
+                      >
+                        <Share2 className="w-3.5 h-3.5 text-stone-400" />
+                        <span>Share Invitation</span>
+                      </button>
+
+                      <Link
+                        href={`/w/${wedding.slug}`}
+                        target="_blank"
+                        className="flex items-center gap-2.5 px-3.5 py-2 text-xs font-medium text-stone-700 hover:bg-[#faf7f2] hover:text-[#704e2e] transition-colors"
+                      >
+                        <ExternalLink className="w-3.5 h-3.5 text-stone-400" />
+                        <span>Open Live Site</span>
+                      </Link>
+                    </>
                   )}
 
                   <div className="h-px bg-stone-100 my-1" />
@@ -351,7 +364,7 @@ export default function DashboardInvitationCard({ wedding }: { wedding: Wedding 
             </Link>
           </div>
 
-          {/* Published quick sharing buttons */}
+          {/* Published sharing */}
           {wedding.published ? (
             <div className="flex items-center gap-1.5">
               <button
@@ -373,14 +386,15 @@ export default function DashboardInvitationCard({ wedding }: { wedding: Wedding 
                 )}
               </button>
 
+              {/* Open Share Modal */}
               <button
                 type="button"
-                onClick={handleShareWhatsApp}
-                className="flex items-center justify-center gap-1 py-1.5 px-3 bg-emerald-50 hover:bg-emerald-100/80 border border-emerald-200/80 rounded-xl text-[11px] font-medium text-emerald-700 transition-colors cursor-pointer"
-                title="Share via WhatsApp"
+                onClick={() => setShareOpen(true)}
+                className="flex items-center justify-center gap-1 py-1.5 px-3 bg-gradient-to-r from-[#25D366] to-[#1ebe59] hover:from-[#1ebe59] hover:to-[#18a84f] border border-emerald-400/30 rounded-xl text-[11px] font-semibold text-white shadow-sm transition-all cursor-pointer"
+                title="Share invitation"
               >
                 <Share2 className="w-3.5 h-3.5" />
-                <span className="hidden sm:inline">WhatsApp</span>
+                <span className="hidden sm:inline">Share</span>
               </button>
 
               <Link

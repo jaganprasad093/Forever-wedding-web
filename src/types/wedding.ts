@@ -5,6 +5,8 @@ export interface WeddingTheme {
   fontFamily: string
   accentColor: string
   preset?: string
+  /** When false the RSVP section is hidden on the public invitation page */
+  rsvpEnabled?: boolean
 }
 
 export interface WeddingData {

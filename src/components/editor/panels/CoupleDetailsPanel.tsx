@@ -5,6 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { WeddingData } from '@/types/wedding'
 import { useEffect } from 'react'
+import { Users } from 'lucide-react'
 
 const schema = z.object({
   brideName: z.string().optional(),

@@ -48,10 +48,10 @@ export default async function DashboardPage() {
   const { data: rawRsvps } =
     weddingIds.length > 0
       ? await supabase
-          .from('rsvps')
-          .select('*')
-          .in('wedding_id', weddingIds)
-          .order('created_at', { ascending: false })
+        .from('rsvps')
+        .select('*')
+        .in('wedding_id', weddingIds)
+        .order('created_at', { ascending: false })
       : { data: [] }
 
   const weddingMap = new Map(
