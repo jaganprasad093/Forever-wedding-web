@@ -3,6 +3,11 @@ import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import { MusicItem, WeddingData } from '@/types/wedding'
 import PublishedWeddingPage from '@/components/wedding/PublishedWeddingPage'
+import { Database } from '@/types/supabase'
+
+type DbEvent = Database['public']['Tables']['events']['Row']
+type DbGallery = Database['public']['Tables']['gallery']['Row']
+type DbMusic = Database['public']['Tables']['music']['Row']
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -24,7 +29,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   const coupleName = [wedding.groom_name, wedding.bride_name].filter(Boolean).join(' & ')
-  const galleryItems = ((wedding as any).gallery || []) as { url: string; is_cover: boolean }[]
+  const galleryItems = ((wedding.gallery || []) as unknown) as Array<{ url: string; is_cover: boolean }>
   const coverPhoto = galleryItems.find((g) => g.is_cover) || galleryItems[0]
 
   return {
@@ -69,6 +74,11 @@ export default async function WeddingPublicPage({ params }: Props) {
     })
   } catch {}
 
+  const rawEvents = ((wedding.events || []) as unknown) as DbEvent[]
+  const rawGallery = ((wedding.gallery || []) as unknown) as DbGallery[]
+  const rawMusic = ((wedding.music || []) as unknown) as DbMusic[]
+  const currentMusic = rawMusic[0]
+
   const weddingData: WeddingData = {
     id: wedding.id,
     userId: wedding.user_id,
@@ -95,38 +105,38 @@ export default async function WeddingPublicPage({ params }: Props) {
     views: wedding.views,
     createdAt: wedding.created_at,
     updatedAt: wedding.updated_at,
-    events: (((wedding as any).events || []) as any[])
-      .sort((a: any, b: any) => ((a.order_index as number) || 0) - ((b.order_index as number) || 0))
-      .map((e: any) => ({
-        id: e.id as string,
-        weddingId: e.wedding_id as string,
-        title: e.title as string,
-        date: e.date as string | null,
-        time: e.time as string | null,
-        venue: e.venue as string | null,
-        address: e.address as string | null,
-        mapsUrl: e.maps_url as string | null,
-        orderIndex: e.order_index as number,
+    events: rawEvents
+      .sort((a, b) => (a.order_index || 0) - (b.order_index || 0))
+      .map((e) => ({
+        id: e.id,
+        weddingId: e.wedding_id,
+        title: e.title,
+        date: e.date,
+        time: e.time,
+        venue: e.venue,
+        address: e.address,
+        mapsUrl: e.maps_url,
+        orderIndex: e.order_index ?? 0,
       })),
-    gallery: (((wedding as any).gallery || []) as any[])
-      .sort((a: any, b: any) => ((a.order_index as number) || 0) - ((b.order_index as number) || 0))
-      .map((g: any) => ({
-        id: g.id as string,
-        weddingId: g.wedding_id as string,
-        url: g.url as string,
-        path: g.path as string,
-        isCover: g.is_cover as boolean,
-        orderIndex: (g.order_index as number) || 0,
+    gallery: rawGallery
+      .sort((a, b) => (a.order_index || 0) - (b.order_index || 0))
+      .map((g) => ({
+        id: g.id,
+        weddingId: g.wedding_id,
+        url: g.url,
+        path: g.path,
+        isCover: g.is_cover,
+        orderIndex: g.order_index ?? 0,
       })),
-    music: (wedding as any).music?.[0]
+    music: currentMusic
       ? {
-          id: (wedding as any).music[0].id as string,
-          weddingId: (wedding as any).music[0].wedding_id as string,
-          title: (wedding as any).music[0].title as string,
-          artist: (wedding as any).music[0].artist as string | null,
-          url: (wedding as any).music[0].url as string,
-          path: (wedding as any).music[0].path as string | null,
-          type: (wedding as any).music[0].type as MusicItem['type'],
+          id: currentMusic.id,
+          weddingId: currentMusic.wedding_id,
+          title: currentMusic.title,
+          artist: currentMusic.artist,
+          url: currentMusic.url,
+          path: currentMusic.path,
+          type: currentMusic.type as MusicItem['type'],
         }
       : null,
   }
