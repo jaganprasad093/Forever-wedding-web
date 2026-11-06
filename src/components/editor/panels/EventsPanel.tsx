@@ -1,12 +1,12 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Plus, Trash2, GripVertical, ChevronDown, ChevronUp } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
-import { WeddingEvent } from '@/types/wedding'
+import { WeddingEvent, WeddingData } from '@/types/wedding'
 
 const eventSchema = z.object({
   title: z.string().min(1, 'Title is required'),
@@ -29,11 +29,24 @@ const EVENT_PRESETS = [
   'Sadya',
 ]
 
-export default function EventsPanel({ weddingId }: { weddingId: string }) {
-  const [events, setEvents] = useState<WeddingEvent[]>([])
-  const [loading, setLoading] = useState(true)
+export default function EventsPanel({
+  weddingId,
+  initialEvents,
+  onUpdate,
+}: {
+  weddingId: string
+  initialEvents?: WeddingEvent[]
+  onUpdate?: (updates: Partial<WeddingData>) => void
+}) {
+  const [events, setEvents] = useState<WeddingEvent[]>(initialEvents || [])
+  const [loading, setLoading] = useState(!initialEvents || initialEvents.length === 0)
   const [addingEvent, setAddingEvent] = useState(false)
   const [expandedEventId, setExpandedEventId] = useState<string | null>(null)
+
+  const onUpdateRef = useRef(onUpdate)
+  useEffect(() => {
+    onUpdateRef.current = onUpdate
+  }, [onUpdate])
 
   useEffect(() => {
     let ignore = false
@@ -47,7 +60,7 @@ export default function EventsPanel({ weddingId }: { weddingId: string }) {
       
       if (!ignore) {
         if (data) {
-          setEvents(data.map((e) => ({
+          const mapped = data.map((e) => ({
             id: e.id,
             weddingId: e.wedding_id,
             title: e.title,
@@ -57,7 +70,9 @@ export default function EventsPanel({ weddingId }: { weddingId: string }) {
             address: e.address,
             mapsUrl: e.maps_url,
             orderIndex: e.order_index,
-          })))
+          }))
+          setEvents(mapped)
+          onUpdateRef.current?.({ events: mapped })
         }
         setLoading(false)
       }
@@ -93,7 +108,11 @@ export default function EventsPanel({ weddingId }: { weddingId: string }) {
         mapsUrl: data.maps_url,
         orderIndex: data.order_index,
       }
-      setEvents((prev) => [...prev, newEvent])
+      setEvents((prev) => {
+        const next = [...prev, newEvent]
+        onUpdateRef.current?.({ events: next })
+        return next
+      })
       setExpandedEventId(data.id)
     }
     setAddingEvent(false)
@@ -109,13 +128,21 @@ export default function EventsPanel({ weddingId }: { weddingId: string }) {
       address: updates.address,
       maps_url: updates.mapsUrl,
     }).eq('id', id)
-    setEvents((prev) => prev.map((e) => e.id === id ? { ...e, ...updates } : e))
+    setEvents((prev) => {
+      const next = prev.map((e) => (e.id === id ? { ...e, ...updates } : e))
+      onUpdateRef.current?.({ events: next })
+      return next
+    })
   }
 
   const deleteEvent = async (id: string) => {
     const supabase = createClient()
     await supabase.from('events').delete().eq('id', id)
-    setEvents((prev) => prev.filter((e) => e.id !== id))
+    setEvents((prev) => {
+      const next = prev.filter((e) => e.id !== id)
+      onUpdateRef.current?.({ events: next })
+      return next
+    })
   }
 
   const inputClass = 'w-full px-3 py-2 text-xs bg-white border border-stone-200 rounded-lg text-stone-800 placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all'
