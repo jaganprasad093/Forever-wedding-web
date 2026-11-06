@@ -1,6 +1,7 @@
 'use client'
 
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useCallback, useSyncExternalStore } from 'react'
+import { createPortal } from 'react-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   X,
@@ -146,6 +147,8 @@ function buildShareOptions(url: string, coupleName: string, date?: string | null
   ]
 }
 
+const emptySubscribe = () => () => {}
+
 export default function ShareModal({
   isOpen,
   onClose,
@@ -153,11 +156,16 @@ export default function ShareModal({
   coupleName,
   weddingDate,
 }: ShareModalProps) {
+  const isMounted = useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false
+  )
+
   const [tab, setTab] = useState<Tab>('link')
   const [copied, setCopied] = useState(false)
   const [qrDataUrl, setQrDataUrl] = useState<string | null>(null)
   const [qrLoading, setQrLoading] = useState(false)
-  const canvasRef = useRef<HTMLCanvasElement>(null)
 
   /* ── Generate QR on demand ── */
   const generateQR = useCallback(async () => {
@@ -177,19 +185,18 @@ export default function ShareModal({
     }
   }, [weddingUrl])
 
-  useEffect(() => {
-    if (isOpen && tab === 'qr' && !qrDataUrl) {
-      generateQR()
+  const handleTabChange = (nextTab: Tab) => {
+    setTab(nextTab)
+    if (nextTab === 'qr' && !qrDataUrl && !qrLoading) {
+      void generateQR()
     }
-  }, [isOpen, tab, qrDataUrl, generateQR])
+  }
 
-  /* ── Reset state on close ── */
-  useEffect(() => {
-    if (!isOpen) {
-      setCopied(false)
-      setTab('link')
-    }
-  }, [isOpen])
+  const handleClose = () => {
+    setCopied(false)
+    setTab('link')
+    onClose()
+  }
 
   const handleCopy = async () => {
     try {
@@ -228,10 +235,12 @@ export default function ShareModal({
     { id: 'social', label: 'Social', icon: <Share2 className="w-4 h-4" /> },
   ]
 
-  return (
+  if (!isMounted) return null
+
+  return createPortal(
     <AnimatePresence>
       {isOpen && (
-        <>
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
           {/* Backdrop */}
           <motion.div
             key="backdrop"
@@ -239,8 +248,8 @@ export default function ShareModal({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm"
-            onClick={onClose}
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm"
+            onClick={handleClose}
             aria-hidden="true"
           />
 
@@ -250,46 +259,45 @@ export default function ShareModal({
             role="dialog"
             aria-modal="true"
             aria-label={`Share ${coupleName} invitation`}
-            initial={{ opacity: 0, scale: 0.94, y: 24 }}
+            initial={{ opacity: 0, scale: 0.95, y: 16 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.94, y: 24 }}
-            transition={{ type: 'spring', stiffness: 340, damping: 28 }}
-            className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 pointer-events-none"
+            exit={{ opacity: 0, scale: 0.95, y: 16 }}
+            transition={{ type: 'spring', stiffness: 360, damping: 28 }}
+            className="relative z-10 w-full max-w-md mx-auto my-auto bg-white rounded-3xl shadow-[0_25px_70px_rgba(0,0,0,0.22)] overflow-hidden border border-[#ece4d8]"
           >
-            <div className="pointer-events-auto w-full sm:max-w-md bg-white rounded-t-3xl sm:rounded-3xl shadow-[0_32px_80px_rgba(0,0,0,0.18)] overflow-hidden border border-[#ece4d8]">
-              {/* Header */}
-              <div className="relative px-5 pt-5 pb-4 border-b border-stone-100 bg-gradient-to-br from-[#fbf8f4] to-white">
-                <div className="flex items-start justify-between gap-3">
-                  <div>
-                    <h2 className="font-serif text-lg font-medium text-stone-900 leading-snug">
-                      Share Invitation
-                    </h2>
-                    <p className="text-xs text-stone-400 mt-0.5 truncate max-w-[260px]">
-                      {coupleName}
-                      {weddingDate ? ` · ${weddingDate}` : ''}
-                    </p>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={onClose}
-                    className="shrink-0 w-8 h-8 rounded-full bg-stone-100 hover:bg-stone-200 text-stone-500 hover:text-stone-800 flex items-center justify-center transition-colors cursor-pointer"
-                    aria-label="Close share modal"
-                  >
-                    <X className="w-4 h-4" />
-                  </button>
+            {/* Header */}
+            <div className="relative px-5 pt-5 pb-4 border-b border-stone-100 bg-gradient-to-br from-[#fbf8f4] to-white">
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <h2 className="font-serif text-lg font-medium text-stone-900 leading-snug">
+                    Share Invitation
+                  </h2>
+                  <p className="text-xs text-stone-400 mt-0.5 truncate max-w-[260px]">
+                    {coupleName}
+                    {weddingDate ? ` · ${weddingDate}` : ''}
+                  </p>
                 </div>
+                <button
+                  type="button"
+                  onClick={handleClose}
+                  className="shrink-0 w-8 h-8 rounded-full bg-stone-100 hover:bg-stone-200 text-stone-500 hover:text-stone-800 flex items-center justify-center transition-colors cursor-pointer"
+                  aria-label="Close share modal"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
 
-                {/* Pill tab bar */}
-                <div className="flex gap-1 mt-4 p-1 bg-stone-100/70 rounded-xl">
-                  {tabs.map((t) => (
-                    <button
-                      key={t.id}
-                      type="button"
-                      onClick={() => setTab(t.id)}
-                      className={`relative flex-1 flex items-center justify-center gap-1.5 py-2 text-xs font-medium rounded-lg transition-colors duration-200 cursor-pointer ${
-                        tab === t.id ? 'text-white' : 'text-stone-500 hover:text-stone-800'
-                      }`}
-                    >
+              {/* Pill tab bar */}
+              <div className="flex gap-1 mt-4 p-1 bg-stone-100/70 rounded-xl">
+                {tabs.map((t) => (
+                  <button
+                    key={t.id}
+                    type="button"
+                    onClick={() => handleTabChange(t.id)}
+                    className={`relative flex-1 flex items-center justify-center gap-1.5 py-2 text-xs font-medium rounded-lg transition-colors duration-200 cursor-pointer ${
+                      tab === t.id ? 'text-white' : 'text-stone-500 hover:text-stone-800'
+                    }`}
+                  >
                       {tab === t.id && (
                         <motion.span
                           layoutId="share-tab-pill"
@@ -579,10 +587,10 @@ export default function ShareModal({
                   Sharing this link lets guests view and RSVP to your wedding
                 </p>
               </div>
-            </div>
           </motion.div>
-        </>
+        </div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   )
 }
