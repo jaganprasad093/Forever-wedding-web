@@ -118,6 +118,56 @@ export default function CoupleDetailsPanel({
         </div>
         {errors.slug && <p className="text-xs text-red-600">{errors.slug.message}</p>}
       </div>
+
+      {/* RSVP Toggle */}
+      <div className="bg-stone-50 border border-stone-100 rounded-xl p-4">
+        <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <div className="w-8 h-8 rounded-lg bg-[#8c6b48]/10 flex items-center justify-center shrink-0">
+              <Users className="w-4 h-4 text-[#8c6b48]" />
+            </div>
+            <div className="min-w-0">
+              <p className="text-sm font-medium text-stone-800 leading-tight">RSVP Section</p>
+              <p className="text-xs text-stone-400 mt-0.5 leading-snug">
+                {wedding.theme?.rsvpEnabled !== false
+                  ? 'Guests can confirm attendance'
+                  : 'Hidden from your invitation'}
+              </p>
+            </div>
+          </div>
+          {/* Toggle switch */}
+          <button
+            type="button"
+            role="switch"
+            aria-checked={wedding.theme?.rsvpEnabled !== false}
+            onClick={() => {
+              const current = wedding.theme?.rsvpEnabled !== false
+              onUpdate({
+                theme: {
+                  primaryColor: wedding.theme?.primaryColor || '#92400e',
+                  secondaryColor: wedding.theme?.secondaryColor || '#b45309',
+                  backgroundColor: wedding.theme?.backgroundColor || '#fffbeb',
+                  accentColor: wedding.theme?.accentColor || '#fcd34d',
+                  fontFamily: wedding.theme?.fontFamily || 'cormorant',
+                  preset: wedding.theme?.preset,
+                  rsvpEnabled: !current,
+                },
+              })
+            }}
+            className={`relative inline-flex h-6 w-11 items-center rounded-full border-2 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8c6b48] focus-visible:ring-offset-1 cursor-pointer shrink-0 ${
+              wedding.theme?.rsvpEnabled !== false
+                ? 'bg-[#8c6b48] border-[#7a5b3b]'
+                : 'bg-stone-200 border-stone-300'
+            }`}
+          >
+            <span
+              className={`inline-block h-4 w-4 transform rounded-full bg-white shadow-sm transition-transform duration-200 ${
+                wedding.theme?.rsvpEnabled !== false ? 'translate-x-5' : 'translate-x-0.5'
+              }`}
+            />
+          </button>
+        </div>
+      </div>
     </div>
   )
 }

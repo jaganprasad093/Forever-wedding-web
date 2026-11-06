@@ -842,6 +842,7 @@ export default function SunsetBohoTemplate({ wedding }: { wedding: WeddingData }
         )}
 
         {/* ───────── RSVP ───────── */}
+        {wedding.theme?.rsvpEnabled !== false && (
         <Section max="38rem">
           <Reveal className="flex flex-col items-center text-center gap-4 !mb-10">
             <span className="font-mono text-xs uppercase tracking-[0.3em] text-[#9a3412] font-semibold">
@@ -857,6 +858,7 @@ export default function SunsetBohoTemplate({ wedding }: { wedding: WeddingData }
             </div>
           </Reveal>
         </Section>
+        )}
 
         {/* ───────── FOOTER ───────── */}
         <footer className="border-t border-amber-300/40 bg-[#faf5ee] !py-12 text-center text-stone-600 text-xs font-mono">

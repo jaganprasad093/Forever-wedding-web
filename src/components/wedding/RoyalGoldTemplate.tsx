@@ -1128,6 +1128,7 @@ export default function RoyalGoldTemplate({ wedding }: { wedding: WeddingData })
         )}
 
         {/* ───────── RSVP ───────── */}
+        {wedding.theme?.rsvpEnabled !== false && (
         <Section max="38rem">
           <RoyalHeading
             eyebrow="RSVP"
@@ -1140,6 +1141,7 @@ export default function RoyalGoldTemplate({ wedding }: { wedding: WeddingData })
             </Frame>
           </Reveal>
         </Section>
+        )}
 
         {/* ───────── FOOTER ───────── */}
         <footer

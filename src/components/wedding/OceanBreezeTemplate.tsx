@@ -814,6 +814,7 @@ export default function OceanBreezeTemplate({ wedding }: { wedding: WeddingData 
         )}
 
         {/* ───────── RSVP ───────── */}
+        {wedding.theme?.rsvpEnabled !== false && (
         <Section max="38rem">
           <Reveal className="flex flex-col items-center text-center gap-4 !mb-10">
             <span className="font-mono text-xs uppercase tracking-[0.3em] text-cyan-700 font-semibold">
@@ -829,6 +830,7 @@ export default function OceanBreezeTemplate({ wedding }: { wedding: WeddingData 
             </div>
           </Reveal>
         </Section>
+        )}
 
         {/* ───────── FOOTER ───────── */}
         <footer className="border-t border-cyan-500/20 bg-[#e6fffa]/60 !py-12 text-center text-stone-600 text-xs font-mono">

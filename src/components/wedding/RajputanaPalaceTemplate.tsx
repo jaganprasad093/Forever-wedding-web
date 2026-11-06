@@ -774,6 +774,7 @@ export default function RajputanaPalaceTemplate({ wedding }: { wedding: WeddingD
         )}
 
         {/* ───────── RSVP ───────── */}
+        {wedding.theme?.rsvpEnabled !== false && (
         <Section max="38rem">
           <Reveal className="flex flex-col items-center text-center gap-4 !mb-10">
             <span className="font-mono text-xs uppercase tracking-[0.3em] text-amber-400 font-semibold">
@@ -789,6 +790,7 @@ export default function RajputanaPalaceTemplate({ wedding }: { wedding: WeddingD
             </div>
           </Reveal>
         </Section>
+        )}
 
         {/* ───────── FOOTER ───────── */}
         <footer className="border-t border-amber-500/20 bg-[#120207] !py-12 text-center text-amber-200/60 text-xs font-mono">
