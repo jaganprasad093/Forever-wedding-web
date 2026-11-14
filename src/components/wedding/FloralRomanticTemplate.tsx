@@ -34,6 +34,7 @@ import {
   Check,
 } from 'lucide-react'
 import { WeddingData, MusicItem } from '@/types/wedding'
+import SpecialProgramsSection from '@/components/wedding/SpecialProgramsSection'
 import { formatDate, formatTime, getCountdown } from '@/lib/utils'
 import RSVPForm from '@/components/rsvp/RSVPForm'
 import WeddingMusicPlayer from './WeddingMusicPlayer'
@@ -1920,6 +1921,11 @@ export default function FloralRomanticTemplate({ wedding }: { wedding: WeddingDa
             </Reveal>
           </div>
         </Section>
+        {/* ───────── Special Programs ───────── */}
+        {wedding.theme?.specialPrograms && wedding.theme.specialPrograms.length > 0 && (
+          <SpecialProgramsSection programs={wedding.theme.specialPrograms} />
+        )}
+
 
         {/* ───────── RSVP ───────── */}
         {wedding.theme?.rsvpEnabled !== false && (

@@ -22,6 +22,7 @@ import {
 } from 'framer-motion'
 import { ArrowUpRight, ChevronLeft, ChevronRight, X } from 'lucide-react'
 import { WeddingData, MusicItem } from '@/types/wedding'
+import SpecialProgramsSection from '@/components/wedding/SpecialProgramsSection'
 import { formatDate, formatTime, getCountdown } from '@/lib/utils'
 import RSVPForm from '@/components/rsvp/RSVPForm'
 import WeddingMusicPlayer from './WeddingMusicPlayer'
@@ -959,6 +960,11 @@ export default function MinimalWhiteTemplate({ wedding }: { wedding: WeddingData
             </Reveal>
           </Block>
         )}
+        {/* ───────── Special Programs ───────── */}
+        {wedding.theme?.specialPrograms && wedding.theme.specialPrograms.length > 0 && (
+          <SpecialProgramsSection programs={wedding.theme.specialPrograms} />
+        )}
+
 
         {/* ───────── RSVP ───────── */}
         {wedding.theme?.rsvpEnabled !== false && (

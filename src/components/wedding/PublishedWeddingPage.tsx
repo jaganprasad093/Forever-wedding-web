@@ -24,6 +24,7 @@ import {
   X,
 } from 'lucide-react'
 import { WeddingData, MusicItem } from '@/types/wedding'
+import SpecialProgramsSection from '@/components/wedding/SpecialProgramsSection'
 import { formatDate, formatTime, getCountdown } from '@/lib/utils'
 import RSVPForm from '@/components/rsvp/RSVPForm'
 import FloralRomanticTemplate from './FloralRomanticTemplate'
@@ -985,6 +986,11 @@ function KeralaTraditionalTemplate({ wedding }: { wedding: WeddingData }) {
             </Reveal>
           </Section>
         )}
+        {/* ───────── Special Programs ───────── */}
+        {wedding.theme?.specialPrograms && wedding.theme.specialPrograms.length > 0 && (
+          <SpecialProgramsSection programs={wedding.theme.specialPrograms} />
+        )}
+
 
         {/* ───────── RSVP ───────── */}
         {wedding.theme?.rsvpEnabled !== false && (
