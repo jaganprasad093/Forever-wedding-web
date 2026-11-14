@@ -709,8 +709,8 @@ function CelestialGallery({ photos }: { photos: Photo[] }) {
 
 /* ───────────────────────── MAIN COMPONENT ───────────────────────── */
 export default function CelestialStarlightTemplate({ wedding }: { wedding: WeddingData }) {
-  const groom = wedding.groomName || 'Jagan Prasad'
-  const bride = wedding.brideName || 'Anu Nair'
+  const groom = wedding.groomName || 'Aryan'
+  const bride = wedding.brideName || 'Tara'
   const couple = `${groom} & ${bride}`
 
   const theme = wedding.theme || {
