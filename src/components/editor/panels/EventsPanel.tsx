@@ -16,6 +16,9 @@ import {
 import Image from 'next/image'
 import { createClient } from '@/lib/supabase/client'
 import { WeddingEvent, WeddingData } from '@/types/wedding'
+import { Database } from '@/types/supabase'
+
+type EventUpdatePayload = Database['public']['Tables']['events']['Update']
 
 // ── Presets ───────────────────────────────────────────────────────────────────
 const EVENT_PRESETS = [
@@ -275,6 +278,10 @@ function EventCard({
               onChange={(e) => onUpdate(event.id, { title: e.target.value })}
               placeholder="Event title"
               className={inputClass}
+              autoComplete="off"
+              autoCorrect="off"
+              autoCapitalize="off"
+              spellCheck={false}
             />
           </div>
 
@@ -309,6 +316,10 @@ function EventCard({
               onChange={(e) => onUpdate(event.id, { venue: e.target.value })}
               placeholder="Venue name"
               className={inputClass}
+              autoComplete="off"
+              autoCorrect="off"
+              autoCapitalize="off"
+              spellCheck={false}
             />
             <textarea
               value={event.address || ''}
@@ -316,12 +327,20 @@ function EventCard({
               placeholder="Address"
               rows={2}
               className={inputClass + ' resize-none mt-2'}
+              autoComplete="off"
+              autoCorrect="off"
+              autoCapitalize="off"
+              spellCheck={false}
             />
             <input
               value={event.mapsUrl || ''}
               onChange={(e) => onUpdate(event.id, { mapsUrl: e.target.value })}
               placeholder="Google Maps URL"
               className={inputClass + ' mt-2'}
+              autoComplete="off"
+              autoCorrect="off"
+              autoCapitalize="off"
+              spellCheck={false}
             />
           </div>
         </div>
@@ -343,18 +362,44 @@ export default function EventsPanel({
   initialTheme?: WeddingData['theme']
   onUpdate?: (updates: Partial<WeddingData>) => void
 }) {
-  const [events, setEvents]       = useState<WeddingEvent[]>(initialEvents || [])
-  const [theme, setTheme]         = useState(initialTheme)
-  const [loading, setLoading]     = useState(!initialEvents || initialEvents.length === 0)
+  const [events, setEvents]           = useState<WeddingEvent[]>(initialEvents || [])
+  const [theme, setTheme]             = useState(initialTheme)
+  const [loading, setLoading]         = useState(!initialEvents || initialEvents.length === 0)
   const [addingEvent, setAddingEvent] = useState(false)
   const [expandedId, setExpandedId]   = useState<string | null>(null)
 
-  const onUpdateRef = useRef(onUpdate)
-  const themeRef    = useRef(theme)
-  const eventsRef   = useRef(events)
+  const onUpdateRef       = useRef(onUpdate)
+  const themeRef          = useRef(theme)
+  const eventsRef         = useRef(events)
+  const pendingUpdatesRef = useRef<Record<string, Partial<WeddingEvent>>>({})
+  const saveTimerRef      = useRef<Record<string, ReturnType<typeof setTimeout>>>({})
+
   useEffect(() => { onUpdateRef.current = onUpdate }, [onUpdate])
   useEffect(() => { themeRef.current = theme }, [theme])
   useEffect(() => { eventsRef.current = events }, [events])
+
+  // ── Flush pending DB updates on unmount ─────────────────────────────────────
+  useEffect(() => {
+    return () => {
+      const supabase = createClient()
+      const entries = Object.entries(pendingUpdatesRef.current)
+      if (entries.length > 0) {
+        entries.forEach(([id, updates]) => {
+          const dbPayload: EventUpdatePayload = {}
+          if (updates.title !== undefined) dbPayload.title = updates.title
+          if (updates.date !== undefined) dbPayload.date = updates.date
+          if (updates.time !== undefined) dbPayload.time = updates.time
+          if (updates.venue !== undefined) dbPayload.venue = updates.venue
+          if (updates.address !== undefined) dbPayload.address = updates.address
+          if (updates.mapsUrl !== undefined) dbPayload.maps_url = updates.mapsUrl
+          if (Object.keys(dbPayload).length > 0) {
+            void supabase.from('events').update(dbPayload).eq('id', id)
+          }
+        })
+      }
+      Object.values(saveTimerRef.current).forEach(clearTimeout)
+    }
+  }, [])
 
   // ── Merge eventImages from theme into events ────────────────────────────────
   function mergeImages(evts: WeddingEvent[], themeData?: WeddingData['theme']): WeddingEvent[] {
@@ -390,6 +435,7 @@ export default function EventsPanel({
           orderIndex: e.order_index,
         }))
         const withImages = mergeImages(mapped, themeRef.current)
+        eventsRef.current = withImages
         setEvents(withImages)
         onUpdateRef.current?.({ events: withImages })
         setLoading(false)
@@ -409,7 +455,7 @@ export default function EventsPanel({
     const supabase = createClient()
     const { data, error } = await supabase
       .from('events')
-      .insert({ wedding_id: weddingId, title, order_index: events.length })
+      .insert({ wedding_id: weddingId, title, order_index: eventsRef.current.length })
       .select()
       .single()
 
@@ -421,6 +467,7 @@ export default function EventsPanel({
         imageUrl: null, imagePath: null,
       }
       const next = [...eventsRef.current, newEvent]
+      eventsRef.current = next
       setEvents(next)
       publish(next, themeRef.current!)
       setExpandedId(data.id)
@@ -428,40 +475,72 @@ export default function EventsPanel({
     setAddingEvent(false)
   }
 
-  // ── Update event field ──────────────────────────────────────────────────────
-  async function updateEvent(id: string, patch: Partial<WeddingEvent>) {
-    const supabase = createClient()
-    await supabase.from('events').update({
-      title:    patch.title,
-      date:     patch.date,
-      time:     patch.time,
-      venue:    patch.venue,
-      address:  patch.address,
-      maps_url: patch.mapsUrl,
-    }).eq('id', id)
+  // ── Debounced DB save for event updates ───────────────────────────────────────
+  const scheduleDbSave = (id: string, patch: Partial<WeddingEvent>) => {
+    pendingUpdatesRef.current[id] = {
+      ...pendingUpdatesRef.current[id],
+      ...patch,
+    }
 
-    setEvents((prev) => {
-      const next = prev.map((e) => (e.id === id ? { ...e, ...patch } : e))
-      publish(next, themeRef.current!)
-      return next
-    })
+    if (saveTimerRef.current[id]) {
+      clearTimeout(saveTimerRef.current[id])
+    }
+
+    saveTimerRef.current[id] = setTimeout(async () => {
+      const updates = pendingUpdatesRef.current[id]
+      delete pendingUpdatesRef.current[id]
+      delete saveTimerRef.current[id]
+      if (!updates) return
+
+      const supabase = createClient()
+      const dbPayload: EventUpdatePayload = {}
+      if (updates.title !== undefined) dbPayload.title = updates.title
+      if (updates.date !== undefined) dbPayload.date = updates.date
+      if (updates.time !== undefined) dbPayload.time = updates.time
+      if (updates.venue !== undefined) dbPayload.venue = updates.venue
+      if (updates.address !== undefined) dbPayload.address = updates.address
+      if (updates.mapsUrl !== undefined) dbPayload.maps_url = updates.mapsUrl
+
+      if (Object.keys(dbPayload).length > 0) {
+        await supabase.from('events').update(dbPayload).eq('id', id)
+      }
+    }, 600)
+  }
+
+  // ── Update event field (instant UI + debounced DB) ──────────────────────────
+  function updateEvent(id: string, patch: Partial<WeddingEvent>) {
+    // 1. Immediately update local state & preview without waiting for network
+    const next = eventsRef.current.map((e) => (e.id === id ? { ...e, ...patch } : e))
+    eventsRef.current = next
+    setEvents(next)
+    publish(next, themeRef.current!)
+
+    // 2. Schedule debounced DB write
+    scheduleDbSave(id, patch)
   }
 
   // ── Delete event ────────────────────────────────────────────────────────────
   async function deleteEvent(id: string) {
+    if (saveTimerRef.current[id]) {
+      clearTimeout(saveTimerRef.current[id])
+      delete saveTimerRef.current[id]
+    }
+    delete pendingUpdatesRef.current[id]
+
+    const next = eventsRef.current.filter((e) => e.id !== id)
+    eventsRef.current = next
+    setEvents(next)
+    publish(next, themeRef.current!)
+    if (expandedId === id) setExpandedId(null)
+
     const supabase = createClient()
     await supabase.from('events').delete().eq('id', id)
-    setEvents((prev) => {
-      const next = prev.filter((e) => e.id !== id)
-      publish(next, themeRef.current!)
-      return next
-    })
-    if (expandedId === id) setExpandedId(null)
   }
 
   // ── Drag reorder ────────────────────────────────────────────────────────────
   async function handleReorder(next: WeddingEvent[]) {
     const reindexed = next.map((e, i) => ({ ...e, orderIndex: i }))
+    eventsRef.current = reindexed
     setEvents(reindexed)
     publish(reindexed, themeRef.current!)
 
@@ -481,14 +560,15 @@ export default function EventsPanel({
       [id]: { url, path },
     }
     const nextTheme = { ...themeRef.current!, eventImages: nextImages }
+    themeRef.current = nextTheme
     setTheme(nextTheme)
-    setEvents((prev) => {
-      const next = prev.map((e) =>
-        e.id === id ? { ...e, imageUrl: url, imagePath: path } : e
-      )
-      publish(next, nextTheme)
-      return next
-    })
+
+    const next = eventsRef.current.map((e) =>
+      e.id === id ? { ...e, imageUrl: url, imagePath: path } : e
+    )
+    eventsRef.current = next
+    setEvents(next)
+    publish(next, nextTheme)
   }
 
   // ── Image removed ───────────────────────────────────────────────────────────
@@ -496,14 +576,15 @@ export default function EventsPanel({
     const nextImages = { ...(themeRef.current?.eventImages ?? {}) }
     delete nextImages[id]
     const nextTheme = { ...themeRef.current!, eventImages: nextImages }
+    themeRef.current = nextTheme
     setTheme(nextTheme)
-    setEvents((prev) => {
-      const next = prev.map((e) =>
-        e.id === id ? { ...e, imageUrl: null, imagePath: null } : e
-      )
-      publish(next, nextTheme)
-      return next
-    })
+
+    const next = eventsRef.current.map((e) =>
+      e.id === id ? { ...e, imageUrl: null, imagePath: null } : e
+    )
+    eventsRef.current = next
+    setEvents(next)
+    publish(next, nextTheme)
   }
 
   // ── Loading spinner ─────────────────────────────────────────────────────────

@@ -293,12 +293,20 @@ export default function SpecialProgramsPanel({
                       className={inputClass + ' w-14 text-center text-lg'}
                       maxLength={4}
                       aria-label="Emoji icon"
+                      autoComplete="off"
+                      autoCorrect="off"
+                      autoCapitalize="off"
+                      spellCheck={false}
                     />
                     <input
                       value={program.title}
                       onChange={(e) => updateProgram(program.id, { title: e.target.value })}
                       placeholder="Card title"
                       className={inputClass + ' flex-1'}
+                      autoComplete="off"
+                      autoCorrect="off"
+                      autoCapitalize="off"
+                      spellCheck={false}
                     />
                   </div>
                 </div>
@@ -314,6 +322,10 @@ export default function SpecialProgramsPanel({
                     placeholder={hintForType(program.type)}
                     rows={3}
                     className={inputClass + ' resize-none'}
+                    autoComplete="off"
+                    autoCorrect="off"
+                    autoCapitalize="off"
+                    spellCheck={false}
                   />
                 </div>
               </div>
