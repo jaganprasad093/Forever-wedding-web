@@ -1214,6 +1214,16 @@ function RomanticEvents({ events, t }: { events: WeddingEvent[]; t: Record<strin
                   }`}
                 style={{ padding: 'clamp(1.35rem, 3.5vw, 2rem)' }}
               >
+
+                {/* Event image */}
+                {ev.imageUrl && (
+                  <div style={{ margin: 'calc(-1 * clamp(1.35rem, 3.5vw, 2rem))', marginBottom: 0 }}>
+                    <div style={{ position: 'relative', width: '100%', paddingTop: '56%', borderRadius: '1.5rem 1.5rem 0 0', overflow: 'hidden' }}>
+                      <img src={ev.imageUrl} alt={ev.title} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
+                      <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(255,255,255,0.3) 0%, transparent 60%)' }} />
+                    </div>
+                  </div>
+                )}
                 <div className="flex items-start gap-4">
                   {parts && (
                     <div

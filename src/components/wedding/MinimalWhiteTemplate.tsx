@@ -596,6 +596,14 @@ function ProgramRow({ ev, i }: { ev: WeddingEvent; i: number }) {
         style={{ backgroundColor: GOLD }}
       />
 
+      {/* Event image */}
+      {ev.imageUrl && (
+        <div style={{ marginBottom: 0 }}>
+          <div style={{ position: 'relative', width: '100%', paddingTop: '45%', borderRadius: '0.75rem 0.75rem 0 0', overflow: 'hidden' }}>
+            <img src={ev.imageUrl} alt={ev.title} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
+          </div>
+        </div>
+      )}
       <div
         className="relative grid grid-cols-1 items-baseline gap-4 md:grid-cols-[1fr_2fr_auto] md:gap-10"
         style={{ padding: 'clamp(1.5rem, 3vw, 2.5rem) clamp(0.5rem, 2vw, 1.5rem)' }}

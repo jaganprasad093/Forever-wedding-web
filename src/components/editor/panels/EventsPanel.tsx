@@ -351,8 +351,10 @@ export default function EventsPanel({
 
   const onUpdateRef = useRef(onUpdate)
   const themeRef    = useRef(theme)
+  const eventsRef   = useRef(events)
   useEffect(() => { onUpdateRef.current = onUpdate }, [onUpdate])
   useEffect(() => { themeRef.current = theme }, [theme])
+  useEffect(() => { eventsRef.current = events }, [events])
 
   // ── Merge eventImages from theme into events ────────────────────────────────
   function mergeImages(evts: WeddingEvent[], themeData?: WeddingData['theme']): WeddingEvent[] {
@@ -418,11 +420,9 @@ export default function EventsPanel({
         address: data.address, mapsUrl: data.maps_url, orderIndex: data.order_index,
         imageUrl: null, imagePath: null,
       }
-      setEvents((prev) => {
-        const next = [...prev, newEvent]
-        publish(next, themeRef.current!)
-        return next
-      })
+      const next = [...eventsRef.current, newEvent]
+      setEvents(next)
+      publish(next, themeRef.current!)
       setExpandedId(data.id)
     }
     setAddingEvent(false)
