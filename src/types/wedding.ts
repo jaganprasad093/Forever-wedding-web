@@ -1,3 +1,17 @@
+export interface SpecialProgram {
+  id: string
+  /** Preset type key or 'custom' */
+  type: 'dress_code' | 'gift_registry' | 'note' | 'food' | 'transport' | 'hashtag' | 'custom'
+  title: string
+  description: string | null
+  /** Emoji displayed next to the title */
+  icon: string
+  /** Optional banner / illustration image for this card */
+  imageUrl?: string | null
+  /** Storage path used for deletion */
+  imagePath?: string | null
+}
+
 export interface WeddingTheme {
   primaryColor: string
   secondaryColor: string
@@ -7,6 +21,10 @@ export interface WeddingTheme {
   preset?: string
   /** When false the RSVP section is hidden on the public invitation page */
   rsvpEnabled?: boolean
+  /** Special programs / guest info items stored in theme JSON */
+  specialPrograms?: SpecialProgram[]
+  /** Per-event images keyed by event UUID, stored in theme JSON (no DB column needed) */
+  eventImages?: Record<string, { url: string; path: string }>
 }
 
 export interface WeddingData {
@@ -45,6 +63,9 @@ export interface WeddingEvent {
   address: string | null
   mapsUrl: string | null
   orderIndex: number
+  /** Stored in theme.eventImages — not a DB column */
+  imageUrl?: string | null
+  imagePath?: string | null
 }
 
 export interface GalleryItem {

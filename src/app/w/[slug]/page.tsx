@@ -107,17 +107,23 @@ export default async function WeddingPublicPage({ params }: Props) {
     updatedAt: wedding.updated_at,
     events: rawEvents
       .sort((a, b) => (a.order_index || 0) - (b.order_index || 0))
-      .map((e) => ({
-        id: e.id,
-        weddingId: e.wedding_id,
-        title: e.title,
-        date: e.date,
-        time: e.time,
-        venue: e.venue,
-        address: e.address,
-        mapsUrl: e.maps_url,
-        orderIndex: e.order_index ?? 0,
-      })),
+      .map((e) => {
+        const themeData = ((wedding.theme as unknown) as WeddingData['theme'])
+        const imgEntry  = themeData?.eventImages?.[e.id]
+        return {
+          id: e.id,
+          weddingId: e.wedding_id,
+          title: e.title,
+          date: e.date,
+          time: e.time,
+          venue: e.venue,
+          address: e.address,
+          mapsUrl: e.maps_url,
+          orderIndex: e.order_index ?? 0,
+          imageUrl:  imgEntry?.url  ?? null,
+          imagePath: imgEntry?.path ?? null,
+        }
+      }),
     gallery: rawGallery
       .sort((a, b) => (a.order_index || 0) - (b.order_index || 0))
       .map((g) => ({

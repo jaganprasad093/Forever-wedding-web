@@ -34,6 +34,7 @@ import {
   Check,
 } from 'lucide-react'
 import { WeddingData, MusicItem } from '@/types/wedding'
+import SpecialProgramsSection from '@/components/wedding/SpecialProgramsSection'
 import { formatDate, formatTime, getCountdown } from '@/lib/utils'
 import RSVPForm from '@/components/rsvp/RSVPForm'
 import WeddingMusicPlayer from './WeddingMusicPlayer'
@@ -1213,6 +1214,16 @@ function RomanticEvents({ events, t }: { events: WeddingEvent[]; t: Record<strin
                   }`}
                 style={{ padding: 'clamp(1.35rem, 3.5vw, 2rem)' }}
               >
+
+                {/* Event image */}
+                {ev.imageUrl && (
+                  <div style={{ margin: 'calc(-1 * clamp(1.35rem, 3.5vw, 2rem))', marginBottom: 0 }}>
+                    <div style={{ position: 'relative', width: '100%', paddingTop: '56%', borderRadius: '1.5rem 1.5rem 0 0', overflow: 'hidden' }}>
+                      <img src={ev.imageUrl} alt={ev.title} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
+                      <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(255,255,255,0.3) 0%, transparent 60%)' }} />
+                    </div>
+                  </div>
+                )}
                 <div className="flex items-start gap-4">
                   {parts && (
                     <div
@@ -1920,6 +1931,11 @@ export default function FloralRomanticTemplate({ wedding }: { wedding: WeddingDa
             </Reveal>
           </div>
         </Section>
+        {/* ───────── Special Programs ───────── */}
+        {wedding.theme?.specialPrograms && wedding.theme.specialPrograms.length > 0 && (
+          <SpecialProgramsSection programs={wedding.theme.specialPrograms} />
+        )}
+
 
         {/* ───────── RSVP ───────── */}
         {wedding.theme?.rsvpEnabled !== false && (

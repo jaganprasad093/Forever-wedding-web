@@ -63,17 +63,22 @@ export default async function EditorPage({
     views: wedding.views,
     createdAt: wedding.created_at,
     updatedAt: wedding.updated_at,
-    events: rawEvents.map((e) => ({
-      id: e.id,
-      weddingId: e.wedding_id,
-      title: e.title,
-      date: e.date,
-      time: e.time,
-      venue: e.venue,
-      address: e.address,
-      mapsUrl: e.maps_url,
-      orderIndex: e.order_index ?? 0,
-    })),
+    events: rawEvents.map((e) => {
+      const imgEntry = ((wedding.theme as unknown) as WeddingData['theme'])?.eventImages?.[e.id]
+      return {
+        id: e.id,
+        weddingId: e.wedding_id,
+        title: e.title,
+        date: e.date,
+        time: e.time,
+        venue: e.venue,
+        address: e.address,
+        mapsUrl: e.maps_url,
+        orderIndex: e.order_index ?? 0,
+        imageUrl:  imgEntry?.url  ?? null,
+        imagePath: imgEntry?.path ?? null,
+      }
+    }),
     gallery: rawGallery.map((g) => ({
       id: g.id,
       weddingId: g.wedding_id,

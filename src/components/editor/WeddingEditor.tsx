@@ -23,6 +23,7 @@ import {
   Monitor,
   ExternalLink,
   AlertCircle,
+  Sparkles,
   type LucideIcon,
 } from 'lucide-react'
 import { WeddingData } from '@/types/wedding'
@@ -36,19 +37,21 @@ import GalleryPanel from './panels/GalleryPanel'
 import MusicPanel from './panels/MusicPanel'
 import ThemePanel from './panels/ThemePanel'
 import StoryPanel from './panels/StoryPanel'
+import SpecialProgramsPanel from './panels/SpecialProgramsPanel'
 import WeddingPreviewFrame from './WeddingPreviewFrame'
 
-type EditorPanel = 'couple' | 'story' | 'events' | 'gallery' | 'music' | 'theme'
+type EditorPanel = 'couple' | 'story' | 'events' | 'special' | 'gallery' | 'music' | 'theme'
 type SaveStatus = 'idle' | 'saving' | 'saved' | 'error'
 type DeviceMode = 'mobile' | 'tablet' | 'desktop'
 
 const editorPanels: { id: EditorPanel; label: string; icon: LucideIcon }[] = [
-  { id: 'couple', label: 'Couple', icon: User2 },
-  { id: 'story', label: 'Story', icon: BookOpen },
-  { id: 'events', label: 'Events', icon: Calendar },
-  { id: 'gallery', label: 'Gallery', icon: Images },
-  { id: 'music', label: 'Music', icon: Music },
-  { id: 'theme', label: 'Theme', icon: Palette },
+  { id: 'couple',  label: 'Couple',   icon: User2 },
+  { id: 'story',   label: 'Story',    icon: BookOpen },
+  { id: 'events',  label: 'Events',   icon: Calendar },
+  { id: 'special', label: 'Special',  icon: Sparkles },
+  { id: 'gallery', label: 'Gallery',  icon: Images },
+  { id: 'music',   label: 'Music',    icon: Music },
+  { id: 'theme',   label: 'Theme',    icon: Palette },
 ]
 
 const devices: { id: DeviceMode; label: string; icon: LucideIcon; width: number | null }[] = [
@@ -432,8 +435,12 @@ export default function WeddingEditor({ initialWedding }: WeddingEditorProps) {
                 <EventsPanel
                   weddingId={wedding.id}
                   initialEvents={wedding.events}
+                  initialTheme={wedding.theme}
                   onUpdate={updateWedding}
                 />
+              )}
+              {activePanel === 'special' && (
+                <SpecialProgramsPanel wedding={wedding} onUpdate={updateWedding} />
               )}
               {activePanel === 'gallery' && (
                 <GalleryPanel

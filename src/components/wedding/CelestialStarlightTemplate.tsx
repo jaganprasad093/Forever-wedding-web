@@ -34,6 +34,7 @@ import {
   Sparkles,
 } from 'lucide-react'
 import { WeddingData } from '@/types/wedding'
+import SpecialProgramsSection from '@/components/wedding/SpecialProgramsSection'
 import { formatDate, formatTime, getCountdown } from '@/lib/utils'
 import RSVPForm from '@/components/rsvp/RSVPForm'
 import WeddingMusicPlayer from './WeddingMusicPlayer'
@@ -532,6 +533,16 @@ function CelestialEvents({ events }: { events: WeddingEvent[] }) {
                   }`}
                 style={{ padding: 'clamp(1.5rem, 3.5vw, 2.25rem)' }}
               >
+
+                {/* Event image */}
+                {ev.imageUrl && (
+                  <div style={{ margin: 'calc(-1 * clamp(1.35rem, 3.5vw, 2rem))', marginBottom: 0 }}>
+                    <div style={{ position: 'relative', width: '100%', paddingTop: '56%', borderRadius: '1.5rem 1.5rem 0 0', overflow: 'hidden' }}>
+                      <img src={ev.imageUrl} alt={ev.title} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
+                      <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 60%)' }} />
+                    </div>
+                  </div>
+                )}
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex flex-col gap-1.5">
                     <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-cyan-300">
@@ -709,8 +720,8 @@ function CelestialGallery({ photos }: { photos: Photo[] }) {
 
 /* ───────────────────────── MAIN COMPONENT ───────────────────────── */
 export default function CelestialStarlightTemplate({ wedding }: { wedding: WeddingData }) {
-  const groom = wedding.groomName || 'Jagan Prasad'
-  const bride = wedding.brideName || 'Anu Nair'
+  const groom = wedding.groomName || 'Aryan'
+  const bride = wedding.brideName || 'Tara'
   const couple = `${groom} & ${bride}`
 
   const theme = wedding.theme || {
@@ -913,6 +924,11 @@ export default function CelestialStarlightTemplate({ wedding }: { wedding: Weddi
             <CelestialGallery photos={wedding.gallery} />
           </Section>
         )}
+        {/* ───────── Special Programs ───────── */}
+        {wedding.theme?.specialPrograms && wedding.theme.specialPrograms.length > 0 && (
+          <SpecialProgramsSection programs={wedding.theme.specialPrograms} />
+        )}
+
 
         {/* ───────── RSVP ───────── */}
         {wedding.theme?.rsvpEnabled !== false && (
