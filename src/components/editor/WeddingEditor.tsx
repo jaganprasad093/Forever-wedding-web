@@ -435,6 +435,7 @@ export default function WeddingEditor({ initialWedding }: WeddingEditorProps) {
                 <EventsPanel
                   weddingId={wedding.id}
                   initialEvents={wedding.events}
+                  initialTheme={wedding.theme}
                   onUpdate={updateWedding}
                 />
               )}

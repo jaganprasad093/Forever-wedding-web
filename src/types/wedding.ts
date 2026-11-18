@@ -23,6 +23,8 @@ export interface WeddingTheme {
   rsvpEnabled?: boolean
   /** Special programs / guest info items stored in theme JSON */
   specialPrograms?: SpecialProgram[]
+  /** Per-event images keyed by event UUID, stored in theme JSON (no DB column needed) */
+  eventImages?: Record<string, { url: string; path: string }>
 }
 
 export interface WeddingData {
@@ -61,6 +63,9 @@ export interface WeddingEvent {
   address: string | null
   mapsUrl: string | null
   orderIndex: number
+  /** Stored in theme.eventImages — not a DB column */
+  imageUrl?: string | null
+  imagePath?: string | null
 }
 
 export interface GalleryItem {
